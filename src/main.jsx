@@ -1,17 +1,15 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
-import { ApolloProvider } from "@apollo/client/react";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./css/main.css";
 
-const client = new ApolloClient({
-  link: new HttpLink({ uri: "https://graphql.anilist.co" }),
-  cache: new InMemoryCache(),
-});
-
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+createRoot(document.getElementById("root")).render(
+  <>
+    <StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </StrictMode>
+  </>,
 );

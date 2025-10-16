@@ -1,19 +1,34 @@
 .anime-card {
-    display: inline-block;
-    background: #fff;
+    background: #1e1e1e;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    width: 200px;
+    overflow: hidden;
+    width: 180px;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    cursor: pointer;
     text-align: center;
+    color: #fff;
 }
 
-.anime-image {
+.anime-card img {
     width: 100%;
-    border-radius: 8px;
+    height: 250px;
+    object-fit: cover;
+    display: block;
 }
 
-.anime-title {
-    margin-top: 10px;
-    font-size: 16px;
+.anime-card h3 {
+    font-size: 1rem;
+    padding: 10px;
+    background: #2a2a2a;
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.anime-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
