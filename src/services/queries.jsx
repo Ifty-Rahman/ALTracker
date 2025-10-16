@@ -27,7 +27,7 @@ export const GET_POPULAR_ANIME = gql`
   }
 `;
 
-// Query to get top popular seasonal anime for Fall 2025
+// Query to get top popular anime for the current season
 const now = new Date();
 const month = now.getMonth() + 1;
 const year = now.getFullYear();
@@ -72,7 +72,7 @@ if (season === "WINTER") {
   nextYear += 1;
 }
 
-// Query to get top upcoming seasonal anime for next season
+// Query to get top upcoming anime for next season
 export const GET_UPCOMING_SEASONAL_ANIME = gql`
   query {
     Page(perPage: 7) {
@@ -95,7 +95,6 @@ export const GET_UPCOMING_SEASONAL_ANIME = gql`
 `;
 
 // Query to get a user's current anime list
-
 export const GET_USER_ANIME_LIST = gql`
   query GetUserAnimeList($userName: String) {
     Viewer {

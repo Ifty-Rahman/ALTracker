@@ -11,10 +11,9 @@ function UserList() {
   } = useQuery(GET_CURRENT_USER);
 
   const username = userData?.Viewer?.name;
-  // Once we have username, fetch anime list
   const { loading, error, data } = useQuery(GET_USER_ANIME_LIST, {
     variables: { userName: username },
-    skip: !username, // skip query until username is available
+    skip: !username,
   });
 
   if (userLoading || loading) return <p>Loading...</p>;

@@ -7,7 +7,6 @@ import UserList from "./pages/Userlist";
 import Login from "./pages/login";
 import { Routes, Route } from "react-router-dom";
 
-// Auth link to include token
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("anilist_token");
   return {

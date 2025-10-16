@@ -13,11 +13,6 @@ function Login() {
         localStorage.setItem("anilist_token", token);
         console.log("Token saved:", token);
       }
-      window.history.replaceState(
-        null,
-        document.title,
-        window.location.pathname + window.location.search,
-      );
     }
   }, []);
 
