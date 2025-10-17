@@ -11,14 +11,7 @@ function ProfilePage() {
 
   return (
     <div>
-      <h1>User Profile</h1>
       <div className="profile-card">
-        <img
-          src={user.avatar.large}
-          alt={`${user.name}'s avatar`}
-          className="profile-avatar"
-        />
-        <h2>{user.name}</h2>
         {user.bannerImage && (
           <img
             src={user.bannerImage}
@@ -26,6 +19,12 @@ function ProfilePage() {
             className="profile-banner"
           />
         )}
+        <img
+          src={user.avatar.large}
+          alt={`${user.name}'s avatar`}
+          className="profile-avatar"
+        />
+        <p>{user.name}</p>
       </div>
     </div>
   );
