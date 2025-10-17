@@ -1,7 +1,5 @@
-import React from "react";
 import { useQuery } from "@apollo/client/react";
 import { GET_CURRENT_USER, GET_USER_ANIME_LIST } from "../services/queries";
-import AnimeCard from "../components/AnimeCard";
 
 function UserList() {
   const {

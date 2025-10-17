@@ -6,6 +6,11 @@ export const GET_CURRENT_USER = gql`
     Viewer {
       id
       name
+      avatar {
+        large
+        medium
+      }
+      bannerImage
     }
   }
 `;
