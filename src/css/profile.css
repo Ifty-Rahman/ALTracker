@@ -1,0 +1,102 @@
+/* Profile Page Styles */
+
+.profile-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.profile-banner-section {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.profile-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-info-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+        to top,
+        rgba(11, 22, 35, 0.95) 0%,
+        rgba(11, 22, 35, 0.7) 70%,
+        transparent 100%
+    );
+    padding: 40px;
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.profile-name {
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    padding-bottom: 10px;
+}
+
+/* Fallback for profiles without banner */
+.profile-info-overlay.no-banner {
+    background: linear-gradient(135deg, #1a2332 0%, #0b1623 100%);
+    position: static;
+    min-height: 200px;
+    align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-banner-section {
+        height: 300px;
+    }
+
+    .profile-info-overlay {
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-name {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-banner-section {
+        height: 250px;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-name {
+        font-size: 1.5rem;
+    }
+}

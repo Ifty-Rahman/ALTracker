@@ -13,10 +13,16 @@ function NavBar() {
 
     checkAuth();
 
-    // Listen for storage events (works across tabs)
+    // Listen for storage (other tabs)
     window.addEventListener("storage", checkAuth);
 
-    return () => window.removeEventListener("storage", checkAuth);
+    // Listen for authChange (same tab)
+    window.addEventListener("authChange", checkAuth);
+
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+      window.removeEventListener("authChange", checkAuth);
+    };
   }, []);
 
   return (
@@ -32,7 +38,7 @@ function NavBar() {
           List
         </Link>
         <Link to={isLoggedIn ? "/profile" : "/login"} className="nav-link">
-          Profile
+          {isLoggedIn ? "Profile" : "Login"}
         </Link>
       </div>
     </nav>

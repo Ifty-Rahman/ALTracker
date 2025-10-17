@@ -18,7 +18,7 @@ export const GET_CURRENT_USER = gql`
 // Query to get top popular anime
 export const GET_POPULAR_ANIME = gql`
   query {
-    Page(perPage: 7) {
+    Page(perPage: 9) {
       media(sort: POPULARITY_DESC, type: ANIME) {
         id
         title {
@@ -44,7 +44,7 @@ else if (month >= 9 && month <= 11) season = "FALL";
 
 export const GET_POPULAR_SEASONAL_ANIME = gql`
   query {
-    Page(perPage: 7) {
+    Page(perPage: 9) {
       media(
         sort: POPULARITY_DESC
         type: ANIME
@@ -80,7 +80,7 @@ if (season === "WINTER") {
 // Query to get top upcoming anime for next season
 export const GET_UPCOMING_SEASONAL_ANIME = gql`
   query {
-    Page(perPage: 7) {
+    Page(perPage: 9) {
       media(
         sort: POPULARITY_DESC
         type: ANIME

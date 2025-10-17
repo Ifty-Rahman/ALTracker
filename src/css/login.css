@@ -5,10 +5,8 @@
     margin-top: 100px;
 }
 
-.login-title {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
+.login-container h1 {
+    color: #ffffff;
 }
 
 .login-button {
@@ -19,9 +17,9 @@
     border-radius: 5px;
     margin-top: 20px;
     font-weight: bold;
-    transition: background-color 0.2s ease;
+    transition: background 0.3s ease;
 }
 
 .login-button:hover {
-    background-color: #1d4bbd;
+    background-color: #1f4bb8;
 }
