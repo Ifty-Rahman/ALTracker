@@ -10,7 +10,6 @@ function UserList() {
       const token = params.get("access_token");
       if (token) {
         localStorage.setItem("anilist_token", token);
-        console.log("Token saved:", token);
         window.history.replaceState(null, null, window.location.pathname);
       }
     }

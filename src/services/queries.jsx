@@ -128,3 +128,19 @@ export const GET_USER_ANIME_LIST = gql`
     }
   }
 `;
+
+// Query to get user statistics
+export const GET_USER_STATISTICS = gql`
+  query Query {
+    Viewer {
+      statistics {
+        anime {
+          count
+          minutesWatched
+          episodesWatched
+          meanScore
+        }
+      }
+    }
+  }
+`;

@@ -1,13 +1,19 @@
 import { useQuery } from "@apollo/client/react";
+import { useEffect, useState } from "react";
 import { GET_UPCOMING_SEASONAL_ANIME } from "../services/queries";
 import AnimeCard from "./AnimeCard";
 
 function UpcomingNextSeason() {
   const { loading, error, data } = useQuery(GET_UPCOMING_SEASONAL_ANIME);
+  const [upcoming_seasonal_anime, setUpcomingAnime] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setUpcomingAnime(data.Page.media);
+    }
+  }, [data]);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-
-  const upcoming_seasonal_anime = data.Page.media;
 
   return (
     <>
