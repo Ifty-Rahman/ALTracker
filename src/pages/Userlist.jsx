@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client/react";
 import { useEffect } from "react";
 import { GET_CURRENT_USER, GET_USER_ANIME_LIST } from "../services/queries";
+import "../css/Userlist.css";
 
 function UserList() {
   useEffect(() => {
@@ -35,21 +36,24 @@ function UserList() {
 
   return (
     <>
-      <div className="anime-grid">
-        {userlists.map((list) =>
-          list.entries.map(({ media, score, progress }) => (
-            <div className="anime-card" key={media.id}>
-              <img src={media.coverImage.large} alt={media.title.romaji} />
-              <div className="anime-info">
-                <h3>{media.title.english || media.title.romaji}</h3>
-                <p>Episodes: {media.episodes}</p>
-                <p>Progress: {progress}</p>
-                <p>Score: {score}</p>
+      {userlists.map((list) => (
+        <div key={list.name} className="anime-list">
+          <h1>{list.name}</h1>
+          <div className="anime-grid">
+            {list.entries.map(({ media, score, progress }) => (
+              <div className="anime-card" key={media.id}>
+                <img src={media.coverImage.large} alt={media.title.romaji} />
+                <div className="anime-info">
+                  <h3>{media.title.english || media.title.romaji}</h3>
+                  <p>Episodes: {media.episodes}</p>
+                  <p>Progress: {progress}</p>
+                  <p>Score: {score}</p>
+                </div>
               </div>
-            </div>
-          )),
-        )}
-      </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </>
   );
 }
