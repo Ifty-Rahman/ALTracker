@@ -132,6 +132,7 @@ export const GET_USER_ANIME_LIST = gql`
 export const GET_USER_STATISTICS = gql`
   query Query {
     Viewer {
+      id
       statistics {
         anime {
           count

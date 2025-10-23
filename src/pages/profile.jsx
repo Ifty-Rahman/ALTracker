@@ -21,8 +21,7 @@ function ProfilePage() {
   const { loading, error, data } = useQuery(GET_USER_STATISTICS, {
     variables: { userName: username },
     skip: !username,
-    fetchPolicy: "cache-and-network",
-    nextFetchPolicy: "cache-first",
+    fetchPolicy: "cache-first",
   });
 
   const stats = useMemo(() => {

@@ -31,7 +31,13 @@ const client = new ApolloClient({
               return { ...existing, ...incoming };
             },
           },
+          Viewer: {
+            merge: true,
+          },
         },
+      },
+      User: {
+        keyFields: ["id"],
       },
     },
   }),
