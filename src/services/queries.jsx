@@ -149,6 +149,10 @@ export const GET_USER_STATISTICS = gql`
           chaptersRead
           meanScore
           volumesRead
+          genres {
+            count
+            genre
+          }
         }
       }
     }

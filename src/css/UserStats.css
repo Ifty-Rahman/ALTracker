@@ -15,7 +15,7 @@
 .stats-box {
     display: flex;
     justify-content: space-between;
-    background-color: #1e1e1f;
+    background-color: rgba(27, 27, 30, 0.25);
     border-radius: 1rem;
     padding: 2rem;
 }
@@ -63,14 +63,31 @@
     font-weight: 600;
 }
 
+/* New: genres layout with divider */
+.genres-box {
+    display: flex;
+    align-items: stretch;
+    margin-top: 1rem;
+}
+
+/* Reuse top-genres style but make them flexible columns */
 .top-genres {
-    background-color: #1c1c1e;
+    background-color: rgba(27, 27, 30, 0.25);
     border-radius: 20px;
     padding: 25px;
     color: #fff;
     font-family: system-ui, sans-serif;
+    flex: 1;
 }
 
+/* Narrower divider for genres area */
+.genres-box .divider {
+    width: 1px;
+    background-color: #3f3f46;
+    margin: 0 1.5rem;
+}
+
+/* keep heading style for each genre column */
 .top-genres h3 {
     color: #a1a1a6;
     font-weight: 600;
@@ -83,9 +100,29 @@
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #2c2c2e;
-    font-size: 15px;
+    font-size: 1.2rem;
 }
 
 .top-genres p:last-child {
     border-bottom: none;
+}
+
+/* Responsive: stack genre boxes on small screens */
+@media (max-width: 600px) {
+    .genres-box {
+        flex-direction: column;
+    }
+
+    /* Make the divider horizontal when stacked */
+    .genres-box .divider {
+        width: 100%;
+        height: 1px;
+        margin: 1rem 0;
+    }
+
+    /* Reduce padding so stacked boxes don't feel too big */
+    .top-genres {
+        padding: 16px;
+        border-radius: 12px;
+    }
 }
