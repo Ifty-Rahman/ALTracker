@@ -1,6 +1,8 @@
 import "../css/UserStats.css";
 
 function UserStats({ stats }) {
+  const genres = stats?.anime?.genres || [];
+  const topGenres = [...genres].sort((a, b) => b.count - a.count).slice(0, 5);
   return (
     <div className="user-stats-container">
       <h2 className="overview-title">Overview</h2>
@@ -41,6 +43,15 @@ function UserStats({ stats }) {
             <p className="stat-value">{stats?.manga.meanScore}</p>
           </div>
         </div>
+      </div>
+      <h2 className="genre-title">Top Genres:</h2>
+      <div className="top-genres">
+        {topGenres.map((g) => (
+          <p key={g.genre}>
+            <div className="genre-name">{g.genre}</div>
+            <div className="genre-count">{g.count}</div>
+          </p>
+        ))}
       </div>
     </div>
   );

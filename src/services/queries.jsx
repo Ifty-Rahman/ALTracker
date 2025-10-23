@@ -139,6 +139,10 @@ export const GET_USER_STATISTICS = gql`
           minutesWatched
           episodesWatched
           meanScore
+          genres {
+            count
+            genre
+          }
         }
         manga {
           count

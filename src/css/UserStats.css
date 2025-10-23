@@ -55,3 +55,37 @@
     background-color: #3f3f46;
     margin: 0 2.5rem;
 }
+
+.genre-title {
+    margin-top: 2rem;
+    color: #a1a1aa;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.top-genres {
+    background-color: #1c1c1e;
+    border-radius: 20px;
+    padding: 25px;
+    color: #fff;
+    font-family: system-ui, sans-serif;
+}
+
+.top-genres h3 {
+    color: #a1a1a6;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.top-genres p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #2c2c2e;
+    font-size: 15px;
+}
+
+.top-genres p:last-child {
+    border-bottom: none;
+}
