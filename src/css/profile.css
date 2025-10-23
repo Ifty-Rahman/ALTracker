@@ -1,6 +1,8 @@
-/* Profile Page Styles */
-
 .profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     margin: 0 auto;
 }
@@ -55,7 +57,6 @@
     padding-bottom: 10px;
 }
 
-/* Fallback for profiles without banner */
 .profile-info-overlay.no-banner {
     background: linear-gradient(135deg, #1a2332 0%, #0b1623 100%);
     position: static;
@@ -63,7 +64,6 @@
     align-items: center;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .profile-banner-section {
         height: 300px;
