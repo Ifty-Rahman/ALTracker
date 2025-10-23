@@ -16,7 +16,12 @@ function PopularThisSeason() {
 
   return (
     <>
-      <p className="Popular-Season-Heading">Popular This Season</p>
+      <button class="discover-btn2">
+        Popular This Season
+        <div class="arrow-wrapper">
+          <div class="arrow"></div>
+        </div>
+      </button>
       <div className="anime-grid">
         {popular_seasonal_anime.map((anime) => (
           <AnimeCard anime={anime} key={anime.id} />

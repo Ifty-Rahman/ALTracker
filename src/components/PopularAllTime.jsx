@@ -18,7 +18,12 @@ function PopularAllTime() {
 
   return (
     <>
-      <p>Popular All Time</p>
+      <button class="discover-btn2">
+        All Time Popular
+        <div class="arrow-wrapper">
+          <div class="arrow"></div>
+        </div>
+      </button>
       <div className="anime-grid">
         {popularAnime.map((anime) => (
           <AnimeCard anime={anime} key={anime.id} />

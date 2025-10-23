@@ -6,9 +6,9 @@ import "../css/Discover.css";
 function Discover() {
   return (
     <div className="discover">
-      <PopularAllTime />
       <PopularThisSeason />
       <UpcomingNextSeason />
+      <PopularAllTime />
     </div>
   );
 }
