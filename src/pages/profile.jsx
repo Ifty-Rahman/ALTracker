@@ -25,7 +25,7 @@ function ProfilePage() {
   });
 
   const stats = useMemo(() => {
-    return data?.Viewer?.statistics?.anime;
+    return data?.Viewer?.statistics;
   }, [data]);
 
   if (userLoading || loading) return <p>Loading...</p>;
