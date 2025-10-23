@@ -8,7 +8,6 @@ export const GET_CURRENT_USER = gql`
       name
       avatar {
         large
-        medium
       }
       bannerImage
     }

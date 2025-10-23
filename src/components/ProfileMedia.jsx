@@ -1,14 +1,6 @@
-import { useQuery } from "@apollo/client/react";
-import { GET_CURRENT_USER } from "../services/queries";
 import "../css/profile.css";
 
-function ProfileMedia() {
-  const { loading, error, data } = useQuery(GET_CURRENT_USER);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  const user = data.Viewer;
-
+function ProfileMedia({ user }) {
   return (
     <div className="profile-banner-section">
       {user.bannerImage ? (
