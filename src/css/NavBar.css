@@ -1,7 +1,7 @@
 /* Navbar.css */
 
 .navbar {
-    background-color: #0b1623;
+    background-color: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;

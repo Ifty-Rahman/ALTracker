@@ -9,6 +9,7 @@ import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import ProfilePage from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import DarkVeil from "./components/DarkVeil";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("anilist_token");
@@ -47,16 +48,19 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <main className="app">
-      <ApolloProvider client={client}>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Discover />} />
-          <Route path="/Userlist" element={<UserList />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Profile" element={<ProfilePage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </ApolloProvider>
+      <>
+        <DarkVeil />
+        <ApolloProvider client={client}>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Discover />} />
+            <Route path="/Userlist" element={<UserList />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/Profile" element={<ProfilePage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </ApolloProvider>
+      </>
     </main>
   );
 }

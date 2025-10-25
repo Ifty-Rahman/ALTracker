@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../css/Navbar.css";
+import PillNav from "./PillNav";
 
 function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,25 +27,28 @@ function NavBar() {
   }, []);
 
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <Link to="/">AL</Link>
-      </div>
-      <div className="navbar-links">
-        <Link to="/dashboard" className="nav-link">
-          Dashboard
-        </Link>
-        <Link to="/" className="nav-link">
-          Discover
-        </Link>
-        <Link to="/Userlist" className="nav-link">
-          List
-        </Link>
-        <Link to={isLoggedIn ? "/profile" : "/login"} className="nav-link">
-          {isLoggedIn ? "Profile" : "Login"}
-        </Link>
-      </div>
-    </nav>
+    <>
+      <PillNav
+        logo={"AL"}
+        logoAlt="Company Logo"
+        items={[
+          { label: "Discover", href: "/" },
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "List", href: "/Userlist" },
+          {
+            label: isLoggedIn ? "Profile" : "Login",
+            href: isLoggedIn ? "/profile" : "/login",
+          },
+        ]}
+        activeHref="/"
+        className="custom-nav"
+        ease="power2.easeOut"
+        baseColor="#000000"
+        pillColor="#ffffff"
+        hoveredPillTextColor="#ffffff"
+        pillTextColor="#000000"
+      />
+    </>
   );
 }
 

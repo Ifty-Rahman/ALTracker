@@ -46,7 +46,7 @@
 }
 
 button {
-    --primary-color: #0b1623;
+    --primary-color: transparent;
     --secondary-color: #fff;
     --hover-color: #6e35ff;
     --arrow-width: 10px;
