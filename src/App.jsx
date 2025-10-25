@@ -57,7 +57,7 @@ export default function App() {
             <Route path="/Userlist" element={<UserList />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Profile" element={<ProfilePage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
           </Routes>
         </ApolloProvider>
       </>

@@ -31,7 +31,7 @@ function NavBar() {
         <Link to="/">AL</Link>
       </div>
       <div className="navbar-links">
-        <Link to="/dashboard" className="nav-link">
+        <Link to="/Dashboard" className="nav-link">
           Dashboard
         </Link>
         <Link to="/" className="nav-link">

@@ -18,10 +18,10 @@ function PopularAllTime() {
 
   return (
     <>
-      <button class="discover-btn2">
+      <button className="discover-btn2">
         All Time Popular
-        <div class="arrow-wrapper">
-          <div class="arrow"></div>
+        <div className="arrow-wrapper">
+          <div className="arrow"></div>
         </div>
       </button>
       <div className="anime-grid">

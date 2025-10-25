@@ -35,7 +35,7 @@ function UserList() {
   const userlists = data?.MediaListCollection?.lists || [];
 
   return (
-    <div className="anime-list-grid">
+    <div className="anime-list-container">
       {userlists.map((list) => (
         <div key={list.name} className="anime-list">
           <h1>{list.name}</h1>
