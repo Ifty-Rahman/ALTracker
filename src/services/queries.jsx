@@ -21,7 +21,24 @@ export const GET_POPULAR_ANIME = gql`
       media(sort: POPULARITY_DESC, type: ANIME) {
         id
         title {
-          romaji
+          english
+        }
+        coverImage {
+          large
+        }
+      }
+    }
+  }
+`;
+
+// Query to get top trending anime
+export const GET_TRENDING_ANIME = gql`
+  query {
+    Page(perPage: 15) {
+      media(sort: TRENDING_DESC, type: ANIME) {
+        id
+        title {
+          english
         }
         coverImage {
           large
@@ -52,7 +69,7 @@ export const GET_POPULAR_SEASONAL_ANIME = gql`
       ) {
         id
         title {
-          romaji
+        english
         }
         coverImage {
           large
@@ -88,7 +105,7 @@ export const GET_UPCOMING_SEASONAL_ANIME = gql`
       ) {
         id
         title {
-          romaji
+        english
         }
         coverImage {
           large
@@ -112,7 +129,6 @@ export const GET_USER_ANIME_LIST = gql`
           media {
             id
             title {
-              romaji
               english
             }
             coverImage {
@@ -152,6 +168,32 @@ export const GET_USER_STATISTICS = gql`
           genres {
             count
             genre
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_CURRENTLY_WATCHING = gql`
+  query GetCurrentlyWatching($userName: String) {
+    MediaListCollection(userName: $userName, type: ANIME, status: CURRENT) {
+      lists {
+        entries {
+          id
+          mediaId
+          status
+          score
+          progress
+          media {
+            id
+            title {
+              english
+            }
+            coverImage {
+              large
+            }
+            episodes
           }
         }
       }
