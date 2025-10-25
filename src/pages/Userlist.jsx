@@ -35,15 +35,15 @@ function UserList() {
   const userlists = data?.MediaListCollection?.lists || [];
 
   return (
-    <>
+    <div className="anime-list-grid">
       {userlists.map((list) => (
         <div key={list.name} className="anime-list">
           <h1>{list.name}</h1>
-          <div className="anime-grid">
+          <div className="anime-grid-list">
             {list.entries.map(({ media, score, progress }) => (
-              <div className="anime-card" key={media.id}>
+              <div className="anime-card-list" key={media.id}>
                 <img src={media.coverImage.large} alt={media.title.romaji} />
-                <div className="anime-info">
+                <div className="anime-info-list">
                   <h3>{media.title.english || media.title.romaji}</h3>
                   <p>Episodes: {media.episodes}</p>
                   <p>Progress: {progress}</p>
@@ -54,7 +54,7 @@ function UserList() {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }
 
