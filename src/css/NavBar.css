@@ -4,7 +4,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 15px 15px 20px;
-    border-bottom: 1px solid #1f2a3a;
 }
 
 .navbar-brand a {
@@ -39,4 +38,51 @@
 
 .nav-link:hover {
     color: #6e35ff;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 12px 15px;
+    }
+
+    .navbar-brand a {
+        font-size: 1.3rem;
+    }
+
+    .navbar-links {
+        gap: 15px;
+    }
+
+    .nav-link {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .navbar-brand {
+        width: 100%;
+    }
+
+    .navbar-brand a {
+        justify-content: center;
+        font-size: 1.4rem;
+    }
+
+    .navbar-links {
+        width: 100%;
+        justify-content: space-around;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .nav-link {
+        font-size: 0.95rem;
+    }
 }

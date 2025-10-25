@@ -1,11 +1,5 @@
 .app {
-    text-align: center;
-    padding: 20px;
-    position: relative;
     min-height: 100vh;
+    min-width: 100vw;
     overflow: hidden;
-}
-
-h1 {
-    margin-bottom: 20px;
 }

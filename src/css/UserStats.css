@@ -1,12 +1,13 @@
 .user-stats-container {
-    width: 100%;
-    background-color: #0b1623;
+    width: 95%;
+    background-color: transparent;
     color: #fff;
     padding: 1.5rem;
     border-radius: 1.5rem;
 }
 
 .overview-title {
+    text-align: center;
     color: #a1a1aa;
     font-size: 1.5rem;
     font-weight: 600;
@@ -57,6 +58,7 @@
 }
 
 .genre-title {
+    text-align: center;
     margin-top: 2rem;
     color: #a1a1aa;
     font-size: 1.5rem;

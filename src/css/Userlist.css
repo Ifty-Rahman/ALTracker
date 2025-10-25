@@ -1,4 +1,28 @@
-.anime-list-grid {
+.anime-list-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin: 20px;
+}
+
+.anime-list {
+    width: 100%;
+}
+
+.anime-list h1 {
+    text-align: start;
+    font-size: 1.5rem;
+}
+
+.anime-grid-list {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scroll-behavior: smooth;
+}
+
+.anime-grid-list::-webkit-scrollbar {
     display: flex;
     gap: 20px;
     overflow-x: auto;
@@ -7,16 +31,18 @@
     margin-right: 15px;
     scroll-behavior: smooth;
 }
-.anime-list-grid::-webkit-scrollbar {
+
+.anime-grid-list::-webkit-scrollbar {
     display: none;
 }
-.anime-list-grid > * {
+
+.anime-grid-list > * {
     flex: 0 0 auto;
     width: 200px;
 }
 
 .anime-card-list {
-    background: #1e1e1e;
+    background: rgba(0, 0, 0, 0.4);
     border-radius: 10px;
     overflow: hidden;
     width: 180px;
@@ -38,7 +64,8 @@
 .anime-card-list h3 {
     font-size: 1rem;
     padding: 10px;
-    background: #2a2a2a;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
     margin: 0;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -48,15 +75,4 @@
 .anime-card-list:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-.anime-list-list h1 {
-    width: 100%;
-    height: 40px;
-    text-align: start;
-    font-size: 2rem;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color: #ffffff;
-    font-weight: 600;
 }

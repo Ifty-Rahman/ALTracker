@@ -3,13 +3,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    margin: 0 auto;
+    margin-top: 40px;
 }
 
 .profile-banner-section {
     position: relative;
-    width: 100%;
+    width: 95%;
     height: 400px;
     overflow: hidden;
 }
@@ -19,6 +18,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: 1.5rem;
 }
 
 .profile-info-overlay {
@@ -36,6 +36,7 @@
     display: flex;
     align-items: flex-end;
     gap: 20px;
+    border-radius: 1.5rem;
 }
 
 .profile-avatar {

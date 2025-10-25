@@ -1,0 +1,202 @@
+.dashboard-container {
+    margin: 20px;
+}
+
+.dashboard-loading {
+    color: #fff;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.dashboard-error {
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.dashboard-card {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    cursor: default;
+    position: relative;
+}
+
+.dashboard-card-image {
+    width: 100%;
+    height: 320px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    padding: 0;
+}
+
+.dashboard-card-image-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60%;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0));
+    pointer-events: none;
+    z-index: 1;
+}
+
+.dashboard-anime-title {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 10px 12px;
+    font-size: 1rem;
+    color: darkgrey;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.48);
+    z-index: 2;
+    box-sizing: border-box;
+    border-radius: 0 0 10px 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.dashboard-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.dashboard-progress-section {
+    margin-bottom: 12px;
+}
+
+.dashboard-progress-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.dashboard-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    background-color: #6e35ff;
+    color: darkgrey;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-button:hover {
+    background-color: #5a2bcc;
+}
+
+.dashboard-button:disabled {
+    background-color: #3f3f46;
+    cursor: not-allowed;
+}
+
+.dashboard-progress-text {
+    color: darkgrey;
+    font-size: 1.2rem;
+    font-weight: 500;
+    min-width: 70px;
+    text-align: center;
+}
+
+.dashboard-score-section {
+    margin-top: 12px;
+}
+
+.dashboard-score-edit {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.dashboard-input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #3f3f46;
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.dashboard-save-button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #6e35ff;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.dashboard-save-button:hover {
+    background-color: #5a2bcc;
+}
+
+.dashboard-score-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-score-text {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.dashboard-edit-button {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid #6e35ff;
+    background-color: transparent;
+    color: #6e35ff;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.dashboard-edit-button:hover {
+    background-color: #6e35ff;
+    color: #fff;
+}
+
+@media (max-width: 400px) {
+    .dashboard-card-image {
+        height: 360px;
+    }
+}
+
+@media (max-width: 770px) {
+    .dashboard-card-image {
+        height: 360px;
+    }
+}
