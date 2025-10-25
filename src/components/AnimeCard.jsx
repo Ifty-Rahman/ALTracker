@@ -8,7 +8,9 @@ function AnimeCard({ anime }) {
         alt={anime.title.romaji}
         className="anime-image"
       />
-      <h3 className="anime-title">{anime.title.romaji}</h3>
+      <h3 className="anime-title">
+        {anime.title.english || anime.title.romaji}
+      </h3>
     </div>
   );
 }

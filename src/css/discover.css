@@ -1,22 +1,19 @@
 .anime-grid {
     display: flex;
-    gap: 1rem;
+    gap: 20px;
     overflow-x: auto;
     padding-bottom: 1rem;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
     scroll-behavior: smooth;
 }
-
 .anime-grid::-webkit-scrollbar {
     display: none;
 }
-
 .anime-grid > * {
     flex: 0 0 auto;
     width: 200px;
 }
-
 .discover-btn {
     font-family: "Inter", sans-serif;
     display: flex;
@@ -31,12 +28,6 @@
     background-color: transparent;
     border: none;
     font-weight: 300;
-}
-
-.discover-btn:hover {
-    cursor: pointer;
-    color: #6e35ff;
-    transform: scale(1.05);
 }
 
 @media (max-width: 600px) {
@@ -58,20 +49,18 @@ button {
     padding: 0.5em 1em;
     background: var(--primary-color);
     display: flex;
-    transition: 0.2s background;
+    transition: 0.2s color;
     align-items: center;
     gap: 0.6em;
     font-size: 1.2rem;
     font-weight: bold;
     margin: 15px 0;
 }
-
 button .arrow-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 button .arrow {
     margin-top: 1px;
     width: var(--arrow-width);
@@ -80,7 +69,6 @@ button .arrow {
     position: relative;
     transition: 0.2s;
 }
-
 button .arrow::before {
     content: "";
     box-sizing: border-box;
@@ -94,15 +82,13 @@ button .arrow::before {
     padding: 3px;
     transform: rotate(-45deg);
 }
-
 button:hover {
-    background-color: var(--hover-color);
+    color: var(--hover-color);
 }
-
 button:hover .arrow {
-    background: var(--secondary-color);
+    background: var(--hover-color);
 }
-
 button:hover .arrow:before {
+    border-color: var(--hover-color);
     right: 0;
 }
