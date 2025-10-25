@@ -1,5 +1,3 @@
-/* Navbar.css */
-
 .navbar {
     background-color: transparent;
     display: flex;
@@ -10,6 +8,9 @@
 }
 
 .navbar-brand a {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
     color: #ffffff;
     text-decoration: none;
     font-size: 1.5rem;
@@ -18,34 +19,24 @@
 }
 
 .navbar-brand a:hover {
-    color: #00b4d8;
+    color: #6e35ff;
 }
 
 .navbar-links {
+    flex: 1;
     display: flex;
+    justify-content: center;
     gap: 20px;
 }
 
 .nav-link {
     color: #cfd8e3;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    font-weight: 300;
     transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-    color: #00b4d8;
-}
-
-@media (max-width: 600px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .navbar-links {
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 10px;
-    }
+    color: #6e35ff;
 }
