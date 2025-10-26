@@ -40,13 +40,12 @@ function UserList() {
         <div key={list.name} className="anime-list">
           <h1>{list.name}</h1>
           <div className="anime-grid-list">
-            {list.entries.map(({ media, score, progress }) => (
+            {list.entries.map(({ media, score }) => (
               <div className="anime-card-list" key={media.id}>
                 <img src={media.coverImage.large} alt={media.title.english} />
                 <div className="anime-info-list">
                   <h3>{media.title.english}</h3>
                   <p>Episodes: {media.episodes}</p>
-                  <p>Progress: {progress}</p>
                   <p>Score: {score}</p>
                 </div>
               </div>

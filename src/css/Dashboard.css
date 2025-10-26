@@ -98,7 +98,7 @@
     border-radius: 6px;
     border: none;
     background-color: #6e35ff;
-    color: darkgrey;
+    color: white;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -108,7 +108,7 @@
 }
 
 .dashboard-button:hover {
-    background-color: #5a2bcc;
+    background-color: gainsboro;
 }
 
 .dashboard-button:disabled {
@@ -125,7 +125,7 @@
 }
 
 .dashboard-score-section {
-    text-align: center;
+    margin-top: 12px;
 }
 
 .dashboard-score-edit {
