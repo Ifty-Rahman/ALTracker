@@ -3,6 +3,7 @@ import "../css/dashboard.css";
 import { GET_CURRENTLY_WATCHING } from "../services/queries";
 import { UPDATE_ANIME_ENTRY } from "../services/mutation";
 import { GET_CURRENT_USER } from "../services/queries";
+import ElasticSlider from "../components/ElasticSlider";
 
 function Dashboard() {
   const { data: viewerData } = useQuery(GET_CURRENT_USER);
@@ -18,6 +19,7 @@ function Dashboard() {
     return <div className="dashboard-error">Error: {error.message}</div>;
 
   const entries = data?.MediaListCollection?.lists?.[0]?.entries || [];
+  const scoreformat = data?.Viewer?.mediaListOptions?.scoreFormat;
 
   return (
     <div className="dashboard-container">
@@ -52,7 +54,7 @@ function Dashboard() {
                   </div>
                 </div>
 
-                <div className="dashboard-score-section"></div>
+                <div className="dashboard-score-section">{entry.score}</div>
               </div>
             </div>
           );

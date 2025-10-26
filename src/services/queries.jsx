@@ -198,5 +198,11 @@ export const GET_CURRENTLY_WATCHING = gql`
         }
       }
     }
+    User(name: $userName) {
+      id
+      mediaListOptions {
+        scoreFormat
+      }
+    }
   }
 `;
