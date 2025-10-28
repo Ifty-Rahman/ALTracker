@@ -3,8 +3,11 @@ import "../css/dashboard.css";
 import { GET_CURRENTLY_WATCHING, GET_CURRENT_USER } from "../services/queries";
 import { UPDATE_ANIME_ENTRY } from "../services/mutation";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 function Dashboard() {
+  const [editingId, setEditingId] = useState(null);
+  const [newScore, setNewScore] = useState("");
   const { data: viewerData } = useQuery(GET_CURRENT_USER);
   const username = viewerData?.Viewer?.name;
 
@@ -22,16 +25,92 @@ function Dashboard() {
         }),
         fields: {
           progress: () => SaveMediaListEntry.progress,
+          score: () => SaveMediaListEntry.score,
         },
       });
     },
   });
+
+  function getScoreDisplay(entry, scoreFormat) {
+    const score = entry?.score ?? 0;
+
+    switch (scoreFormat) {
+      case "POINT_100":
+        return `${score} / 100`;
+      case "POINT_10":
+        return `${score} / 10`;
+      case "POINT_10_DECIMAL":
+        return `${score.toFixed(1)} / 10`;
+      case "POINT_5":
+        return `${score} / 5`;
+      case "POINT_3":
+        return `${score} / 3`;
+      default:
+        return `${score}`;
+    }
+  }
+
+  function validateScore(value, format) {
+    switch (format) {
+      case "POINT_100":
+        return /^\d{1,3}$/.test(value) && value >= 0 && value <= 100;
+      case "POINT_10":
+        return /^\d{1,2}$/.test(value) && value >= 0 && value <= 10;
+      case "POINT_10_DECIMAL":
+        return /^\d{1,2}(\.\d)?$/.test(value) && value >= 0 && value <= 10;
+      case "POINT_5":
+        return /^[0-5]$/.test(value);
+      case "POINT_3":
+        return /^[1-3]$/.test(value);
+      default:
+        return true;
+    }
+  }
+
+  async function handleScoreUpdate(
+    entry,
+    newScore,
+    scoreFormat,
+    updateAnimeEntry,
+  ) {
+    const value = newScore.trim();
+    if (!validateScore(value, scoreFormat)) {
+      toast.error("Enter a valid score for your format!");
+      return;
+    }
+
+    try {
+      await updateAnimeEntry({
+        variables: {
+          mediaId: entry.media.id,
+          score: parseFloat(value),
+        },
+        optimisticResponse: {
+          SaveMediaListEntry: {
+            __typename: "MediaList",
+            id: entry.id,
+            score: parseFloat(value),
+            progress: entry.progress,
+            status: entry.status,
+            updatedAt: Date.now(),
+          },
+        },
+      });
+      toast.success("Score updated!");
+      setEditingId(null);
+      setNewScore("");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update score.");
+    }
+  }
 
   if (loading) return <div className="dashboard-loading">Loading...</div>;
   if (error)
     return <div className="dashboard-error">Error: {error.message}</div>;
 
   const entries = data?.MediaListCollection?.lists?.[0]?.entries || [];
+  const scoreFormat = data?.User?.mediaListOptions?.scoreFormat;
 
   const handleProgressChange = async (entry, delta) => {
     const newProgress = entry.progress + delta;
@@ -46,6 +125,7 @@ function Dashboard() {
             __typename: "MediaList",
             id: entry.id,
             progress: newProgress,
+            score: entry.score,
             status: entry.status,
             updatedAt: Date.now(),
           },
@@ -54,7 +134,7 @@ function Dashboard() {
     } catch (err) {
       if (err.message.includes("429")) {
         // 429 is usually "Too Many Requests"
-        toast.error("API limit reached. Please try again later.");
+        toast.error("API limit reached. Please try again 1 minute later.");
       } else {
         toast.error("Failed to update progress.");
       }
@@ -104,7 +184,51 @@ function Dashboard() {
                   </div>
                 </div>
 
-                <div className="dashboard-score-section"></div>
+                <div className="dashboard-score-section">
+                  <span className="dashboard-score-text">Score:</span>
+                  {editingId === entry.id ? (
+                    <div className="dashboard-score-editing">
+                      <input
+                        type="text"
+                        className="dashboard-score-input"
+                        value={newScore}
+                        onChange={(e) => setNewScore(e.target.value)}
+                      />
+                      <button
+                        className="dashboard-save-button"
+                        onClick={() =>
+                          handleScoreUpdate(
+                            entry,
+                            newScore,
+                            scoreFormat,
+                            updateAnimeEntry,
+                          )
+                        }
+                      >
+                        ✅
+                      </button>
+                      <button
+                        className="dashboard-cancel-button"
+                        onClick={() => {
+                          setEditingId(null);
+                          setNewScore("");
+                        }}
+                      >
+                        ✖
+                      </button>
+                    </div>
+                  ) : (
+                    <span
+                      className="dashboard-score-display"
+                      onClick={() => {
+                        setEditingId(entry.id);
+                        setNewScore(entry.score?.toString() || "");
+                      }}
+                    >
+                      {getScoreDisplay(entry, scoreFormat)}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           );
