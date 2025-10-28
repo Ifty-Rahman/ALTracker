@@ -3,11 +3,24 @@ import "../css/dashboard.css";
 import { GET_CURRENTLY_WATCHING, GET_CURRENT_USER } from "../services/queries";
 import { UPDATE_ANIME_ENTRY } from "../services/mutation";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GoCheck, GoX } from "react-icons/go";
 import { TrophySpin } from "react-loading-indicators";
 
 function Dashboard() {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const params = new URLSearchParams(hash.replace("#", ""));
+      const token = params.get("access_token");
+      if (token) {
+        localStorage.setItem("anilist_token", token);
+        window.dispatchEvent(new Event("authChange"));
+        window.history.replaceState(null, null, window.location.pathname);
+      }
+    }
+  }, []);
+
   const { data: viewerData } = useQuery(GET_CURRENT_USER);
   const username = viewerData?.Viewer?.name;
 

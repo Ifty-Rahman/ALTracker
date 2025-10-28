@@ -1,22 +1,9 @@
 import { useQuery } from "@apollo/client/react";
-import { useEffect } from "react";
 import { GET_CURRENT_USER, GET_USER_ANIME_LIST } from "../services/queries";
 import "../css/Userlist.css";
 import { TrophySpin } from "react-loading-indicators";
 
 function UserList() {
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      const params = new URLSearchParams(hash.replace("#", ""));
-      const token = params.get("access_token");
-      if (token) {
-        localStorage.setItem("anilist_token", token);
-        window.history.replaceState(null, null, window.location.pathname);
-      }
-    }
-  }, []);
-
   const {
     loading: userLoading,
     error: userError,
