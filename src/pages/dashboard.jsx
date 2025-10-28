@@ -3,32 +3,20 @@ import "../css/dashboard.css";
 import { GET_CURRENTLY_WATCHING, GET_CURRENT_USER } from "../services/queries";
 import { UPDATE_ANIME_ENTRY } from "../services/mutation";
 import { toast } from "react-toastify";
+import { InlineEdit } from "rsuite";
 import { useState } from "react";
+import "rsuite/dist/rsuite.min.css";
 
 function Dashboard() {
-  const [editingId, setEditingId] = useState(null);
-  const [newScore, setNewScore] = useState("");
   const { data: viewerData } = useQuery(GET_CURRENT_USER);
   const username = viewerData?.Viewer?.name;
+
+  const [editingId, setEditingId] = useState(null);
+  const [tempScore, setTempScore] = useState("");
 
   const { loading, error, data } = useQuery(GET_CURRENTLY_WATCHING, {
     variables: { userName: username },
     skip: !username,
-  });
-
-  const [updateAnimeEntry] = useMutation(UPDATE_ANIME_ENTRY, {
-    update(cache, { data: { SaveMediaListEntry } }) {
-      cache.modify({
-        id: cache.identify({
-          __typename: "MediaList",
-          id: SaveMediaListEntry.id,
-        }),
-        fields: {
-          progress: () => SaveMediaListEntry.progress,
-          score: () => SaveMediaListEntry.score,
-        },
-      });
-    },
   });
 
   function getScoreDisplay(entry, scoreFormat) {
@@ -97,13 +85,25 @@ function Dashboard() {
         },
       });
       toast.success("Score updated!");
-      setEditingId(null);
-      setNewScore("");
     } catch (err) {
       console.error(err);
       toast.error("Failed to update score.");
     }
   }
+
+  const [updateAnimeEntry] = useMutation(UPDATE_ANIME_ENTRY, {
+    update(cache, { data: { SaveMediaListEntry } }) {
+      cache.modify({
+        id: cache.identify({
+          __typename: "MediaList",
+          id: SaveMediaListEntry.id,
+        }),
+        fields: {
+          progress: () => SaveMediaListEntry.progress,
+        },
+      });
+    },
+  });
 
   if (loading) return <div className="dashboard-loading">Loading...</div>;
   if (error)
@@ -125,7 +125,6 @@ function Dashboard() {
             __typename: "MediaList",
             id: entry.id,
             progress: newProgress,
-            score: entry.score,
             status: entry.status,
             updatedAt: Date.now(),
           },
@@ -133,7 +132,6 @@ function Dashboard() {
       });
     } catch (err) {
       if (err.message.includes("429")) {
-        // 429 is usually "Too Many Requests"
         toast.error("API limit reached. Please try again 1 minute later.");
       } else {
         toast.error("Failed to update progress.");
@@ -187,43 +185,35 @@ function Dashboard() {
                 <div className="dashboard-score-section">
                   <span className="dashboard-score-text">Score:</span>
                   {editingId === entry.id ? (
-                    <div className="dashboard-score-editing">
-                      <input
-                        type="text"
-                        className="dashboard-score-input"
-                        value={newScore}
-                        onChange={(e) => setNewScore(e.target.value)}
-                      />
-                      <button
-                        className="dashboard-save-button"
-                        onClick={() =>
-                          handleScoreUpdate(
-                            entry,
-                            newScore,
-                            scoreFormat,
-                            updateAnimeEntry,
-                          )
+                    <input
+                      type="text"
+                      defaultValue={entry.score || ""}
+                      onChange={(e) => setTempScore(e.target.value)}
+                      onBlur={() => {
+                        handleScoreUpdate(
+                          entry,
+                          tempScore,
+                          scoreFormat,
+                          updateAnimeEntry,
+                        );
+                        setEditingId(null);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.target.blur();
                         }
-                      >
-                        ✅
-                      </button>
-                      <button
-                        className="dashboard-cancel-button"
-                        onClick={() => {
-                          setEditingId(null);
-                          setNewScore("");
-                        }}
-                      >
-                        ✖
-                      </button>
-                    </div>
+                      }}
+                      autoFocus
+                      style={{ width: "60px", padding: "2px 6px" }}
+                    />
                   ) : (
                     <span
                       className="dashboard-score-display"
                       onClick={() => {
                         setEditingId(entry.id);
-                        setNewScore(entry.score?.toString() || "");
+                        setTempScore(entry.score?.toString() || "");
                       }}
+                      style={{ cursor: "pointer" }}
                     >
                       {getScoreDisplay(entry, scoreFormat)}
                     </span>

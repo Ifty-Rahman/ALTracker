@@ -81,6 +81,10 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
 }
 
+.dashboard-progress-section {
+    margin-top: 15px;
+}
+
 .dashboard-progress-controls {
     display: flex;
     justify-content: center;
@@ -112,12 +116,6 @@
     cursor: not-allowed;
 }
 
-.dashboard-progress-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .dashboard-progress-text {
     color: darkgrey;
     font-size: 1.2rem;
@@ -129,67 +127,20 @@
 .dashboard-score-section {
     display: flex;
     justify-content: space-between;
-    text-align: center;
-    margin: 10px 10px 10px 10px;
-    padding: 0 20px 0 20px;
+    align-items: center;
+    margin: 15px;
 }
 
 .dashboard-score-text {
-    color: darkgray;
+    color: darkgrey;
     font-size: 1.2rem;
     font-weight: 500;
 }
 
 .dashboard-score-value {
-    color: darkgray;
+    color: darkgrey;
     font-size: 1.2rem;
     font-weight: 500;
-}
-
-.dashboard-score-display {
-    color: darkgray;
-    font-size: 1.2rem;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.dashboard-score-editing {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    height: 30px;
-    gap: 10px;
-    align-items: center;
-}
-
-.dashboard-score-input {
-    width: 60px;
-    height: 30px;
-    text-align: center;
-    border-radius: 5px;
-    background: #1e1e2f;
-    color: darkgray;
-    font-size: 1.2rem;
-    font-weight: 500;
-    border: 1px solid #444;
-}
-
-.dashboard-save-button,
-.dashboard-cancel-button {
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1rem;
-}
-
-.dashboard-save-button {
-    color: #4ade80;
-}
-.dashboard-cancel-button {
-    color: #f87171;
 }
 
 @media (max-width: 400px) {
