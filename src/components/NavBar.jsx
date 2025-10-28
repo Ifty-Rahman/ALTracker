@@ -8,6 +8,7 @@ function NavBar() {
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem("anilist_token");
+      window.dispatchEvent(new Event("authChange"));
       setIsLoggedIn(!!token);
     };
 

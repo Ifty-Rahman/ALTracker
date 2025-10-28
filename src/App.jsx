@@ -10,6 +10,7 @@ import NavBar from "./components/NavBar";
 import ProfilePage from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import DarkVeil from "./components/DarkVeil";
+import Footer from "./components/Footer";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("anilist_token");
@@ -47,9 +48,9 @@ const client = new ApolloClient({
 
 export default function App() {
   return (
-    <main className="app">
-      <>
-        <DarkVeil />
+    <>
+      <DarkVeil />
+      <main className="app">
         <ApolloProvider client={client}>
           <NavBar />
           <Routes>
@@ -60,7 +61,8 @@ export default function App() {
             <Route path="/Dashboard" element={<Dashboard />} />
           </Routes>
         </ApolloProvider>
-      </>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }
