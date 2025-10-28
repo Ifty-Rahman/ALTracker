@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { GET_TRENDING_ANIME } from "../services/queries";
 import AnimeCard from "./AnimeCard";
+import { TrophySpin } from "react-loading-indicators";
 
 function TrendingAnime() {
   const { loading, error, data } = useQuery(GET_TRENDING_ANIME);
@@ -13,12 +14,17 @@ function TrendingAnime() {
     }
   }, [data]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="loading-indicator">
+        <TrophySpin color="#6e35ff" size="large" />
+      </div>
+    );
   if (error) return <p>Error :(</p>;
 
   return (
     <>
-      <button className="discover-btn2">
+      <button>
         Trending Now
         <div className="arrow-wrapper">
           <div className="arrow"></div>

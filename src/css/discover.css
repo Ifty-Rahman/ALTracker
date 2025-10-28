@@ -2,9 +2,7 @@
     display: flex;
     gap: 20px;
     overflow-x: auto;
-    padding-bottom: 1rem;
-    margin-left: 20px;
-    margin-right: 20px;
+    padding: 0 20px 10px 20px;
     scroll-behavior: smooth;
 }
 .anime-grid::-webkit-scrollbar {
@@ -13,21 +11,6 @@
 .anime-grid > * {
     flex: 0 0 auto;
     width: 200px;
-}
-.discover-btn {
-    font-family: "Inter", sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    width: 20%;
-    height: 40px;
-    text-align: start;
-    font-size: 1.2rem;
-    margin: 15px 0;
-    color: white;
-    background-color: transparent;
-    border: none;
-    font-weight: 300;
 }
 
 @media (max-width: 600px) {
@@ -52,9 +35,8 @@ button {
     transition: 0.2s color;
     align-items: center;
     gap: 0.6em;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
-    margin: 15px 0;
 }
 button .arrow-wrapper {
     display: flex;

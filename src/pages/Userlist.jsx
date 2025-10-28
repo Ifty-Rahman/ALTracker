@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client/react";
 import { useEffect } from "react";
 import { GET_CURRENT_USER, GET_USER_ANIME_LIST } from "../services/queries";
 import "../css/Userlist.css";
+import { TrophySpin } from "react-loading-indicators";
 
 function UserList() {
   useEffect(() => {
@@ -28,7 +29,12 @@ function UserList() {
     skip: !username,
   });
 
-  if (userLoading || loading) return <p>Loading...</p>;
+  if (userLoading || loading)
+    return (
+      <div className="loading-indicator">
+        <TrophySpin color="#6e35ff" size="large" />
+      </div>
+    );
   if (userError) return <p>Error: {userError.message}</p>;
   if (error) return <p>Error: {error.message}</p>;
 
@@ -42,9 +48,18 @@ function UserList() {
           <div className="anime-grid-list">
             {list.entries.map(({ media, score }) => (
               <div className="anime-card-list" key={media.id}>
-                <img src={media.coverImage.large} alt={media.title.english} />
+                <div
+                  className="anime-card-image"
+                  style={{
+                    backgroundImage: `url(${media.coverImage.large})`,
+                  }}
+                >
+                  <div className="anime-card-image-overlay" />
+                  <h3 className="anime-card-title">
+                    {media.title.english || media.title.romaji}
+                  </h3>
+                </div>
                 <div className="anime-info-list">
-                  <h3>{media.title.english}</h3>
                   <p>Episodes: {media.episodes}</p>
                   <p>Score: {score}</p>
                 </div>

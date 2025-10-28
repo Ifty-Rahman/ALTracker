@@ -22,6 +22,7 @@ export const GET_POPULAR_ANIME = gql`
         id
         title {
           english
+          romaji
         }
         coverImage {
           large
@@ -39,6 +40,7 @@ export const GET_TRENDING_ANIME = gql`
         id
         title {
           english
+          romaji
         }
         coverImage {
           large
@@ -70,6 +72,7 @@ export const GET_POPULAR_SEASONAL_ANIME = gql`
         id
         title {
         english
+        romaji
         }
         coverImage {
           large
@@ -106,6 +109,7 @@ export const GET_UPCOMING_SEASONAL_ANIME = gql`
         id
         title {
         english
+        romaji
         }
         coverImage {
           large
@@ -130,6 +134,7 @@ export const GET_USER_ANIME_LIST = gql`
             id
             title {
               english
+              romaji
             }
             coverImage {
               large
@@ -175,6 +180,7 @@ export const GET_USER_STATISTICS = gql`
   }
 `;
 
+// Query to get the currently watching anime for a user
 export const GET_CURRENTLY_WATCHING = gql`
   query GetCurrentlyWatching($userName: String) {
     MediaListCollection(userName: $userName, type: ANIME, status: CURRENT) {
@@ -189,6 +195,7 @@ export const GET_CURRENTLY_WATCHING = gql`
             id
             title {
               english
+              romaji
             }
             coverImage {
               large

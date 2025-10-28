@@ -2,20 +2,6 @@
     margin: 20px;
 }
 
-.dashboard-loading {
-    color: #fff;
-    font-size: 1.2rem;
-    text-align: center;
-    margin-top: 50px;
-}
-
-.dashboard-error {
-    color: #ff6b6b;
-    font-size: 1.2rem;
-    text-align: center;
-    margin-top: 50px;
-}
-
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -35,7 +21,7 @@
 
 .dashboard-card-image {
     width: 100%;
-    height: 320px;
+    height: 300px;
     background-size: cover;
     background-position: center;
     display: flex;
@@ -141,6 +127,78 @@
     color: darkgrey;
     font-size: 1.2rem;
     font-weight: 500;
+}
+
+.dashboard-score-display {
+    color: darkgrey;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.dashboard-score-display:hover {
+    color: #6e35ff;
+}
+
+.dashboard-score-edit-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    height: 23px;
+}
+
+.dashboard-score-input {
+    text-align: center;
+    width: 30px;
+    height: 23px;
+    padding: 0 8px 0 8px;
+    font-size: 1rem;
+    border: 2px solid #6e35ff;
+    border-radius: 4px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.dashboard-score-input:focus {
+    border-color: #6e35ff;
+}
+
+.dashboard-score-save-btn,
+.dashboard-score-close-btn {
+    width: 35px;
+    height: 23px;
+    padding: 0 8px 0 8px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
+}
+
+.dashboard-score-save-btn {
+    background-color: #6e35ff;
+    color: white;
+}
+
+.dashboard-score-save-btn:hover {
+    background-color: limegreen;
+    color: white;
+}
+
+.dashboard-score-close-btn {
+    background-color: #3f3f46;
+    color: white;
+}
+
+.dashboard-score-close-btn:hover {
+    background-color: red;
+    color: white;
 }
 
 @media (max-width: 400px) {

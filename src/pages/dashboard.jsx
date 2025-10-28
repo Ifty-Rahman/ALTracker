@@ -3,9 +3,9 @@ import "../css/dashboard.css";
 import { GET_CURRENTLY_WATCHING, GET_CURRENT_USER } from "../services/queries";
 import { UPDATE_ANIME_ENTRY } from "../services/mutation";
 import { toast } from "react-toastify";
-import { InlineEdit } from "rsuite";
 import { useState } from "react";
-import "rsuite/dist/rsuite.min.css";
+import { GoCheck, GoX } from "react-icons/go";
+import { TrophySpin } from "react-loading-indicators";
 
 function Dashboard() {
   const { data: viewerData } = useQuery(GET_CURRENT_USER);
@@ -39,17 +39,18 @@ function Dashboard() {
   }
 
   function validateScore(value, format) {
+    const num = parseFloat(value);
     switch (format) {
       case "POINT_100":
-        return /^\d{1,3}$/.test(value) && value >= 0 && value <= 100;
+        return /^\d{1,3}$/.test(value) && num >= 0 && num <= 100;
       case "POINT_10":
-        return /^\d{1,2}$/.test(value) && value >= 0 && value <= 10;
+        return /^\d{1,2}$/.test(value) && num >= 0 && num <= 10;
       case "POINT_10_DECIMAL":
-        return /^\d{1,2}(\.\d)?$/.test(value) && value >= 0 && value <= 10;
+        return /^\d{1,2}(\.\d)?$/.test(value) && num >= 0 && num <= 10;
       case "POINT_5":
-        return /^[0-5]$/.test(value);
+        return /^[0-5]$/.test(value) && num >= 0 && num <= 5;
       case "POINT_3":
-        return /^[1-3]$/.test(value);
+        return /^[1-3]$/.test(value) && num >= 1 && num <= 3;
       default:
         return true;
     }
@@ -105,7 +106,12 @@ function Dashboard() {
     },
   });
 
-  if (loading) return <div className="dashboard-loading">Loading...</div>;
+  if (loading)
+    return (
+      <div className="loading-indicator">
+        <TrophySpin color="#6e35ff" size="large" />
+      </div>
+    );
   if (error)
     return <div className="dashboard-error">Error: {error.message}</div>;
 
@@ -143,17 +149,18 @@ function Dashboard() {
     <div className="dashboard-container">
       <div className="dashboard-grid">
         {entries.map((entry) => {
-          const title = entry.media.title.english || entry.media.title.romaji;
-          const cover = entry.media.coverImage.large;
-
           return (
             <div key={entry.id} className="dashboard-card">
               <div
                 className="dashboard-card-image"
-                style={{ backgroundImage: `url(${cover})` }}
+                style={{
+                  backgroundImage: `url(${entry.media.coverImage.large})`,
+                }}
               >
                 <div className="dashboard-card-image-overlay" />
-                <h3 className="dashboard-anime-title">{title}</h3>
+                <h3 className="dashboard-anime-title">
+                  {entry.media.title.english || entry.media.title.romaji}
+                </h3>
               </div>
 
               <div className="dashboard-card-content">
@@ -185,27 +192,50 @@ function Dashboard() {
                 <div className="dashboard-score-section">
                   <span className="dashboard-score-text">Score:</span>
                   {editingId === entry.id ? (
-                    <input
-                      type="text"
-                      defaultValue={entry.score || ""}
-                      onChange={(e) => setTempScore(e.target.value)}
-                      onBlur={() => {
-                        handleScoreUpdate(
-                          entry,
-                          tempScore,
-                          scoreFormat,
-                          updateAnimeEntry,
-                        );
-                        setEditingId(null);
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.target.blur();
-                        }
-                      }}
-                      autoFocus
-                      style={{ width: "60px", padding: "2px 6px" }}
-                    />
+                    <div className="dashboard-score-edit-container">
+                      <input
+                        type="text"
+                        className="dashboard-score-input"
+                        defaultValue={entry.score || ""}
+                        onChange={(e) => setTempScore(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            handleScoreUpdate(
+                              entry,
+                              tempScore,
+                              scoreFormat,
+                              updateAnimeEntry,
+                            );
+                            setEditingId(null);
+                          } else if (e.key === "Escape") {
+                            setEditingId(null);
+                          }
+                        }}
+                        autoFocus
+                      />
+
+                      <button
+                        className="dashboard-score-save-btn"
+                        onClick={() => {
+                          handleScoreUpdate(
+                            entry,
+                            tempScore,
+                            scoreFormat,
+                            updateAnimeEntry,
+                          );
+                          setEditingId(null);
+                        }}
+                      >
+                        <GoCheck size={18} />
+                      </button>
+
+                      <button
+                        className="dashboard-score-close-btn"
+                        onClick={() => setEditingId(null)}
+                      >
+                        <GoX size={18} />
+                      </button>
+                    </div>
                   ) : (
                     <span
                       className="dashboard-score-display"
@@ -213,7 +243,6 @@ function Dashboard() {
                         setEditingId(entry.id);
                         setTempScore(entry.score?.toString() || "");
                       }}
-                      style={{ cursor: "pointer" }}
                     >
                       {getScoreDisplay(entry, scoreFormat)}
                     </span>
