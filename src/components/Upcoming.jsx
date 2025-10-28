@@ -16,12 +16,15 @@ function UpcomingNextSeason() {
 
   return (
     <>
-      <button className="discover-btn2">
-        Upcoming Next Season
-        <div className="arrow-wrapper">
-          <div className="arrow"></div>
-        </div>
-      </button>
+      <div className="button-row">
+        <button>Upcoming Next Season</button>
+        <button className="view-all">
+          view all
+          <div className="arrow-wrapper">
+            <div className="arrow"></div>
+          </div>
+        </button>
+      </div>
       <div className="anime-grid">
         {upcoming_seasonal_anime.map((anime) => (
           <AnimeCard anime={anime} key={anime.id} />

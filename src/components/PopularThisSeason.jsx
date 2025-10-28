@@ -15,12 +15,15 @@ function PopularThisSeason() {
 
   return (
     <>
-      <button className="discover-btn2">
-        Popular This Season
-        <div className="arrow-wrapper">
-          <div className="arrow"></div>
-        </div>
-      </button>
+      <div className="button-row">
+        <button>Popular This Season</button>
+        <button className="view-all">
+          view all
+          <div className="arrow-wrapper">
+            <div className="arrow"></div>
+          </div>
+        </button>
+      </div>
       <div className="anime-grid">
         {popular_seasonal_anime.map((anime) => (
           <AnimeCard anime={anime} key={anime.id} />

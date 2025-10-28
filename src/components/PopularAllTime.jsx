@@ -17,12 +17,15 @@ function PopularAllTime() {
 
   return (
     <>
-      <button className="discover-btn2">
-        All Time Popular
-        <div className="arrow-wrapper">
-          <div className="arrow"></div>
-        </div>
-      </button>
+      <div className="button-row">
+        <button>All Time Popular</button>
+        <button className="view-all">
+          view all
+          <div className="arrow-wrapper">
+            <div className="arrow"></div>
+          </div>
+        </button>
+      </div>
       <div className="anime-grid">
         {popularAnime.map((anime) => (
           <AnimeCard anime={anime} key={anime.id} />

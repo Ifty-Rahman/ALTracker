@@ -24,12 +24,15 @@ function TrendingAnime() {
 
   return (
     <>
-      <button>
-        Trending Now
-        <div className="arrow-wrapper">
-          <div className="arrow"></div>
-        </div>
-      </button>
+      <div className="button-row">
+        <button>Trending Now</button>
+        <button className="view-all">
+          view all
+          <div className="arrow-wrapper">
+            <div className="arrow"></div>
+          </div>
+        </button>
+      </div>
       <div className="anime-grid">
         {trendingAnime.map((anime) => (
           <AnimeCard anime={anime} key={anime.id} />

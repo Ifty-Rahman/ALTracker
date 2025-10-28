@@ -19,9 +19,20 @@
     }
 }
 
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.view-all {
+    font-size: 1rem;
+    font-weight: 50;
+}
+
 button {
     --primary-color: transparent;
-    --secondary-color: #fff;
+    --secondary-color: darkgrey;
     --hover-color: #6e35ff;
     --arrow-width: 10px;
     --arrow-stroke: 2px;
@@ -37,7 +48,9 @@ button {
     gap: 0.6em;
     font-size: 1.3rem;
     font-weight: bold;
+    margin-left: 10px 0;
 }
+
 button .arrow-wrapper {
     display: flex;
     justify-content: center;
