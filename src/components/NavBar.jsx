@@ -39,7 +39,7 @@ function NavBar() {
           Discover
         </Link>
         <Link to="/Userlist" className="nav-link">
-          List
+          Lists
         </Link>
         <Link to={isLoggedIn ? "/profile" : "/login"} className="nav-link">
           {isLoggedIn ? "Profile" : "Login"}
