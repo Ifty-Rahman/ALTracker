@@ -4,14 +4,15 @@ import { GET_POPULAR_SEASONAL_ANIME } from "../services/queries";
 import AnimeCard from "./AnimeCard";
 
 function PopularThisSeason() {
-  const { error, data } = useQuery(GET_POPULAR_SEASONAL_ANIME);
+  const { loading, error, data } = useQuery(GET_POPULAR_SEASONAL_ANIME);
   const [popular_seasonal_anime, setPopularSeasonalAnime] = useState([]);
   useEffect(() => {
     if (data) {
       setPopularSeasonalAnime(data.Page.media);
     }
   }, [data]);
-  if (error) return <p>Error :(</p>;
+  if (error) return <p className="error-msg">Error: {error.message}</p>;
+  if (loading) return;
 
   return (
     <>

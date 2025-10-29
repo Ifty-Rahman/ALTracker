@@ -4,7 +4,7 @@ import { GET_UPCOMING_SEASONAL_ANIME } from "../services/queries";
 import AnimeCard from "./AnimeCard";
 
 function UpcomingNextSeason() {
-  const { error, data } = useQuery(GET_UPCOMING_SEASONAL_ANIME);
+  const { loading, error, data } = useQuery(GET_UPCOMING_SEASONAL_ANIME);
   const [upcoming_seasonal_anime, setUpcomingAnime] = useState([]);
 
   useEffect(() => {
@@ -12,7 +12,8 @@ function UpcomingNextSeason() {
       setUpcomingAnime(data.Page.media);
     }
   }, [data]);
-  if (error) return <p>Error :(</p>;
+  if (error) return <p className="error-msg">Error: {error.message}</p>;
+  if (loading) return;
 
   return (
     <>

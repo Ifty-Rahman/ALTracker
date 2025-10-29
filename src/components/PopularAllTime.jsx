@@ -4,7 +4,7 @@ import { GET_POPULAR_ANIME } from "../services/queries";
 import AnimeCard from "./AnimeCard";
 
 function PopularAllTime() {
-  const { error, data } = useQuery(GET_POPULAR_ANIME);
+  const { loading, error, data } = useQuery(GET_POPULAR_ANIME);
   const [popularAnime, setPopularAnime] = useState([]);
 
   useEffect(() => {
@@ -13,7 +13,8 @@ function PopularAllTime() {
     }
   }, [data]);
 
-  if (error) return <p>Error :(</p>;
+  if (error) return <p className="error-msg">Error: {error.message}</p>;
+  if (loading) return;
 
   return (
     <>

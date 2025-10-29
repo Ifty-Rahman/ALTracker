@@ -12,6 +12,13 @@
     width: 100vw;
 }
 
+.error-msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
 .Toastify__toast {
     background-color: rgba(27, 27, 30, 0.95);
 }

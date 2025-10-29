@@ -20,7 +20,7 @@ function TrendingAnime() {
         <TrophySpin color="#6e35ff" size="large" />
       </div>
     );
-  if (error) return <p>Error :(</p>;
+  if (error) return <p className="error-msg">Error: {error.message}</p>;
 
   return (
     <>

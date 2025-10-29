@@ -41,7 +41,6 @@ function UserList() {
                     backgroundImage: `url(${media.coverImage.large})`,
                   }}
                 >
-                  <div className="anime-card-image-overlay" />
                   <h3 className="anime-card-title">
                     {media.title.english || media.title.romaji}
                   </h3>

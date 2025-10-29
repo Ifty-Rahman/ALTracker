@@ -5,11 +5,11 @@
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
+    gap: 30px;
 }
 
 .dashboard-card {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     overflow: hidden;
     transition:
@@ -27,18 +27,6 @@
     display: flex;
     align-items: flex-end;
     position: relative;
-    padding: 0;
-}
-
-.dashboard-card-image-overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 60%;
-    width: 100%;
-    pointer-events: none;
-    z-index: 1;
 }
 
 .dashboard-anime-title {
@@ -50,20 +38,16 @@
     margin: 0;
     padding: 10px 12px;
     font-size: 1rem;
-    color: darkgrey;
-    font-weight: 600;
-    background: rgba(0, 0, 0, 0.6);
+    color: lightgrey;
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.8);
     z-index: 2;
     box-sizing: border-box;
-    border-radius: 0 0 10px 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     overflow: hidden;
 }
 
 .dashboard-card:hover {
     transform: scale(1.03);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
 }
 
 .dashboard-progress-section {
@@ -203,6 +187,17 @@
 @media (max-width: 400px) {
     .dashboard-card-image {
         height: 360px;
+    }
+    .dashboard-container {
+        margin: 10px 30px;
+    }
+    .dashboard-card:hover {
+        transform: none;
+    }
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 30px;
     }
 }
 
