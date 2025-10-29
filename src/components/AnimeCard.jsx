@@ -1,17 +1,31 @@
+import { useState } from "react";
+import Popup from "./Popup";
 import "../css/AnimeCard.css";
 
 function AnimeCard({ anime }) {
-  return (
-    <div className="anime-card">
-      <img
-        src={anime.coverImage.large}
-        alt={anime.title.english}
-        className="anime-image"
-      />
-      <div className="anime-image-overlay" />
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const title = anime.title.english || anime.title.romaji || "Untitled";
 
-      <h3 className="anime-title">
-        {anime.title.english || anime.title.romaji}
+  const handleTitleClick = (event) => {
+    event.stopPropagation();
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => setIsPopupOpen(false);
+
+  return (
+    <div className="anime-card" onMouseLeave={closePopup}>
+      <img src={anime.coverImage.large} alt={title} />
+
+      <Popup isOpen={isPopupOpen} onClose={closePopup}>
+        <p>{title}</p>
+      </Popup>
+
+      <h3
+        onClick={handleTitleClick}
+        aria-label={`Show full title for ${title}`}
+      >
+        {title}
       </h3>
     </div>
   );
