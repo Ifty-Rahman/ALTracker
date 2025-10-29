@@ -1,0 +1,95 @@
+.status-dropdown-container {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+}
+
+.status-dropdown-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+    padding: 0;
+}
+
+.anime-card:hover .status-dropdown-container {
+    opacity: 1;
+}
+
+.anime-card:hover .status-dropdown-button {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.status-dropdown-button:hover {
+    background-color: rgba(110, 53, 255, 0.8);
+}
+
+.status-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background-color: rgba(27, 27, 30, 0.95);
+    backdrop-filter: blur(12px);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    min-width: 160px;
+    overflow: hidden;
+    animation: dropdownFadeIn 0.15s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.status-dropdown-item {
+    padding: 12px 16px;
+    color: #e5e5e5;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.status-dropdown-item:hover {
+    background-color: rgba(110, 53, 255, 0.2);
+}
+
+.status-dropdown-item.selected {
+    background-color: rgba(110, 53, 255, 0.3);
+    color: #6e35ff;
+    font-weight: 600;
+}
+
+.status-checkmark {
+    margin-left: 8px;
+    font-size: 1rem;
+    color: #6e35ff;
+}
+
+/* Ensure dropdown stays visible when open */
+.status-dropdown-container:has(.status-dropdown-menu) {
+    opacity: 1;
+}
