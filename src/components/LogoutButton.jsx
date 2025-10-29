@@ -6,7 +6,7 @@ function LogOut() {
 
   function handleLogout() {
     localStorage.removeItem("anilist_token");
-    window.dispatchEvent(new Event("authChange")); // 🔔 notify listeners
+    window.dispatchEvent(new Event("authChange"));
     navigate("/");
   }
 
