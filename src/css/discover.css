@@ -32,7 +32,7 @@
 
 button {
     --primary-color: transparent;
-    --secondary-color: darkgrey;
+    --secondary-color: lightgrey;
     --hover-color: #6e35ff;
     --arrow-width: 10px;
     --arrow-stroke: 2px;
