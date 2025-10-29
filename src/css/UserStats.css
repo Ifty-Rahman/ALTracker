@@ -8,7 +8,7 @@
 
 .overview-title {
     text-align: center;
-    color: #a1a1aa;
+    color: #fff;
     font-size: 1.5rem;
     font-weight: 600;
 }
@@ -60,7 +60,7 @@
 .genre-title {
     text-align: center;
     margin-top: 2rem;
-    color: #a1a1aa;
+    color: #fff;
     font-size: 1.5rem;
     font-weight: 600;
 }
@@ -87,7 +87,8 @@
 }
 
 .top-genres h3 {
-    color: #a1a1a6;
+    color: #fff;
+    font-size: 1.7rem;
     font-weight: 600;
     margin-bottom: 15px;
 }

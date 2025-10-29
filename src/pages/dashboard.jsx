@@ -170,7 +170,6 @@ function Dashboard() {
                   backgroundImage: `url(${entry.media.coverImage.large})`,
                 }}
               >
-                <div className="dashboard-card-image-overlay" />
                 <h3 className="dashboard-anime-title">
                   {entry.media.title.english || entry.media.title.romaji}
                 </h3>

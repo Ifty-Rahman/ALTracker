@@ -51,8 +51,8 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <>
-      <DarkVeil />
       <main className="app">
+        <DarkVeil />
         <ApolloProvider client={client}>
           <NavBar />
           <Routes>
@@ -63,8 +63,9 @@ export default function App() {
             <Route path="/Dashboard" element={<Dashboard />} />
           </Routes>
         </ApolloProvider>
+        <Footer />
       </main>
-      <Footer />
+
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

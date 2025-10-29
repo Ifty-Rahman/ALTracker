@@ -72,3 +72,12 @@
 .anime-title-popup-content p {
     padding: 10px;
 }
+
+/* Ensure dropdown button shows on hover */
+.anime-card:hover .status-dropdown-container {
+    display: block;
+}
+
+.status-dropdown-container {
+    display: block;
+}
