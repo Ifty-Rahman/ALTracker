@@ -9,6 +9,7 @@ function UserStats({ stats }) {
   const topMangaGenres = [...mangaGenres]
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
+
   return (
     <div className="user-stats-container">
       <h2 className="overview-title">Overview</h2>
@@ -17,18 +18,18 @@ function UserStats({ stats }) {
         <div className="stats-section left">
           <p className="section-title">Anime</p>
           <div className="stat-item">
-            <p className="stat-label">Total Entries</p>
-            <p className="stat-value">{stats?.anime.count}</p>
+            <span className="stat-label">Total Entries</span>
+            <span className="stat-value">{stats?.anime.count}</span>
           </div>
           <div className="stat-item">
-            <p className="stat-label">Time Watched</p>
-            <p className="stat-value">
+            <span className="stat-label">Time Watched</span>
+            <span className="stat-value">
               {(stats?.anime.minutesWatched / 60).toFixed()} hr
-            </p>
+            </span>
           </div>
           <div className="stat-item">
-            <p className="stat-label">Mean Score</p>
-            <p className="stat-value">{stats?.anime.meanScore}</p>
+            <span className="stat-label">Mean Score</span>
+            <span className="stat-value">{stats?.anime.meanScore}</span>
           </div>
         </div>
 
@@ -37,29 +38,30 @@ function UserStats({ stats }) {
         <div className="stats-section right">
           <p className="section-title">Manga</p>
           <div className="stat-item">
-            <p className="stat-label">Total Entries</p>
-            <p className="stat-value">{stats?.manga.count}</p>
+            <span className="stat-label">Total Entries</span>
+            <span className="stat-value">{stats?.manga.count}</span>
           </div>
           <div className="stat-item">
-            <p className="stat-label">Chapters Read</p>
-            <p className="stat-value">{stats?.manga.chaptersRead}</p>
+            <span className="stat-label">Chapters Read</span>
+            <span className="stat-value">{stats?.manga.chaptersRead}</span>
           </div>
           <div className="stat-item">
-            <p className="stat-label">Mean Score</p>
-            <p className="stat-value">{stats?.manga.meanScore}</p>
+            <span className="stat-label">Mean Score</span>
+            <span className="stat-value">{stats?.manga.meanScore}</span>
           </div>
         </div>
       </div>
+
       <h2 className="genre-title">Top Genres</h2>
 
       <div className="genres-box">
         <div className="top-genres">
           <h3>Anime</h3>
           {topAnimeGenres.map((g) => (
-            <p key={g.genre}>
+            <div key={g.genre} className="genre-row">
               <div className="genre-name">{g.genre}</div>
               <div className="genre-count">{g.count}</div>
-            </p>
+            </div>
           ))}
         </div>
 
@@ -68,10 +70,10 @@ function UserStats({ stats }) {
         <div className="top-genres">
           <h3>Manga</h3>
           {topMangaGenres.map((g) => (
-            <p key={g.genre}>
+            <div key={g.genre} className="genre-row">
               <div className="genre-name">{g.genre}</div>
               <div className="genre-count">{g.count}</div>
-            </p>
+            </div>
           ))}
         </div>
       </div>

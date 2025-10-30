@@ -6,6 +6,19 @@
     flex: 1;
 }
 
+.Not-Logged-In {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Not-Logged-In p {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: auto;
+}
+
 .loading-indicator {
     display: flex;
     justify-content: center;

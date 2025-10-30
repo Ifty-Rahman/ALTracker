@@ -17,11 +17,30 @@ function Dashboard() {
         localStorage.setItem("anilist_token", token);
         window.dispatchEvent(new Event("authChange"));
         window.history.replaceState(null, null, window.location.pathname);
+        window.location.reload();
       }
     }
   }, []);
 
-  const { data: viewerData } = useQuery(GET_CURRENT_USER);
+  const [authToken, setAuthToken] = useState(
+    localStorage.getItem("anilist_token"),
+  );
+
+  useEffect(() => {
+    const handleAuthChange = () => {
+      setAuthToken(localStorage.getItem("anilist_token"));
+    };
+
+    window.addEventListener("authChange", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("authChange", handleAuthChange);
+    };
+  }, []);
+
+  const { data: viewerData } = useQuery(GET_CURRENT_USER, {
+    skip: !authToken,
+  });
   const username = viewerData?.Viewer?.name;
 
   const [editingId, setEditingId] = useState(null);
@@ -29,7 +48,7 @@ function Dashboard() {
 
   const { loading, error, data } = useQuery(GET_CURRENTLY_WATCHING, {
     variables: { userName: username },
-    skip: !username,
+    skip: !authToken || !username,
   });
 
   function getScoreDisplay(entry, scoreFormat) {
@@ -144,6 +163,7 @@ function Dashboard() {
             __typename: "MediaList",
             id: entry.id,
             progress: newProgress,
+            score: entry.score,
             status: entry.status,
             updatedAt: Date.now(),
           },
@@ -159,112 +179,120 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-grid">
-        {entries.map((entry) => {
-          return (
-            <div key={entry.id} className="dashboard-card">
-              <div
-                className="dashboard-card-image"
-                style={{
-                  backgroundImage: `url(${entry.media.coverImage.large})`,
-                }}
-              >
-                <h3 className="dashboard-anime-title">
-                  {entry.media.title.english || entry.media.title.romaji}
-                </h3>
-              </div>
+    <div>
+      {authToken ? (
+        <div className="dashboard-container">
+          <div className="dashboard-grid">
+            {entries.map((entry) => {
+              return (
+                <div key={entry.id} className="dashboard-card">
+                  <div
+                    className="dashboard-card-image"
+                    style={{
+                      backgroundImage: `url(${entry.media.coverImage.large})`,
+                    }}
+                  >
+                    <h3 className="dashboard-anime-title">
+                      {entry.media.title.english || entry.media.title.romaji}
+                    </h3>
+                  </div>
 
-              <div className="dashboard-card-content">
-                <div className="dashboard-progress-section">
-                  <div className="dashboard-progress-controls">
-                    <button
-                      className="dashboard-button"
-                      disabled={entry.progress <= 0}
-                      onClick={() => handleProgressChange(entry, -1)}
-                    >
-                      −
-                    </button>
-                    <span className="dashboard-progress-text">
-                      {entry.progress} / {entry.media.episodes || "?"}
-                    </span>
-                    <button
-                      className="dashboard-button"
-                      onClick={() => handleProgressChange(entry, 1)}
-                      disabled={
-                        entry.media.episodes &&
-                        entry.progress >= entry.media.episodes
-                      }
-                    >
-                      +
-                    </button>
+                  <div className="dashboard-card-content">
+                    <div className="dashboard-progress-section">
+                      <div className="dashboard-progress-controls">
+                        <button
+                          className="dashboard-button"
+                          disabled={entry.progress <= 0}
+                          onClick={() => handleProgressChange(entry, -1)}
+                        >
+                          −
+                        </button>
+                        <span className="dashboard-progress-text">
+                          {entry.progress} / {entry.media.episodes || "?"}
+                        </span>
+                        <button
+                          className="dashboard-button"
+                          onClick={() => handleProgressChange(entry, 1)}
+                          disabled={
+                            entry.media.episodes &&
+                            entry.progress >= entry.media.episodes
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="dashboard-score-section">
+                      <span className="dashboard-score-text">Score:</span>
+                      {editingId === entry.id ? (
+                        <div className="dashboard-score-edit-container">
+                          <input
+                            type="text"
+                            className="dashboard-score-input"
+                            defaultValue={entry.score || ""}
+                            onChange={(e) => setTempScore(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                handleScoreUpdate(
+                                  entry,
+                                  tempScore,
+                                  scoreFormat,
+                                  updateAnimeEntry,
+                                );
+                                setEditingId(null);
+                              } else if (e.key === "Escape") {
+                                setEditingId(null);
+                              }
+                            }}
+                            autoFocus
+                          />
+
+                          <button
+                            className="dashboard-score-save-btn"
+                            onClick={() => {
+                              handleScoreUpdate(
+                                entry,
+                                tempScore,
+                                scoreFormat,
+                                updateAnimeEntry,
+                              );
+                              setEditingId(null);
+                            }}
+                          >
+                            <GoCheck size={18} />
+                          </button>
+
+                          <button
+                            className="dashboard-score-close-btn"
+                            onClick={() => setEditingId(null)}
+                          >
+                            <GoX size={18} />
+                          </button>
+                        </div>
+                      ) : (
+                        <span
+                          className="dashboard-score-display"
+                          onClick={() => {
+                            setEditingId(entry.id);
+                            setTempScore(entry.score?.toString() || "");
+                          }}
+                        >
+                          {getScoreDisplay(entry, scoreFormat)}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-
-                <div className="dashboard-score-section">
-                  <span className="dashboard-score-text">Score:</span>
-                  {editingId === entry.id ? (
-                    <div className="dashboard-score-edit-container">
-                      <input
-                        type="text"
-                        className="dashboard-score-input"
-                        defaultValue={entry.score || ""}
-                        onChange={(e) => setTempScore(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            handleScoreUpdate(
-                              entry,
-                              tempScore,
-                              scoreFormat,
-                              updateAnimeEntry,
-                            );
-                            setEditingId(null);
-                          } else if (e.key === "Escape") {
-                            setEditingId(null);
-                          }
-                        }}
-                        autoFocus
-                      />
-
-                      <button
-                        className="dashboard-score-save-btn"
-                        onClick={() => {
-                          handleScoreUpdate(
-                            entry,
-                            tempScore,
-                            scoreFormat,
-                            updateAnimeEntry,
-                          );
-                          setEditingId(null);
-                        }}
-                      >
-                        <GoCheck size={18} />
-                      </button>
-
-                      <button
-                        className="dashboard-score-close-btn"
-                        onClick={() => setEditingId(null)}
-                      >
-                        <GoX size={18} />
-                      </button>
-                    </div>
-                  ) : (
-                    <span
-                      className="dashboard-score-display"
-                      onClick={() => {
-                        setEditingId(entry.id);
-                        setTempScore(entry.score?.toString() || "");
-                      }}
-                    >
-                      {getScoreDisplay(entry, scoreFormat)}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <div className="Not-Logged-In">
+          <p>Please log in to see dashboard</p>
+        </div>
+      )}
     </div>
   );
 }

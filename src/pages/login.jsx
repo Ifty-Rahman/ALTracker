@@ -7,7 +7,6 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h1>Login with AniList</h1>
       <a href={loginUrl} className="login-button">
         Login with AniList
       </a>

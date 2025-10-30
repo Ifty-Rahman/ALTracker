@@ -1,11 +1,8 @@
 .login-container {
+    height: 90vh;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-}
-
-.login-container h1 {
-    color: #ffffff;
 }
 
 .login-button {
