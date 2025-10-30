@@ -40,6 +40,25 @@
     color: #6e35ff;
 }
 
+.nav-avatar {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.nav-avatar img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.nav-avatar:hover img {
+    border-color: darkgray;
+}
+
 @media (max-width: 768px) {
     .navbar {
         padding: 12px 15px;

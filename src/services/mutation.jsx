@@ -13,6 +13,16 @@ export const UPDATE_ANIME_ENTRY = gql`
   }
 `;
 
+export const UPDATE_ANIME_STATUS = gql`
+  mutation UpdateMediaListStatus($mediaId: Int, $status: MediaListStatus) {
+    SaveMediaListEntry(mediaId: $mediaId, status: $status) {
+      id
+      status
+      updatedAt
+    }
+  }
+`;
+
 export const SAVE_ANIME_TO_LIST = gql`
   mutation SaveAnimeToList($mediaId: Int, $status: MediaListStatus) {
     SaveMediaListEntry(mediaId: $mediaId, status: $status) {

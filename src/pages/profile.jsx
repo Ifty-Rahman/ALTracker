@@ -4,7 +4,6 @@ import LogOut from "../components/LogoutButton";
 import ProfileMedia from "../components/ProfileMedia";
 import UserStats from "../components/UserStats";
 import { GET_CURRENT_USER, GET_USER_STATISTICS } from "../services/queries";
-
 import { useQuery } from "@apollo/client/react";
 import { useMemo } from "react";
 import { TrophySpin } from "react-loading-indicators";

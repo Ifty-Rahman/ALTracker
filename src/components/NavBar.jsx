@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useQuery } from "@apollo/client/react";
+import { GET_CURRENT_USER } from "../services/queries";
 import "../css/Navbar.css";
 
 function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data } = useQuery(GET_CURRENT_USER, {
+    skip: !isLoggedIn,
+    fetchPolicy: "cache-first",
+  });
 
   useEffect(() => {
     const checkAuth = () => {
@@ -40,9 +46,24 @@ function NavBar() {
         <Link to="/Userlist" className="nav-link">
           Lists
         </Link>
-        <Link to={isLoggedIn ? "/profile" : "/login"} className="nav-link">
-          {isLoggedIn ? "Profile" : "Login"}
-        </Link>
+      </div>
+      <div className="nav-profile">
+        {isLoggedIn ? (
+          <Link to="/profile" className="nav-avatar">
+            {data?.Viewer?.avatar?.large ? (
+              <img
+                src={data.Viewer.avatar.large}
+                alt={data.Viewer.name ?? "Profile"}
+              />
+            ) : (
+              "Profile"
+            )}
+          </Link>
+        ) : (
+          <Link to="/login" className="nav-link">
+            Login
+          </Link>
+        )}
       </div>
     </nav>
   );

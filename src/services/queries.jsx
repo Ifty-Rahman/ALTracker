@@ -146,6 +146,12 @@ export const GET_USER_ANIME_LIST = gql`
         }
       }
     }
+    User(name: $userName) {
+      id
+      mediaListOptions {
+        scoreFormat
+      }
+    }
   }
 `;
 
@@ -210,6 +216,15 @@ export const GET_CURRENTLY_WATCHING = gql`
       mediaListOptions {
         scoreFormat
       }
+    }
+  }
+`;
+
+export const GET_USER_MEDIA_STATUS = gql`
+  query GetUserMediaStatus($userId: Int, $mediaId: Int) {
+    MediaList(userId: $userId, mediaId: $mediaId) {
+      id
+      status
     }
   }
 `;
