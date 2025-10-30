@@ -1,5 +1,5 @@
 .dashboard-container {
-    margin: 20px;
+    margin: 0 20px 20px 20px;
 }
 
 .dashboard-grid {
@@ -50,8 +50,50 @@
     transform: scale(1.03);
 }
 
+.dashboard-toggle {
+    display: flex;
+    width: auto;
+    justify-content: center;
+    z-index: 10;
+    margin-bottom: 20px;
+}
+
+.toggle-group .MuiToggleButton-root {
+    color: #b0b0b0 !important; /* Unselected text */
+    background-color: rgba(60, 57, 57, 0.2) !important;
+    border: none !important;
+    font-weight: 500;
+    text-transform: none;
+    padding: 6px 16px;
+    transition: all 0.2s ease;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.toggle-group .MuiToggleButton-root.Mui-selected {
+    color: white !important;
+    background-color: #6e35ff !important;
+    font-weight: 600;
+}
+
+.toggle-group .MuiToggleButton-root:hover {
+    background-color: rgba(60, 57, 57, 0.7) !important;
+}
+
+.toggle-group .MuiToggleButton-root.Mui-selected:hover {
+    background-color: #5a1ee6 !important;
+}
+
 .dashboard-progress-section {
     margin-top: 15px;
+}
+
+.dashboard-progress-label {
+    text-align: center;
+    color: #9eaec9;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 8px;
 }
 
 .dashboard-progress-controls {

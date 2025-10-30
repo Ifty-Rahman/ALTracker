@@ -89,6 +89,7 @@
     justify-content: space-between;
     color: lightgrey;
     padding: 0 20px;
+    font-weight: 500;
 }
 
 .anime-card-list:hover {
