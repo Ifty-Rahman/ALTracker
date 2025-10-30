@@ -38,7 +38,7 @@
 
 .anime-grid-list > * {
     flex: 0 0 auto;
-    width: 240px;
+    width: 200px;
 }
 
 .anime-card-list {
@@ -85,8 +85,10 @@
 }
 
 .anime-info-list {
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
     color: lightgrey;
+    padding: 0 20px;
 }
 
 .anime-card-list:hover {

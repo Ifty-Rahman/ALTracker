@@ -81,3 +81,12 @@
 .status-dropdown-container {
     display: block;
 }
+
+@media (max-width: 480px) {
+    .anime-card:hover {
+        transform: scale(1);
+    }
+    .anime-card h3 {
+        font-size: 0.7rem;
+    }
+}

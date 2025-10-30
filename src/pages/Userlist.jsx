@@ -68,8 +68,8 @@ function UserList() {
                       </h3>
                     </div>
                     <div className="anime-info-list">
-                      <p>Episodes: {media.episodes}</p>
-                      <p>Score: {score}</p>
+                      <p>{media.episodes}</p>
+                      <p>{score}</p>
                     </div>
                   </div>
                 ))}

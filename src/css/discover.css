@@ -1,3 +1,7 @@
+.discover {
+    margin-bottom: 10px;
+}
+
 .anime-grid {
     display: flex;
     gap: 20px;

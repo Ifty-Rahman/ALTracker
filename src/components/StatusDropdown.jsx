@@ -52,7 +52,7 @@ function StatusDropdown({ onStatusSelect, currentStatus = null }) {
         onClick={toggleDropdown}
         aria-label="Status menu"
       >
-        <BsThreeDots size={15} />
+        <BsThreeDots size={25} />
       </button>
 
       {isOpen && (
