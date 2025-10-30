@@ -220,6 +220,42 @@ export const GET_CURRENTLY_WATCHING = gql`
   }
 `;
 
+// Query to get the currently reading manga for a user
+export const GET_CURRENTLY_READING = gql`
+  query GetCurrentlyReading($userName: String) {
+    MediaListCollection(userName: $userName, type: MANGA, status: CURRENT) {
+      lists {
+        entries {
+          id
+          mediaId
+          status
+          score
+          progress
+          progressVolumes
+          media {
+            id
+            title {
+              english
+              romaji
+            }
+            coverImage {
+              large
+            }
+            chapters
+            volumes
+          }
+        }
+      }
+    }
+    User(name: $userName) {
+      id
+      mediaListOptions {
+        scoreFormat
+      }
+    }
+  }
+`;
+
 export const GET_USER_MEDIA_STATUS = gql`
   query GetUserMediaStatus($userId: Int, $mediaId: Int) {
     MediaList(userId: $userId, mediaId: $mediaId) {
