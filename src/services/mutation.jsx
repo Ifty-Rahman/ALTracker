@@ -13,6 +13,30 @@ export const UPDATE_ANIME_ENTRY = gql`
   }
 `;
 
+// Mutation to update manga progress, volumes, and score
+export const UPDATE_MANGA_ENTRY = gql`
+  mutation UpdateMangaEntry(
+    $mediaId: Int
+    $progress: Int
+    $progressVolumes: Int
+    $score: Float
+  ) {
+    SaveMediaListEntry(
+      mediaId: $mediaId
+      progress: $progress
+      progressVolumes: $progressVolumes
+      score: $score
+    ) {
+      id
+      progress
+      progressVolumes
+      score
+      status
+      updatedAt
+    }
+  }
+`;
+
 export const UPDATE_ANIME_STATUS = gql`
   mutation UpdateMediaListStatus($mediaId: Int, $status: MediaListStatus) {
     SaveMediaListEntry(mediaId: $mediaId, status: $status) {
