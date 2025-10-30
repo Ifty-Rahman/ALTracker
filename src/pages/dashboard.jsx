@@ -1,13 +1,20 @@
 import { useQuery, useMutation } from "@apollo/client/react";
 import "../css/dashboard.css";
-import { GET_CURRENTLY_WATCHING, GET_CURRENT_USER } from "../services/queries";
-import { UPDATE_ANIME_ENTRY } from "../services/mutation";
+import {
+  GET_CURRENTLY_WATCHING,
+  GET_CURRENTLY_READING,
+  GET_CURRENT_USER,
+} from "../services/queries";
+import { UPDATE_ANIME_ENTRY, UPDATE_MANGA_ENTRY } from "../services/mutation";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { GoCheck, GoX } from "react-icons/go";
 import { TrophySpin } from "react-loading-indicators";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 function Dashboard() {
+  const [mediaType, setMediaType] = useState("ANIME"); // ANIME or MANGA
+
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
@@ -46,10 +53,29 @@ function Dashboard() {
   const [editingId, setEditingId] = useState(null);
   const [tempScore, setTempScore] = useState("");
 
-  const { loading, error, data } = useQuery(GET_CURRENTLY_WATCHING, {
+  // Fetch anime data
+  const {
+    loading: animeLoading,
+    error: animeError,
+    data: animeData,
+  } = useQuery(GET_CURRENTLY_WATCHING, {
     variables: { userName: username },
-    skip: !authToken || !username,
+    skip: !authToken || !username || mediaType !== "ANIME",
   });
+
+  // Fetch manga data
+  const {
+    loading: mangaLoading,
+    error: mangaError,
+    data: mangaData,
+  } = useQuery(GET_CURRENTLY_READING, {
+    variables: { userName: username },
+    skip: !authToken || !username || mediaType !== "MANGA",
+  });
+
+  const loading = mediaType === "ANIME" ? animeLoading : mangaLoading;
+  const error = mediaType === "ANIME" ? animeError : mangaError;
+  const data = mediaType === "ANIME" ? animeData : mangaData;
 
   function getScoreDisplay(entry, scoreFormat) {
     const score = entry?.score ?? 0;
@@ -88,12 +114,7 @@ function Dashboard() {
     }
   }
 
-  async function handleScoreUpdate(
-    entry,
-    newScore,
-    scoreFormat,
-    updateAnimeEntry,
-  ) {
+  async function handleScoreUpdate(entry, newScore, scoreFormat, updateEntry) {
     const value = newScore.trim();
     if (!validateScore(value, scoreFormat)) {
       toast.error("Enter a valid score for your format!");
@@ -101,7 +122,7 @@ function Dashboard() {
     }
 
     try {
-      await updateAnimeEntry({
+      await updateEntry({
         variables: {
           mediaId: entry.media.id,
           score: parseFloat(value),
@@ -112,6 +133,7 @@ function Dashboard() {
             id: entry.id,
             score: parseFloat(value),
             progress: entry.progress,
+            progressVolumes: entry.progressVolumes,
             status: entry.status,
             updatedAt: Date.now(),
           },
@@ -138,6 +160,21 @@ function Dashboard() {
     },
   });
 
+  const [updateMangaEntry] = useMutation(UPDATE_MANGA_ENTRY, {
+    update(cache, { data: { SaveMediaListEntry } }) {
+      cache.modify({
+        id: cache.identify({
+          __typename: "MediaList",
+          id: SaveMediaListEntry.id,
+        }),
+        fields: {
+          progress: () => SaveMediaListEntry.progress,
+          progressVolumes: () => SaveMediaListEntry.progressVolumes,
+        },
+      });
+    },
+  });
+
   if (loading)
     return (
       <div className="loading-indicator">
@@ -150,30 +187,92 @@ function Dashboard() {
   const entries = data?.MediaListCollection?.lists?.[0]?.entries || [];
   const scoreFormat = data?.User?.mediaListOptions?.scoreFormat;
 
-  const handleProgressChange = async (entry, delta) => {
-    const newProgress = entry.progress + delta;
-    if (newProgress < 0 || newProgress > (entry.media.episodes || Infinity))
-      return;
+  const handleProgressChange = async (entry, delta, isVolume = false) => {
+    const updateEntry =
+      mediaType === "ANIME" ? updateAnimeEntry : updateMangaEntry;
 
-    try {
-      await updateAnimeEntry({
-        variables: { mediaId: entry.media.id, progress: newProgress },
-        optimisticResponse: {
-          SaveMediaListEntry: {
-            __typename: "MediaList",
-            id: entry.id,
-            progress: newProgress,
-            score: entry.score,
-            status: entry.status,
-            updatedAt: Date.now(),
+    if (mediaType === "ANIME") {
+      const newProgress = entry.progress + delta;
+      if (newProgress < 0 || newProgress > (entry.media.episodes || Infinity))
+        return;
+
+      try {
+        await updateEntry({
+          variables: { mediaId: entry.media.id, progress: newProgress },
+          optimisticResponse: {
+            SaveMediaListEntry: {
+              __typename: "MediaList",
+              id: entry.id,
+              progress: newProgress,
+              score: entry.score,
+              status: entry.status,
+              updatedAt: Date.now(),
+            },
           },
-        },
-      });
-    } catch (err) {
-      if (err.message.includes("429")) {
-        toast.error("API limit reached. Please try again 1 minute later.");
+        });
+      } catch (err) {
+        if (err.message.includes("429")) {
+          toast.error("API limit reached. Please try again 1 minute later.");
+        } else {
+          toast.error("Failed to update progress.");
+        }
+      }
+    } else {
+      // MANGA
+      if (isVolume) {
+        const newVolumes = (entry.progressVolumes || 0) + delta;
+        if (newVolumes < 0 || newVolumes > (entry.media.volumes || Infinity))
+          return;
+
+        try {
+          await updateEntry({
+            variables: { mediaId: entry.media.id, progressVolumes: newVolumes },
+            optimisticResponse: {
+              SaveMediaListEntry: {
+                __typename: "MediaList",
+                id: entry.id,
+                progress: entry.progress,
+                progressVolumes: newVolumes,
+                score: entry.score,
+                status: entry.status,
+                updatedAt: Date.now(),
+              },
+            },
+          });
+        } catch (err) {
+          if (err.message.includes("429")) {
+            toast.error("API limit reached. Please try again 1 minute later.");
+          } else {
+            toast.error("Failed to update volumes.");
+          }
+        }
       } else {
-        toast.error("Failed to update progress.");
+        const newProgress = entry.progress + delta;
+        if (newProgress < 0 || newProgress > (entry.media.chapters || Infinity))
+          return;
+
+        try {
+          await updateEntry({
+            variables: { mediaId: entry.media.id, progress: newProgress },
+            optimisticResponse: {
+              SaveMediaListEntry: {
+                __typename: "MediaList",
+                id: entry.id,
+                progress: newProgress,
+                progressVolumes: entry.progressVolumes,
+                score: entry.score,
+                status: entry.status,
+                updatedAt: Date.now(),
+              },
+            },
+          });
+        } catch (err) {
+          if (err.message.includes("429")) {
+            toast.error("API limit reached. Please try again 1 minute later.");
+          } else {
+            toast.error("Failed to update chapters.");
+          }
+        }
       }
     }
   };
@@ -182,6 +281,33 @@ function Dashboard() {
     <div>
       {authToken ? (
         <div className="dashboard-container">
+          <div className="dashboard-toggle">
+            <ToggleButtonGroup
+              className="toggle-group"
+              value={mediaType}
+              exclusive
+              color="white"
+              onChange={(e, value) => {
+                if (value) setMediaType(value);
+              }}
+            >
+              <ToggleButton
+                className="toggle-anime"
+                value="ANIME"
+                aria-label="anime"
+              >
+                Anime
+              </ToggleButton>
+              <ToggleButton
+                className="toggle-manga"
+                value="MANGA"
+                aria-label="manga"
+              >
+                Manga
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+
           <div className="dashboard-grid">
             {entries.map((entry) => {
               return (
@@ -198,30 +324,99 @@ function Dashboard() {
                   </div>
 
                   <div className="dashboard-card-content">
-                    <div className="dashboard-progress-section">
-                      <div className="dashboard-progress-controls">
-                        <button
-                          className="dashboard-button"
-                          disabled={entry.progress <= 0}
-                          onClick={() => handleProgressChange(entry, -1)}
-                        >
-                          −
-                        </button>
-                        <span className="dashboard-progress-text">
-                          {entry.progress} / {entry.media.episodes || "?"}
-                        </span>
-                        <button
-                          className="dashboard-button"
-                          onClick={() => handleProgressChange(entry, 1)}
-                          disabled={
-                            entry.media.episodes &&
-                            entry.progress >= entry.media.episodes
-                          }
-                        >
-                          +
-                        </button>
+                    {mediaType === "ANIME" ? (
+                      <div className="dashboard-progress-section">
+                        <div className="dashboard-progress-controls">
+                          <button
+                            className="dashboard-button"
+                            disabled={entry.progress <= 0}
+                            onClick={() => handleProgressChange(entry, -1)}
+                          >
+                            −
+                          </button>
+                          <span className="dashboard-progress-text">
+                            {entry.progress} / {entry.media.episodes || "?"}
+                          </span>
+                          <button
+                            className="dashboard-button"
+                            onClick={() => handleProgressChange(entry, 1)}
+                            disabled={
+                              entry.media.episodes &&
+                              entry.progress >= entry.media.episodes
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <>
+                        <div className="dashboard-progress-section">
+                          <div className="dashboard-progress-label">
+                            Chapters
+                          </div>
+                          <div className="dashboard-progress-controls">
+                            <button
+                              className="dashboard-button"
+                              disabled={entry.progress <= 0}
+                              onClick={() =>
+                                handleProgressChange(entry, -1, false)
+                              }
+                            >
+                              −
+                            </button>
+                            <span className="dashboard-progress-text">
+                              {entry.progress} / {entry.media.chapters || "?"}
+                            </span>
+                            <button
+                              className="dashboard-button"
+                              onClick={() =>
+                                handleProgressChange(entry, 1, false)
+                              }
+                              disabled={
+                                entry.media.chapters &&
+                                entry.progress >= entry.media.chapters
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                        <div className="dashboard-progress-section">
+                          <div className="dashboard-progress-label">
+                            Volumes
+                          </div>
+                          <div className="dashboard-progress-controls">
+                            <button
+                              className="dashboard-button"
+                              disabled={(entry.progressVolumes || 0) <= 0}
+                              onClick={() =>
+                                handleProgressChange(entry, -1, true)
+                              }
+                            >
+                              −
+                            </button>
+                            <span className="dashboard-progress-text">
+                              {entry.progressVolumes || 0} /{" "}
+                              {entry.media.volumes || "?"}
+                            </span>
+                            <button
+                              className="dashboard-button"
+                              onClick={() =>
+                                handleProgressChange(entry, 1, true)
+                              }
+                              disabled={
+                                entry.media.volumes &&
+                                (entry.progressVolumes || 0) >=
+                                  entry.media.volumes
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    )}
 
                     <div className="dashboard-score-section">
                       <span className="dashboard-score-text">Score:</span>
@@ -238,7 +433,9 @@ function Dashboard() {
                                   entry,
                                   tempScore,
                                   scoreFormat,
-                                  updateAnimeEntry,
+                                  mediaType === "ANIME"
+                                    ? updateAnimeEntry
+                                    : updateMangaEntry,
                                 );
                                 setEditingId(null);
                               } else if (e.key === "Escape") {
@@ -255,7 +452,9 @@ function Dashboard() {
                                 entry,
                                 tempScore,
                                 scoreFormat,
-                                updateAnimeEntry,
+                                mediaType === "ANIME"
+                                  ? updateAnimeEntry
+                                  : updateMangaEntry,
                               );
                               setEditingId(null);
                             }}
