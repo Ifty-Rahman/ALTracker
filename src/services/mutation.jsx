@@ -12,3 +12,14 @@ export const UPDATE_ANIME_ENTRY = gql`
     }
   }
 `;
+
+export const SAVE_ANIME_TO_LIST = gql`
+  mutation SaveAnimeToList($mediaId: Int, $status: MediaListStatus) {
+    SaveMediaListEntry(mediaId: $mediaId, status: $status) {
+      id
+      mediaId
+      status
+      updatedAt
+    }
+  }
+`;
