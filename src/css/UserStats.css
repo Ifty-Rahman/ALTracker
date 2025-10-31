@@ -42,14 +42,14 @@
 
 .stat-item {
     display: flex;
-    flex-direction: column; /* stack label above value */
+    flex-direction: column;
     margin-bottom: 1.5rem;
 }
 
 .stat-label {
     color: #a1a1aa;
     font-size: 0.9rem;
-    margin-bottom: 0.3rem; /* spacing between label and value */
+    margin-bottom: 0.3rem;
 }
 
 .stat-value {

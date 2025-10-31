@@ -29,7 +29,7 @@
     margin: 0;
     padding: 10px 12px;
     font-size: 1rem;
-    color: darkgrey;
+    color: lightgray;
     font-weight: 600;
     background: rgba(0, 0, 0, 0.8);
     z-index: 2;
@@ -73,7 +73,6 @@
     padding: 10px;
 }
 
-/* Ensure dropdown button shows on hover */
 .anime-card:hover .status-dropdown-container {
     display: block;
 }
@@ -88,5 +87,14 @@
     }
     .anime-card h3 {
         font-size: 0.7rem;
+    }
+    .anime-card img {
+        height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .anime-card img {
+        height: 240px;
     }
 }
