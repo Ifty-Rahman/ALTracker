@@ -29,6 +29,13 @@
     flex: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
 }
 
@@ -96,15 +103,33 @@
 }
 
 .nav-link {
-    color: #cfd8e3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
     text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: 300;
-    transition: color 0.3s ease;
+    font-size: 1.3rem;
+    font-weight: 500;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.5s ease;
+
+    padding: 8px 18px;
 }
 
 .nav-link:hover {
     color: #6e35ff;
+    transform: scale(1.05);
+}
+
+.nav-link:active,
+.nav-link.active {
+    padding: 8px 18px;
+    background-color: rgba(110, 53, 255, 0.6);
+    color: #fff;
 }
 
 .login-button {

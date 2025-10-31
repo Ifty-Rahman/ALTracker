@@ -1,13 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client/react";
 import { GET_CURRENT_USER } from "../services/queries";
 import "../css/Navbar.css";
-import { FiLogIn } from "react-icons/fi";
 
 function NavBar() {
+  const location = useLocation();
   const clientId = 31288;
-
   const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&response_type=token`;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -56,15 +55,26 @@ function NavBar() {
         <Link to="/">AL</Link>
       </div>
       <div className="navbar-links">
-        <Link to="/Dashboard" className="nav-link">
-          Dashboard
-        </Link>
-        <Link to="/" className="nav-link">
-          Discover
-        </Link>
-        <Link to="/Userlist" className="nav-link">
-          Lists
-        </Link>
+        <div className="links">
+          <Link
+            to="/Dashboard"
+            className={`nav-link ${location.pathname === "/Dashboard" ? "active" : ""}`}
+          >
+            Dashboard
+          </Link>
+          <Link
+            to="/"
+            className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
+          >
+            Discover
+          </Link>
+          <Link
+            to="/Userlist"
+            className={`nav-link ${location.pathname === "/Userlist" ? "active" : ""}`}
+          >
+            Lists
+          </Link>
+        </div>
       </div>
       <div className="nav-profile">
         <form className="nav-search" onSubmit={handleSearchSubmit}>
