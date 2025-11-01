@@ -1,36 +1,11 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client/react";
-import { GET_CURRENT_USER } from "../services/queries";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "../css/Navbar.css";
 
 function NavBar() {
-  const location = useLocation();
-  const clientId = 31288;
-  const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&response_type=token`;
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchType, setSearchType] = useState("anime");
   const navigate = useNavigate();
-  const { data } = useQuery(GET_CURRENT_USER, {
-    skip: !isLoggedIn,
-    fetchPolicy: "cache-first",
-  });
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem("anilist_token");
-      setIsLoggedIn(!!token);
-    };
-
-    checkAuth();
-
-    window.addEventListener("authChange", checkAuth);
-
-    return () => {
-      window.removeEventListener("authChange", checkAuth);
-    };
-  }, []);
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
@@ -54,26 +29,6 @@ function NavBar() {
       <div className="navbar-brand">
         <Link to="/">AL</Link>
       </div>
-      <div className="navbar-links">
-        <Link
-          to="/Dashboard"
-          className={`nav-link ${location.pathname === "/Dashboard" ? "active" : ""}`}
-        >
-          Dashboard
-        </Link>
-        <Link
-          to="/"
-          className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
-        >
-          Discover
-        </Link>
-        <Link
-          to="/Userlist"
-          className={`nav-link ${location.pathname === "/Userlist" ? "active" : ""}`}
-        >
-          Lists
-        </Link>
-      </div>
       <div className="nav-profile">
         <form className="nav-search" onSubmit={handleSearchSubmit}>
           <input
@@ -92,29 +47,6 @@ function NavBar() {
             {searchType === "anime" ? "Anime" : "Manga"}
           </button>
         </form>
-        {isLoggedIn ? (
-          <Link to="/profile" className="nav-avatar">
-            {data?.Viewer?.avatar?.large ? (
-              <img
-                src={data.Viewer.avatar.large}
-                alt={data.Viewer.name ?? "Profile"}
-              />
-            ) : (
-              "Profile"
-            )}
-          </Link>
-        ) : (
-          <a href={loginUrl} className="nav-link">
-            <div className="login-button">
-              Login with &nbsp;
-              <img
-                className="anilist-icon"
-                src="/anilist-icon.svg"
-                alt="Anilist Icon"
-              />
-            </div>
-          </a>
-        )}
       </div>
     </nav>
   );
