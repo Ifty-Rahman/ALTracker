@@ -1,11 +1,19 @@
 import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { GET_TRENDING_ANIME } from "../services/queries";
 import AnimeCard from "./AnimeCard";
 import { TrophySpin } from "react-loading-indicators";
 
 function TrendingAnime() {
-  const { loading, error, data } = useQuery(GET_TRENDING_ANIME);
+  const navigate = useNavigate();
+  const { loading, error, data } = useQuery(GET_TRENDING_ANIME, {
+    variables: {
+      page: 1,
+      perPage: 15,
+      sort: "TRENDING_DESC",
+    },
+  });
   const [trendingAnime, setTrendingAnime] = useState([]);
 
   useEffect(() => {
@@ -13,6 +21,14 @@ function TrendingAnime() {
       setTrendingAnime(data.Page.media);
     }
   }, [data]);
+
+  const handleViewAll = () => {
+    navigate("/Browse?section=trending");
+  };
+
+  const handleButton = () => {
+    navigate("/Browse?section=trending");
+  };
 
   if (loading)
     return (
@@ -25,8 +41,10 @@ function TrendingAnime() {
   return (
     <>
       <div className="button-row">
-        <button>Trending Now</button>
-        <button className="view-all">
+        <button className="title-btn" onClick={handleButton}>
+          Trending Now
+        </button>
+        <button className="view-all" onClick={handleViewAll}>
           view all
           <div className="arrow-wrapper">
             <div className="arrow"></div>
