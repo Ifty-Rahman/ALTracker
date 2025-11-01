@@ -30,12 +30,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 20px;
 }
 
@@ -108,39 +102,33 @@
     align-items: center;
     color: #ffffff;
     text-decoration: none;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: 500;
-    border-radius: 999px;
-    backdrop-filter: blur(6px);
-    transition:
-        background-color 0.25s ease,
-        color 0.25s ease,
-        transform 0.5s ease;
-
-    padding: 8px 18px;
 }
 
 .nav-link:hover {
-    color: #6e35ff;
+    color: darkgray;
     transform: scale(1.05);
 }
 
-.nav-link:active,
 .nav-link.active {
-    padding: 8px 18px;
-    background-color: rgba(110, 53, 255, 0.6);
-    color: #fff;
+    color: #6e35ff;
+}
+
+.anilist-icon {
+    height: 24px;
+    width: 24px;
 }
 
 .login-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #6e35ff;
+    background-color: royalblue;
     color: white;
     font-size: 0.95rem;
     font-weight: 500;
-    padding: 8px 16px;
+    padding: 5px 16px;
     margin: 0;
     border-radius: 999px;
     border: 1px solid transparent;
@@ -152,7 +140,7 @@
 }
 
 .login-button:hover {
-    background-color: #5725cc;
+    background-color: dodgerblue;
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }

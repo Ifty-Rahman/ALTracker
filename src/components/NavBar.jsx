@@ -55,26 +55,24 @@ function NavBar() {
         <Link to="/">AL</Link>
       </div>
       <div className="navbar-links">
-        <div className="links">
-          <Link
-            to="/Dashboard"
-            className={`nav-link ${location.pathname === "/Dashboard" ? "active" : ""}`}
-          >
-            Dashboard
-          </Link>
-          <Link
-            to="/"
-            className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
-          >
-            Discover
-          </Link>
-          <Link
-            to="/Userlist"
-            className={`nav-link ${location.pathname === "/Userlist" ? "active" : ""}`}
-          >
-            Lists
-          </Link>
-        </div>
+        <Link
+          to="/Dashboard"
+          className={`nav-link ${location.pathname === "/Dashboard" ? "active" : ""}`}
+        >
+          Dashboard
+        </Link>
+        <Link
+          to="/"
+          className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
+        >
+          Discover
+        </Link>
+        <Link
+          to="/Userlist"
+          className={`nav-link ${location.pathname === "/Userlist" ? "active" : ""}`}
+        >
+          Lists
+        </Link>
       </div>
       <div className="nav-profile">
         <form className="nav-search" onSubmit={handleSearchSubmit}>
@@ -107,7 +105,14 @@ function NavBar() {
           </Link>
         ) : (
           <a href={loginUrl} className="nav-link">
-            <div className="login-button">Login</div>
+            <div className="login-button">
+              Login with &nbsp;
+              <img
+                className="anilist-icon"
+                src="/anilist-icon.svg"
+                alt="Anilist Icon"
+              />
+            </div>
           </a>
         )}
       </div>
