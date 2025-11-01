@@ -1,23 +1,31 @@
 .dock-outer {
-    margin: 0 0.5rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
-    max-width: 100%;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-end;
+    pointer-events: none;
+    z-index: 999;
+    padding-bottom: 0.5rem;
 }
 
 .dock-panel {
-    position: absolute;
-    bottom: 0.5rem;
-    left: 50%;
-    transform: translateX(-50%);
+    pointer-events: all;
     display: flex;
     align-items: flex-end;
     width: fit-content;
     gap: 1rem;
-    border-radius: 1rem;
-    background-color: #060010;
-    border: 1px solid #222;
-    padding: 0 0.5rem 0.5rem;
+    border-radius: 1.25rem;
+    background: rgba(17, 17, 20, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(110, 53, 255, 0.3);
+    padding: 0.5rem;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(110, 53, 255, 0.15);
 }
 
 .dock-item {
@@ -25,33 +33,88 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
-    background-color: #060010;
-    border: 1px solid #222;
+    border-radius: 12px;
+    background: rgba(30, 30, 35, 0.8);
+    border: 1px solid rgba(110, 53, 255, 0.2);
     box-shadow:
-        0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
     cursor: pointer;
     outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dock-item:hover {
+    background: rgba(110, 53, 255, 0.2);
+    border-color: rgba(110, 53, 255, 0.5);
+    box-shadow:
+        0 6px 20px rgba(110, 53, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.dock-item:active {
+    transform: scale(0.95);
 }
 
 .dock-icon {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #e0e0e0;
+    transition: color 0.2s ease;
+}
+
+.dock-item:hover .dock-icon {
+    color: #ffffff;
 }
 
 .dock-label {
     position: absolute;
-    top: -1.5rem;
+    top: -2.5rem;
     left: 50%;
     width: fit-content;
-    white-space: pre;
-    border-radius: 0.375rem;
-    border: 1px solid #222;
-    background-color: #060010;
-    padding: 0.125rem 0.5rem;
-    font-size: 0.75rem;
-    color: #fff;
+    white-space: nowrap;
+    border-radius: 8px;
+    border: 1px solid rgba(110, 53, 255, 0.3);
+    background: rgba(17, 17, 20, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #ffffff;
     transform: translateX(-50%);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.4),
+        0 0 10px rgba(110, 53, 255, 0.2);
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+    .dock-outer {
+        padding-bottom: 0.25rem;
+    }
+
+    .dock-panel {
+        gap: 0.75rem;
+        padding: 0.375rem;
+        border-radius: 1rem;
+    }
+
+    .dock-item {
+        border-radius: 10px;
+    }
+
+    .dock-label {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        top: -2rem;
+    }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .dock-panel {
+        gap: 0.875rem;
+    }
 }

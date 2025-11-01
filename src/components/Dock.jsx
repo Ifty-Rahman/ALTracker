@@ -16,6 +16,8 @@ import {
 
 import "../css/Dock.css";
 
+motion;
+
 function DockItem({
   children,
   className = "",
@@ -103,7 +105,7 @@ function DockIcon({ children, className = "" }) {
 export default function Dock({
   items,
   className = "",
-  spring = { mass: 0.1, stiffness: 150, damping: 12 },
+  spring = { mass: 0.0001, stiffness: 150, damping: 12 },
   magnification = 70,
   distance = 200,
   panelHeight = 68,

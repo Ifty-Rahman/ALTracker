@@ -1,9 +1,7 @@
 .app {
     min-height: 100vh;
     min-width: 100vw;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+    padding-bottom: 100px;
 }
 
 .Not-Logged-In {
@@ -48,4 +46,10 @@
 
 .Toastify__progress-bar {
     background: #6e35ff;
+}
+
+@media (max-width: 640px) {
+    .app {
+        padding-bottom: 90px;
+    }
 }
