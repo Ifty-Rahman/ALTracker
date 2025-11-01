@@ -13,7 +13,7 @@ import { TrophySpin } from "react-loading-indicators";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 function Dashboard() {
-  const [mediaType, setMediaType] = useState("ANIME"); // ANIME or MANGA
+  const [mediaType, setMediaType] = useState("ANIME");
 
   useEffect(() => {
     const hash = window.location.hash;
