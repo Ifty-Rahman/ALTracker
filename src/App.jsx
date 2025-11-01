@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./css/App.css";
 import Discover from "./pages/Discover";
 import UserList from "./pages/Userlist";
-import Login from "./pages/Login";
 import Browse from "./pages/Browse";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import NavBar from "./components/NavBar";
@@ -148,7 +147,6 @@ export default function App() {
             <Route path="/" element={<Discover />} />
             <Route path="/Browse" element={<Browse />} />
             <Route path="/Userlist" element={<UserList />} />
-            <Route path="/Login" element={<Login />} />
             <Route path="/Profile" element={<ProfilePage />} />
             <Route path="/Dashboard" element={<Dashboard />} />
           </Routes>
