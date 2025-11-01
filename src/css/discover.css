@@ -91,3 +91,11 @@ button:hover .arrow:before {
     border-color: var(--hover-color);
     right: 0;
 }
+
+@media (max-width: 480px) {
+    .anime-grid > * {
+        flex: 0 0 auto;
+        height: 200px;
+        width: 160px;
+    }
+}

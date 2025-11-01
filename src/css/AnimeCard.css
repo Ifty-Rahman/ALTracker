@@ -88,8 +88,9 @@
     .anime-card h3 {
         font-size: 0.7rem;
     }
-    .anime-card img {
-        height: 250px;
+
+    .anime-title-popup-content {
+        font-size: 0.7rem;
     }
 }
 
