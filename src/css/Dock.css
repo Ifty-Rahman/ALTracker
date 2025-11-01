@@ -89,8 +89,7 @@
         0 0 10px rgba(110, 53, 255, 0.2);
 }
 
-/* Mobile responsive */
-@media (max-width: 640px) {
+@media (max-width: 480px) {
     .dock-outer {
         padding-bottom: 0.25rem;
     }
@@ -112,8 +111,7 @@
     }
 }
 
-/* Tablet */
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .dock-panel {
         gap: 0.875rem;
     }

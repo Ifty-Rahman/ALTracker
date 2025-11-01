@@ -17,12 +17,6 @@
     width: 200px;
 }
 
-@media (max-width: 600px) {
-    .discover h1 {
-        font-size: 1.5rem;
-    }
-}
-
 .button-row {
     display: flex;
     justify-content: space-between;
@@ -97,5 +91,8 @@ button:hover .arrow:before {
         flex: 0 0 auto;
         height: 200px;
         width: 160px;
+    }
+    .discover h1 {
+        font-size: 1.5rem;
     }
 }

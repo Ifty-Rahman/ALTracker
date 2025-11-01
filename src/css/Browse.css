@@ -35,7 +35,6 @@
     padding: 40px 0;
 }
 
-/* Tablet */
 @media (max-width: 1024px) {
     .browse-grid {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -47,7 +46,6 @@
     }
 }
 
-/* Mobile Large */
 @media (max-width: 768px) {
     .browse-container {
         padding: 15px;
@@ -71,7 +69,6 @@
     }
 }
 
-/* Mobile Small */
 @media (max-width: 480px) {
     .browse-container {
         padding: 15px;
@@ -94,13 +91,11 @@
         margin-bottom: 20px;
     }
 
-    /* Make pagination buttons smaller on mobile */
     .browse-pagination .MuiPagination-root {
         transform: scale(0.85);
     }
 }
 
-/* Extra Small Mobile */
 @media (max-width: 360px) {
     .browse-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
