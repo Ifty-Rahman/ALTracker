@@ -7,6 +7,7 @@ import "./css/App.css";
 import Discover from "./pages/Discover";
 import UserList from "./pages/Userlist";
 import Login from "./pages/Login";
+import Browse from "./pages/Browse";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import ProfilePage from "./pages/Profile";
@@ -57,6 +58,7 @@ export default function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<Discover />} />
+            <Route path="/Browse" element={<Browse />} />
             <Route path="/Userlist" element={<UserList />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Profile" element={<ProfilePage />} />
