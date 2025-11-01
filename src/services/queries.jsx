@@ -16,9 +16,16 @@ export const GET_CURRENT_USER = gql`
 
 // Query to get top popular anime
 export const GET_POPULAR_ANIME = gql`
-  query {
-    Page(perPage: 15) {
-      media(sort: POPULARITY_DESC, type: ANIME) {
+  query ($page: Int, $perPage: Int, $sort: [MediaSort]) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        currentPage
+        lastPage
+        hasNextPage
+        perPage
+      }
+      media(type: ANIME, sort: $sort) {
         id
         title {
           english
@@ -34,9 +41,16 @@ export const GET_POPULAR_ANIME = gql`
 
 // Query to get top trending anime
 export const GET_TRENDING_ANIME = gql`
-  query {
-    Page(perPage: 15) {
-      media(sort: TRENDING_DESC, type: ANIME) {
+  query ($page: Int, $perPage: Int, $sort: [MediaSort]) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        currentPage
+        lastPage
+        hasNextPage
+        perPage
+      }
+      media(type: ANIME, sort: $sort) {
         id
         title {
           english
@@ -51,28 +65,32 @@ export const GET_TRENDING_ANIME = gql`
 `;
 
 // Query to get top popular anime for the current season
-const now = new Date();
-const month = now.getMonth() + 1;
-const year = now.getFullYear();
-
-let season = "WINTER";
-if (month >= 3 && month <= 5) season = "SPRING";
-else if (month >= 6 && month <= 8) season = "SUMMER";
-else if (month >= 9 && month <= 11) season = "FALL";
-
 export const GET_POPULAR_SEASONAL_ANIME = gql`
-  query {
-    Page(perPage: 15) {
+  query (
+    $page: Int
+    $perPage: Int
+    $sort: [MediaSort]
+    $season: MediaSeason
+    $seasonYear: Int
+  ) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        currentPage
+        lastPage
+        hasNextPage
+        perPage
+      }
       media(
-        sort: POPULARITY_DESC
         type: ANIME
-        season: ${season}
-        seasonYear: ${year}
+        sort: $sort
+        season: $season
+        seasonYear: $seasonYear
       ) {
         id
         title {
-        english
-        romaji
+          english
+          romaji
         }
         coverImage {
           large
@@ -82,34 +100,33 @@ export const GET_POPULAR_SEASONAL_ANIME = gql`
   }
 `;
 
-let nextSeason = "";
-let nextYear = year;
-
-if (season === "WINTER") {
-  nextSeason = "SPRING";
-} else if (season === "SPRING") {
-  nextSeason = "SUMMER";
-} else if (season === "SUMMER") {
-  nextSeason = "FALL";
-} else if (season === "FALL") {
-  nextSeason = "WINTER";
-  nextYear += 1;
-}
-
 // Query to get top upcoming anime for next season
 export const GET_UPCOMING_SEASONAL_ANIME = gql`
-  query {
-    Page(perPage: 15) {
+  query (
+    $page: Int
+    $perPage: Int
+    $sort: [MediaSort]
+    $season: MediaSeason
+    $seasonYear: Int
+  ) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        currentPage
+        lastPage
+        hasNextPage
+        perPage
+      }
       media(
-        sort: POPULARITY_DESC
         type: ANIME
-        season: ${nextSeason}
-        seasonYear: ${nextYear}
+        sort: $sort
+        season: $season
+        seasonYear: $seasonYear
       ) {
         id
         title {
-        english
-        romaji
+          english
+          romaji
         }
         coverImage {
           large
@@ -189,7 +206,12 @@ export const GET_USER_STATISTICS = gql`
 // Query to get the currently watching anime for a user
 export const GET_CURRENTLY_WATCHING = gql`
   query GetCurrentlyWatching($userName: String) {
-    MediaListCollection(userName: $userName, type: ANIME, status: CURRENT) {
+    MediaListCollection(
+      userName: $userName
+      type: ANIME
+      status: CURRENT
+      sort: UPDATED_TIME_DESC
+    ) {
       lists {
         entries {
           id
@@ -223,7 +245,12 @@ export const GET_CURRENTLY_WATCHING = gql`
 // Query to get the currently reading manga for a user
 export const GET_CURRENTLY_READING = gql`
   query GetCurrentlyReading($userName: String) {
-    MediaListCollection(userName: $userName, type: MANGA, status: CURRENT) {
+    MediaListCollection(
+      userName: $userName
+      type: MANGA
+      status: CURRENT
+      sort: UPDATED_TIME_DESC
+    ) {
       lists {
         entries {
           id
