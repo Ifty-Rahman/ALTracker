@@ -14,7 +14,6 @@ import NavBar from "./components/NavBar";
 import ProfilePage from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import DarkVeil from "./components/DarkVeil";
-import Footer from "./components/Footer";
 import Dock from "./components/Dock";
 import {
   MdDashboard,
