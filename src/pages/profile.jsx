@@ -1,9 +1,9 @@
 import "../css/profile.css";
 import { useState, useEffect } from "react";
-import LogOut from "../components/LogoutButton";
-import ProfileMedia from "../components/ProfileMedia";
-import UserStats from "../components/UserStats";
-import { GET_CURRENT_USER, GET_USER_STATISTICS } from "../services/queries";
+import LogOut from "../components/LogoutButton.jsx";
+import ProfileMedia from "../components/ProfileMedia.jsx";
+import UserStats from "../components/UserStats.jsx";
+import { GET_CURRENT_USER, GET_USER_STATISTICS } from "../services/queries.jsx";
 import { useQuery } from "@apollo/client/react";
 import { useMemo } from "react";
 import { TrophySpin } from "react-loading-indicators";
