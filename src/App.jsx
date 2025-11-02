@@ -22,7 +22,8 @@ import {
   MdLogin,
 } from "react-icons/md";
 
-const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${import.meta.env.VITE_ANILIST_CLIENT_ID}&response_type=token`;
+const clientId = 31288;
+const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&response_type=token`;
 const token = localStorage.getItem("anilist_token");
 const authLink = setContext((_, { headers }) => {
   return {
