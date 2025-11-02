@@ -2,14 +2,14 @@ import { useQuery } from "@apollo/client/react";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Pagination } from "@mui/material";
-import ContentCard from "../components/Contentcard";
+import ContentCard from "../components/Contentcard.jsx";
 import { TrophySpin } from "react-loading-indicators";
 import {
   GET_TRENDING_ANIME,
   GET_POPULAR_ANIME,
   GET_POPULAR_SEASONAL_ANIME,
   GET_UPCOMING_SEASONAL_ANIME,
-} from "../services/queries";
+} from "../services/queries.jsx";
 import "../css/Browse.css";
 
 function Browse() {

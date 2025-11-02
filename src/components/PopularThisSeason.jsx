@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GET_POPULAR_SEASONAL_ANIME } from "../services/queries";
-import ContentCard from "./Contentcard";
+import { GET_POPULAR_SEASONAL_ANIME } from "../services/queries.jsx";
+import ContentCard from "./Contentcard.jsx";
 
 function PopularThisSeason() {
   const now = new Date();

@@ -2,17 +2,18 @@ import { useState, useEffect } from "react";
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
 import { setContext } from "@apollo/client/link/context";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./css/App.css";
-import Discover from "./pages/Discover";
-import UserList from "./pages/Userlist";
-import Browse from "./pages/Browse";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import ProfilePage from "./pages/Profile";
-import Dashboard from "./pages/Dashboard";
-import Dock from "./components/Dock";
+import Discover from "./pages/Discover.jsx";
+import UserList from "./pages/Userlist.jsx";
+import Browse from "./pages/Browse.jsx";
+import NavBar from "./components/NavBar.jsx";
+import ProfilePage from "./pages/Profile.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Dock from "./components/Dock.jsx";
+import Search from "./pages/Search.jsx";
 import {
   MdDashboard,
   MdExplore,
@@ -20,7 +21,6 @@ import {
   MdPerson,
   MdLogin,
 } from "react-icons/md";
-import Search from "./pages/Search";
 
 const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${import.meta.env.VITE_ANILIST_CLIENT_ID}&response_type=token`;
 const token = localStorage.getItem("anilist_token");

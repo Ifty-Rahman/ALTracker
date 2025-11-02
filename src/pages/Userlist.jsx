@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client/react";
-import { GET_CURRENT_USER, GET_USER_ANIME_LIST } from "../services/queries";
+import { GET_CURRENT_USER, GET_USER_ANIME_LIST } from "../services/queries.jsx";
 import { TrophySpin } from "react-loading-indicators";
 import "../css/Userlist.css";
 

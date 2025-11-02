@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client/react";
 import { useSearchParams } from "react-router-dom";
-import { GET_SEARCH_DATA } from "../services/queries";
-import ContentCard from "../components/Contentcard";
+import { GET_SEARCH_DATA } from "../services/queries.jsx";
+import ContentCard from "../components/Contentcard.jsx";
 import { TrophySpin } from "react-loading-indicators";
 import "../css/Search.css";
 
