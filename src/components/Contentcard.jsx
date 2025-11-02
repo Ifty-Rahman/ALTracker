@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "../css/Contentcard.css";
 
-function ContentCard({ anime }) {
+function ContentCard({ content }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const title = anime.title.english || anime.title.romaji || "Untitled";
+  const title = content.title.english || content.title.romaji || "Untitled";
 
   const handleTitleClick = (event) => {
     event.stopPropagation();
@@ -16,7 +16,7 @@ function ContentCard({ anime }) {
 
   return (
     <div className="content-card" onMouseLeave={closePopup}>
-      <img src={anime.coverImage.large} alt={title} className="anime-image" />
+      <img src={content.coverImage.large} alt={title} className="anime-image" />
       {isPopupOpen && (
         <div className="content-title-popup" onClick={closePopup}>
           <div
