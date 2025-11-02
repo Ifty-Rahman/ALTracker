@@ -9,7 +9,7 @@ import {
   GET_POPULAR_ANIME,
   GET_POPULAR_SEASONAL_ANIME,
   GET_UPCOMING_SEASONAL_ANIME,
-} from "../services/queries.jsx";
+} from "../services/Queries.jsx";
 import "../css/Browse.css";
 
 function Browse() {
