@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import LogOut from "../components/LogoutButton.jsx";
 import ProfileMedia from "../components/ProfileMedia.jsx";
 import UserStats from "../components/UserStats.jsx";
-import { GET_CURRENT_USER, GET_USER_STATISTICS } from "../services/queries.jsx";
+import { GET_CURRENT_USER, GET_USER_STATISTICS } from "../services/Queries.jsx";
 import { useQuery } from "@apollo/client/react";
 import { useMemo } from "react";
 import { TrophySpin } from "react-loading-indicators";
