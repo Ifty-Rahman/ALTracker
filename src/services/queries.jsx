@@ -291,3 +291,20 @@ export const GET_USER_MEDIA_STATUS = gql`
     }
   }
 `;
+
+export const GET_SEARCH_DATA = gql`
+  query ($search: String, $page: Int, $perPage: Int, $type: MediaType) {
+    Page(page: $page, perPage: $perPage) {
+      media(search: $search, type: $type) {
+        id
+        title {
+          romaji
+          english
+        }
+        coverImage {
+          large
+        }
+      }
+    }
+  }
+`;
