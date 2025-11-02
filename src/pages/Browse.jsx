@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client/react";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Pagination } from "@mui/material";
-import AnimeCard from "../components/AnimeCard";
+import AnimeCard from "../components/Contentcard";
 import { TrophySpin } from "react-loading-indicators";
 import {
   GET_TRENDING_ANIME,

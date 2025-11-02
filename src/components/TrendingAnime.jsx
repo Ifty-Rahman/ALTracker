@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GET_TRENDING_ANIME } from "../services/queries";
-import AnimeCard from "./AnimeCard";
+import ContentCard from "./Contentcard";
 import { TrophySpin } from "react-loading-indicators";
 
 function TrendingAnime() {
@@ -53,7 +53,7 @@ function TrendingAnime() {
       </div>
       <div className="anime-grid">
         {trendingAnime.map((anime) => (
-          <AnimeCard anime={anime} key={anime.id} />
+          <ContentCard anime={anime} key={anime.id} />
         ))}
       </div>
     </>

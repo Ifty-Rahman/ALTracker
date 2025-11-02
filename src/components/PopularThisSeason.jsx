@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GET_POPULAR_SEASONAL_ANIME } from "../services/queries";
-import AnimeCard from "./AnimeCard";
+import ContentCard from "./Contentcard";
 
 function PopularThisSeason() {
   const now = new Date();
@@ -57,7 +57,7 @@ function PopularThisSeason() {
       </div>
       <div className="anime-grid">
         {popular_seasonal_anime.map((anime) => (
-          <AnimeCard anime={anime} key={anime.id} />
+          <ContentCard anime={anime} key={anime.id} />
         ))}
       </div>
     </>

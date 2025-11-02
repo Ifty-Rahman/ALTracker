@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GET_POPULAR_ANIME } from "../services/queries";
-import AnimeCard from "./AnimeCard";
+import ConentCard from "./Contentcard";
 
 function PopularAllTime() {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ function PopularAllTime() {
       </div>
       <div className="anime-grid">
         {popularAnime.map((anime) => (
-          <AnimeCard anime={anime} key={anime.id} />
+          <ConentCard anime={anime} key={anime.id} />
         ))}
       </div>
     </>
