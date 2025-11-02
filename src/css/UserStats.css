@@ -1,8 +1,7 @@
 .user-stats-container {
-    width: 95%;
+    width: 100%;
     background-color: transparent;
     color: #fff;
-    padding: 1.5rem;
     border-radius: 1.5rem;
 }
 
@@ -113,7 +112,7 @@
     margin-bottom: 15px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .genres-box {
         flex-direction: column;
     }

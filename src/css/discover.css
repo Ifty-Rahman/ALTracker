@@ -2,19 +2,19 @@
     margin-bottom: 20px;
 }
 
-.anime-grid {
+.content-grid {
     display: flex;
     gap: 20px;
     overflow-x: auto;
     padding: 0 20px 10px 20px;
     scroll-behavior: smooth;
 }
-.anime-grid::-webkit-scrollbar {
+.content-grid::-webkit-scrollbar {
     display: none;
 }
-.anime-grid > * {
+.content-grid > * {
     flex: 0 0 auto;
-    width: 200px;
+    width: 220px;
 }
 
 .button-row {
@@ -87,7 +87,7 @@ button:hover .arrow:before {
 }
 
 @media (max-width: 480px) {
-    .anime-grid > * {
+    .content-grid > * {
         flex: 0 0 auto;
         height: 200px;
         width: 160px;
