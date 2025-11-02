@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GET_POPULAR_ANIME } from "../services/queries.jsx";
+import { GET_POPULAR_ANIME } from "../services/Queries.jsx";
 import ConentCard from "./Contentcard.jsx";
 
 function PopularAllTime() {
