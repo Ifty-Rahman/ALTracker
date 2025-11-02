@@ -57,7 +57,7 @@ function ProfilePage() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
+    <div className="profile-main">
       {authToken ? (
         <div className="profile-container">
           <ProfileMedia user={user} />
