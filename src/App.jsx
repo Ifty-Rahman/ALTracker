@@ -20,8 +20,9 @@ import {
   MdPerson,
   MdLogin,
 } from "react-icons/md";
+import Search from "./pages/Search";
 
-const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${import.meta.env.ANILIST_CLIENT_ID}&response_type=token`;
+const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${import.meta.env.VITE_ANILIST_CLIENT_ID}&response_type=token`;
 const token = localStorage.getItem("anilist_token");
 const authLink = setContext((_, { headers }) => {
   return {
@@ -143,6 +144,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Discover />} />
             <Route path="/Browse" element={<Browse />} />
+            <Route path="/Search" element={<Search />} />
             <Route path="/Userlist" element={<UserList />} />
             <Route path="/Profile" element={<ProfilePage />} />
             <Route path="/Dashboard" element={<Dashboard />} />
