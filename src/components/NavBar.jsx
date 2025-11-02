@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { MdSearch } from "react-icons/md";
 import { PiHandTapBold } from "react-icons/pi";
-import "../css/Navbar.css";
+import "../css/NavBar.css";
 import { IoSettings, IoNotificationsSharp } from "react-icons/io5";
 
 function NavBar() {
