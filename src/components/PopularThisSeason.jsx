@@ -55,9 +55,9 @@ function PopularThisSeason() {
           </div>
         </button>
       </div>
-      <div className="anime-grid">
-        {popular_seasonal_anime.map((anime) => (
-          <ContentCard anime={anime} key={anime.id} />
+      <div className="content-grid">
+        {popular_seasonal_anime.map((content) => (
+          <ContentCard content={content} key={content.id} />
         ))}
       </div>
     </>

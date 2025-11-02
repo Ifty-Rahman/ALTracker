@@ -45,9 +45,9 @@ function PopularAllTime() {
           </div>
         </button>
       </div>
-      <div className="anime-grid">
-        {popularAnime.map((anime) => (
-          <ConentCard anime={anime} key={anime.id} />
+      <div className="content-grid">
+        {popularAnime.map((content) => (
+          <ConentCard content={content} key={content.id} />
         ))}
       </div>
     </>

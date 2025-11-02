@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GET_UPCOMING_SEASONAL_ANIME } from "../services/queries";
-import AnimeCard from "./Contentcard";
+import ContentCard from "./Contentcard";
 
 function UpcomingNextSeason() {
   const now = new Date();
@@ -67,9 +67,9 @@ function UpcomingNextSeason() {
           </div>
         </button>
       </div>
-      <div className="anime-grid">
-        {upcoming_seasonal_anime.map((anime) => (
-          <AnimeCard anime={anime} key={anime.id} />
+      <div className="content-grid">
+        {upcoming_seasonal_anime.map((content) => (
+          <ContentCard content={content} key={content.id} />
         ))}
       </div>
     </>

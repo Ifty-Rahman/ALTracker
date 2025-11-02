@@ -51,9 +51,9 @@ function TrendingAnime() {
           </div>
         </button>
       </div>
-      <div className="anime-grid">
-        {trendingAnime.map((anime) => (
-          <ContentCard anime={anime} key={anime.id} />
+      <div className="content-grid">
+        {trendingAnime.map((content) => (
+          <ContentCard content={content} key={content.id} />
         ))}
       </div>
     </>
