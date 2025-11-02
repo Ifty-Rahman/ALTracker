@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@apollo/client/react";
-import "../css/dashboard.css";
+import "../css/Dashboard.css";
 import {
   GET_CURRENTLY_WATCHING,
   GET_CURRENTLY_READING,

@@ -1,4 +1,4 @@
-import "../css/profile.css";
+import "../css/Profile.css";
 
 function ProfileMedia({ user }) {
   return (
