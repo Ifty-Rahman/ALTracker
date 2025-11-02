@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client/react";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Pagination } from "@mui/material";
-import AnimeCard from "../components/Contentcard";
+import ContentCard from "../components/Contentcard";
 import { TrophySpin } from "react-loading-indicators";
 import {
   GET_TRENDING_ANIME,
@@ -124,8 +124,8 @@ function Browse() {
       </div>
 
       <div className="browse-grid">
-        {anime.map((item) => (
-          <AnimeCard key={item.id} anime={item} />
+        {anime.map((content) => (
+          <ContentCard key={content.id} content={content} />
         ))}
       </div>
 
