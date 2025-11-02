@@ -7,8 +7,8 @@
     padding: 1rem 2rem;
     color: #cfd8e3;
     font-size: 0.9rem;
-    background: rgba(0, 0, 0, 0.4);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: -1;
 }
 
 .footer__copy {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../css/AnimeCard.css";
+import "../css/Contentcard.css";
 
 function ContentCard({ anime }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -15,12 +15,12 @@ function ContentCard({ anime }) {
   };
 
   return (
-    <div className="anime-card" onMouseLeave={closePopup}>
+    <div className="content-card" onMouseLeave={closePopup}>
       <img src={anime.coverImage.large} alt={title} className="anime-image" />
       {isPopupOpen && (
-        <div className="anime-title-popup" onClick={closePopup}>
+        <div className="content-title-popup" onClick={closePopup}>
           <div
-            className="anime-title-popup-content"
+            className="content-title-popup-content"
             onClick={(event) => event.stopPropagation()}
           >
             <p>{title}</p>
@@ -28,7 +28,7 @@ function ContentCard({ anime }) {
         </div>
       )}
 
-      <h3 className="anime-title" onClick={handleTitleClick}>
+      <h3 className="content-title" onClick={handleTitleClick}>
         {title}
       </h3>
     </div>

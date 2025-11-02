@@ -12,7 +12,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import ProfilePage from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
-import DarkVeil from "./components/DarkVeil";
 import Dock from "./components/Dock";
 import {
   MdDashboard,
@@ -22,8 +21,7 @@ import {
   MdLogin,
 } from "react-icons/md";
 
-const clientId = 31288;
-const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&response_type=token`;
+const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${import.meta.env.ANILIST_CLIENT_ID}&response_type=token`;
 const token = localStorage.getItem("anilist_token");
 const authLink = setContext((_, { headers }) => {
   return {
@@ -140,7 +138,6 @@ export default function App() {
   return (
     <>
       <main className="app">
-        <DarkVeil />
         <ApolloProvider client={client}>
           <NavBar />
           <Routes>
@@ -153,7 +150,6 @@ export default function App() {
           <DockWrapper />
         </ApolloProvider>
       </main>
-
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
