@@ -94,7 +94,7 @@ function NavBar() {
     <nav className="navbar">
       <div className="navbar-brand">
         <Link to="/">
-          <span className="AL">AL</span>Tracker
+          <span className="AL">AL</span>Track
         </Link>
       </div>
 
