@@ -4,11 +4,11 @@ import {
   GET_CURRENTLY_WATCHING,
   GET_CURRENTLY_READING,
   GET_CURRENT_USER,
-} from "../services/queries.jsx";
+} from "../services/Queries.jsx";
 import {
   UPDATE_ANIME_ENTRY,
   UPDATE_MANGA_ENTRY,
-} from "../services/mutation.jsx";
+} from "../services/Mutation.jsx";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { GoCheck, GoX } from "react-icons/go";
