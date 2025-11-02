@@ -113,7 +113,7 @@ function DockWrapper() {
       : {
           label: "Login with AniList",
           icon: <MdLogin size={28} />,
-          onClick: () => window.location.assign(loginUrl),
+          onClick: () => (window.location.href = loginUrl),
           className: "dock-item-login",
         },
   ];
