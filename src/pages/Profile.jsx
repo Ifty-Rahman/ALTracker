@@ -1,4 +1,4 @@
-import "../css/profile.css";
+import "../css/Profile.css";
 import { useState, useEffect } from "react";
 import LogOut from "../components/LogoutButton.jsx";
 import ProfileMedia from "../components/ProfileMedia.jsx";
