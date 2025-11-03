@@ -42,6 +42,7 @@ function UserList() {
   } = useQuery(GET_USER_ANIME_LIST, {
     variables: { userName: username },
     skip: !authToken || !username,
+    fetchPolicy: "network-only",
   });
 
   const isAnime = mediaType === "ANIME";
