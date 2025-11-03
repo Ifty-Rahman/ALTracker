@@ -168,6 +168,7 @@ function Dashboard() {
 
   const entries = data?.MediaListCollection?.lists?.[0]?.entries || [];
   const scoreFormat = data?.User?.mediaListOptions?.scoreFormat;
+  const hasEntries = entries.length > 0;
 
   const handleProgressChange = async (entry, delta, isVolume = false) => {
     const updateEntry =
@@ -259,8 +260,11 @@ function Dashboard() {
   };
 
   const handleCardClick = (media) => {
-    navigate(`/Details?id=${media.id}&type=${media.type}`);
+    const targetType = media.type || mediaType;
+    navigate(`/Details?id=${media.id}&type=${targetType}`);
   };
+
+  const redirectToDiscover = () => navigate("/Discover");
 
   return (
     <div>
@@ -293,129 +297,149 @@ function Dashboard() {
             </ToggleButtonGroup>
           </div>
 
-          <div className="dashboard-grid">
-            {entries.map((entry) => {
-              return (
-                <div key={entry.id} className="dashboard-card">
-                  <div
-                    className="dashboard-card-image"
-                    style={{
-                      backgroundImage: `url(${entry.media.coverImage.large})`,
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleCardClick(entry.media)}
-                  >
-                    <h3 className="dashboard-anime-title">
-                      {entry.media.title.english || entry.media.title.romaji}
-                    </h3>
-                  </div>
+          {hasEntries ? (
+            <div className="dashboard-grid">
+              {entries.map((entry) => {
+                return (
+                  <div key={entry.id} className="dashboard-card">
+                    <div
+                      className="dashboard-card-image"
+                      style={{
+                        backgroundImage: `url(${entry.media.coverImage.large})`,
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleCardClick(entry.media)}
+                    >
+                      <h3 className="dashboard-anime-title">
+                        {entry.media.title.english || entry.media.title.romaji}
+                      </h3>
+                    </div>
 
-                  <div className="dashboard-card-content">
-                    {mediaType === "ANIME" ? (
-                      <div className="dashboard-progress-section">
-                        <div className="dashboard-progress-controls">
-                          <button
-                            className="dashboard-button"
-                            disabled={entry.progress <= 0}
-                            onClick={() => handleProgressChange(entry, -1)}
-                          >
-                            −
-                          </button>
-                          <span className="dashboard-progress-text">
-                            {entry.progress} / {entry.media.episodes || "?"}
-                          </span>
-                          <button
-                            className="dashboard-button"
-                            onClick={() => handleProgressChange(entry, 1)}
-                            disabled={
-                              entry.media.episodes &&
-                              entry.progress >= entry.media.episodes
-                            }
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
+                    <div className="dashboard-card-content">
+                      {mediaType === "ANIME" ? (
                         <div className="dashboard-progress-section">
-                          <div className="dashboard-progress-label">
-                            Chapters
-                          </div>
                           <div className="dashboard-progress-controls">
                             <button
                               className="dashboard-button"
                               disabled={entry.progress <= 0}
-                              onClick={() =>
-                                handleProgressChange(entry, -1, false)
-                              }
+                              onClick={() => handleProgressChange(entry, -1)}
                             >
                               −
                             </button>
                             <span className="dashboard-progress-text">
-                              {entry.progress} / {entry.media.chapters || "?"}
+                              {entry.progress} / {entry.media.episodes || "?"}
                             </span>
                             <button
                               className="dashboard-button"
-                              onClick={() =>
-                                handleProgressChange(entry, 1, false)
-                              }
+                              onClick={() => handleProgressChange(entry, 1)}
                               disabled={
-                                entry.media.chapters &&
-                                entry.progress >= entry.media.chapters
+                                entry.media.episodes &&
+                                entry.progress >= entry.media.episodes
                               }
                             >
                               +
                             </button>
                           </div>
                         </div>
-                        <div className="dashboard-progress-section">
-                          <div className="dashboard-progress-label">
-                            Volumes
+                      ) : (
+                        <>
+                          <div className="dashboard-progress-section">
+                            <div className="dashboard-progress-label">
+                              Chapters
+                            </div>
+                            <div className="dashboard-progress-controls">
+                              <button
+                                className="dashboard-button"
+                                disabled={entry.progress <= 0}
+                                onClick={() =>
+                                  handleProgressChange(entry, -1, false)
+                                }
+                              >
+                                −
+                              </button>
+                              <span className="dashboard-progress-text">
+                                {entry.progress} / {entry.media.chapters || "?"}
+                              </span>
+                              <button
+                                className="dashboard-button"
+                                onClick={() =>
+                                  handleProgressChange(entry, 1, false)
+                                }
+                                disabled={
+                                  entry.media.chapters &&
+                                  entry.progress >= entry.media.chapters
+                                }
+                              >
+                                +
+                              </button>
+                            </div>
                           </div>
-                          <div className="dashboard-progress-controls">
-                            <button
-                              className="dashboard-button"
-                              disabled={(entry.progressVolumes || 0) <= 0}
-                              onClick={() =>
-                                handleProgressChange(entry, -1, true)
-                              }
-                            >
-                              −
-                            </button>
-                            <span className="dashboard-progress-text">
-                              {entry.progressVolumes || 0} /{" "}
-                              {entry.media.volumes || "?"}
-                            </span>
-                            <button
-                              className="dashboard-button"
-                              onClick={() =>
-                                handleProgressChange(entry, 1, true)
-                              }
-                              disabled={
-                                entry.media.volumes &&
-                                (entry.progressVolumes || 0) >=
-                                  entry.media.volumes
-                              }
-                            >
-                              +
-                            </button>
+                          <div className="dashboard-progress-section">
+                            <div className="dashboard-progress-label">
+                              Volumes
+                            </div>
+                            <div className="dashboard-progress-controls">
+                              <button
+                                className="dashboard-button"
+                                disabled={(entry.progressVolumes || 0) <= 0}
+                                onClick={() =>
+                                  handleProgressChange(entry, -1, true)
+                                }
+                              >
+                                −
+                              </button>
+                              <span className="dashboard-progress-text">
+                                {entry.progressVolumes || 0} /{" "}
+                                {entry.media.volumes || "?"}
+                              </span>
+                              <button
+                                className="dashboard-button"
+                                onClick={() =>
+                                  handleProgressChange(entry, 1, true)
+                                }
+                                disabled={
+                                  entry.media.volumes &&
+                                  (entry.progressVolumes || 0) >=
+                                    entry.media.volumes
+                                }
+                              >
+                                +
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    )}
+                        </>
+                      )}
 
-                    <div className="dashboard-score-section">
-                      <span className="dashboard-score-text">Score:</span>
-                      {editingId === entry.id ? (
-                        <div className="dashboard-score-edit-container">
-                          <input
-                            type="text"
-                            className="dashboard-score-input"
-                            defaultValue={entry.score || ""}
-                            onChange={(e) => setTempScore(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
+                      <div className="dashboard-score-section">
+                        <span className="dashboard-score-text">Score:</span>
+                        {editingId === entry.id ? (
+                          <div className="dashboard-score-edit-container">
+                            <input
+                              type="text"
+                              className="dashboard-score-input"
+                              defaultValue={entry.score || ""}
+                              onChange={(e) => setTempScore(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  handleScoreUpdate(
+                                    entry,
+                                    tempScore,
+                                    scoreFormat,
+                                    mediaType === "ANIME"
+                                      ? updateAnimeEntry
+                                      : updateMangaEntry,
+                                  );
+                                  setEditingId(null);
+                                } else if (e.key === "Escape") {
+                                  setEditingId(null);
+                                }
+                              }}
+                              autoFocus
+                            />
+
+                            <button
+                              className="dashboard-score-save-btn"
+                              onClick={() => {
                                 handleScoreUpdate(
                                   entry,
                                   tempScore,
@@ -425,54 +449,48 @@ function Dashboard() {
                                     : updateMangaEntry,
                                 );
                                 setEditingId(null);
-                              } else if (e.key === "Escape") {
-                                setEditingId(null);
-                              }
-                            }}
-                            autoFocus
-                          />
+                              }}
+                            >
+                              <GoCheck size={18} />
+                            </button>
 
-                          <button
-                            className="dashboard-score-save-btn"
+                            <button
+                              className="dashboard-score-close-btn"
+                              onClick={() => setEditingId(null)}
+                            >
+                              <GoX size={18} />
+                            </button>
+                          </div>
+                        ) : (
+                          <span
+                            className="dashboard-score-display"
                             onClick={() => {
-                              handleScoreUpdate(
-                                entry,
-                                tempScore,
-                                scoreFormat,
-                                mediaType === "ANIME"
-                                  ? updateAnimeEntry
-                                  : updateMangaEntry,
-                              );
-                              setEditingId(null);
+                              setEditingId(entry.id);
+                              setTempScore(entry.score?.toString() || "");
                             }}
                           >
-                            <GoCheck size={18} />
-                          </button>
-
-                          <button
-                            className="dashboard-score-close-btn"
-                            onClick={() => setEditingId(null)}
-                          >
-                            <GoX size={18} />
-                          </button>
-                        </div>
-                      ) : (
-                        <span
-                          className="dashboard-score-display"
-                          onClick={() => {
-                            setEditingId(entry.id);
-                            setTempScore(entry.score?.toString() || "");
-                          }}
-                        >
-                          {getScoreDisplay(entry, scoreFormat)}
-                        </span>
-                      )}
+                            {getScoreDisplay(entry, scoreFormat)}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="dashboard-empty-state">
+              <p>
+                Nothing here yet. Discover new titles or use Search to add anime
+                and manga to your list.
+              </p>
+              <div className="dashboard-empty-actions">
+                <button type="button" onClick={redirectToDiscover}>
+                  Go to Discover
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="Not-Logged-In">

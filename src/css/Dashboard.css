@@ -50,6 +50,44 @@
     transform: scale(1.03);
 }
 
+.dashboard-empty-state {
+    margin: 60px auto;
+    max-width: 540px;
+    padding: 36px 28px;
+    background: rgba(17, 25, 40, 0.45);
+    border: 1px solid rgba(110, 53, 255, 0.2);
+    border-radius: 24px;
+    text-align: center;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.4);
+}
+
+.dashboard-empty-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.dashboard-empty-actions button {
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dashboard-empty-actions button:hover {
+    background: #6e35ff;
+    border-color: #6e35ff;
+}
+
 .dashboard-toggle {
     display: flex;
     width: auto;
