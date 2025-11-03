@@ -1,17 +1,18 @@
 import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GET_TRENDING_ANIME } from "../services/Queries.jsx";
+import { GET_TRENDING_ANIMANGA } from "../services/Queries.jsx";
 import ContentCard from "./Contentcard.jsx";
 import { TrophySpin } from "react-loading-indicators";
 
-function TrendingAnime() {
+function TrendingAnime({ type }) {
   const navigate = useNavigate();
-  const { loading, error, data } = useQuery(GET_TRENDING_ANIME, {
+  const { loading, error, data } = useQuery(GET_TRENDING_ANIMANGA, {
     variables: {
       page: 1,
       perPage: 15,
       sort: "TRENDING_DESC",
+      type: type,
     },
   });
   const [trendingAnime, setTrendingAnime] = useState([]);

@@ -1,16 +1,17 @@
 import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GET_POPULAR_ANIME } from "../services/Queries.jsx";
+import { GET_POPULAR_ANIMANGA } from "../services/Queries.jsx";
 import ConentCard from "./Contentcard.jsx";
 
-function PopularAllTime() {
+function PopularAllTime({ type }) {
   const navigate = useNavigate();
-  const { loading, error, data } = useQuery(GET_POPULAR_ANIME, {
+  const { loading, error, data } = useQuery(GET_POPULAR_ANIMANGA, {
     variables: {
       page: 1,
       perPage: 15,
       sort: "POPULARITY_DESC",
+      type: type,
     },
   });
   const [popularAnime, setPopularAnime] = useState([]);
@@ -29,6 +30,10 @@ function PopularAllTime() {
     navigate("/Browse?section=popular");
   };
 
+  const handleCardClick = () => {
+    navigate(`/Details?id=${content.id}`);
+  };
+
   if (error) return <p className="error-msg">Error: {error.message}</p>;
   if (loading) return;
 
@@ -45,7 +50,7 @@ function PopularAllTime() {
           </div>
         </button>
       </div>
-      <div className="content-grid">
+      <div onClick={handleCardClick} className="content-grid">
         {popularAnime.map((content) => (
           <ConentCard content={content} key={content.id} />
         ))}
