@@ -47,9 +47,3 @@
 .Toastify__progress-bar {
     background: #6e35ff;
 }
-
-@media (max-width: 640px) {
-    .app {
-        padding-bottom: 90px;
-    }
-}

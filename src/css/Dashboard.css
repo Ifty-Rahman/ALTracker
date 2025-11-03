@@ -226,25 +226,37 @@
     color: white;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
     .dashboard-card-image {
-        height: 360px;
+        height: 200px;
     }
     .dashboard-container {
-        margin: 10px 30px;
+        margin: 10px 15px;
     }
     .dashboard-card:hover {
         transform: none;
     }
     .dashboard-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 30px;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+    }
+    .dashboard-score-section {
+        margin: 10px 5px;
+    }
+    .dashboard-score-text {
+        font-size: 1rem;
+    }
+    .dashboard-score-value {
+        font-size: 1rem;
+    }
+    .dashboard-score-display {
+        font-size: 1rem;
     }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 768px) {
     .dashboard-card-image {
-        height: 360px;
+        height: 240px;
     }
 }

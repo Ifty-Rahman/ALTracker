@@ -28,6 +28,42 @@
     font-weight: 50;
 }
 
+.discover-toggle {
+    display: flex;
+    justify-content: center;
+}
+
+.toggle-group {
+    border-radius: 12px;
+    padding: 6px;
+}
+
+.toggle-group .MuiToggleButton-root {
+    color: #b0b0b0 !important; /* Unselected text */
+    background-color: rgba(60, 57, 57, 0.2) !important;
+    border: none !important;
+    font-weight: 500;
+    text-transform: none;
+    padding: 6px 16px;
+    transition: all 0.2s ease;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.toggle-group .MuiToggleButton-root.Mui-selected {
+    color: white !important;
+    background-color: #6e35ff !important;
+    font-weight: 600;
+}
+
+.toggle-group .MuiToggleButton-root:hover {
+    background-color: rgba(60, 57, 57, 0.7) !important;
+}
+
+.toggle-group .MuiToggleButton-root.Mui-selected:hover {
+    background-color: #5a1ee6 !important;
+}
+
 button {
     --primary-color: transparent;
     --secondary-color: lightgrey;
