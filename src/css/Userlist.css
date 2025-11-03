@@ -138,3 +138,41 @@
 .anime-card-list:hover {
     transform: scale(1.05);
 }
+
+.userlist-empty {
+    margin: 60px auto;
+    padding: 32px 24px;
+    max-width: 520px;
+    text-align: center;
+    background: rgba(17, 25, 40, 0.4);
+    border: 1px solid rgba(110, 53, 255, 0.2);
+    border-radius: 24px;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35);
+}
+
+.userlist-empty-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.userlist-empty-actions a {
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.userlist-empty-actions a:hover {
+    background: #6e35ff;
+    border-color: #6e35ff;
+}
