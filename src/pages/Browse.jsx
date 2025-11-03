@@ -5,10 +5,11 @@ import { Pagination } from "@mui/material";
 import ContentCard from "../components/Contentcard.jsx";
 import { TrophySpin } from "react-loading-indicators";
 import {
-  GET_TRENDING_ANIME,
-  GET_POPULAR_ANIME,
   GET_POPULAR_SEASONAL_ANIME,
   GET_UPCOMING_SEASONAL_ANIME,
+  GET_POPULAR_ANIMANGA,
+  GET_TRENDING_ANIMANGA,
+  GET_POPULAR_MANHWA,
 } from "../services/Queries.jsx";
 import "../css/Browse.css";
 
@@ -16,7 +17,7 @@ function Browse() {
   const [searchParams] = useSearchParams();
   const section = searchParams.get("section") || "trending";
   const [page, setPage] = useState(1);
-  const perPage = 24;
+  const perPage = 32;
 
   useEffect(() => {
     setPage(1);
@@ -57,7 +58,12 @@ function Browse() {
     switch (section) {
       case "popular":
         return {
-          query: GET_POPULAR_ANIME,
+          query: GET_POPULAR_ANIMANGA,
+          variables: { page, perPage, sort: ["POPULARITY_DESC"] },
+        };
+      case "manhwa":
+        return {
+          query: GET_POPULAR_MANHWA,
           variables: { page, perPage, sort: ["POPULARITY_DESC"] },
         };
       case "seasonal":
@@ -87,7 +93,7 @@ function Browse() {
       }
       default:
         return {
-          query: GET_TRENDING_ANIME,
+          query: GET_TRENDING_ANIMANGA,
           variables: { page, perPage, sort: ["TRENDING_DESC"] },
         };
     }
