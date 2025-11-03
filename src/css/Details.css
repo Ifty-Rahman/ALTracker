@@ -1,0 +1,47 @@
+.details-page {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    font-family: "Arial", sans-serif;
+}
+
+.details-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.cover-img {
+    width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.details-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.details-info h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.native-title {
+    color: gray;
+    font-style: italic;
+}
+
+.description {
+    margin-top: 15px;
+    line-height: 1.5;
+}
+
+.loading,
+.error {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1.2rem;
+}
