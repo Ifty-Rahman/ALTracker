@@ -57,3 +57,20 @@ export const SAVE_MEDIA_TO_LIST = gql`
     }
   }
 `;
+
+export const TOGGLE_FAVOURITE = gql`
+  mutation ToggleFavourite($animeId: Int, $mangaId: Int) {
+    ToggleFavourite(animeId: $animeId, mangaId: $mangaId) {
+      anime {
+        nodes {
+          id
+        }
+      }
+      manga {
+        nodes {
+          id
+        }
+      }
+    }
+  }
+`;
