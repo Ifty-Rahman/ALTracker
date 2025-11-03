@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client/react";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Pagination } from "@mui/material";
 import ContentCard from "../components/Contentcard.jsx";
 import { TrophySpin } from "react-loading-indicators";
@@ -14,6 +15,7 @@ import {
 import "../css/Browse.css";
 
 function Browse() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const section = searchParams.get("section") || "trending";
   const [page, setPage] = useState(1);
@@ -120,6 +122,10 @@ function Browse() {
     }
   }
 
+  const handleCardClick = (content) => {
+    navigate(`/Details?id=${content.id}&type=${content.type}`);
+  };
+
   return (
     <div className="browse-container">
       <div className="browse-header">
@@ -131,7 +137,9 @@ function Browse() {
 
       <div className="browse-grid">
         {anime.map((content) => (
-          <ContentCard key={content.id} content={content} />
+          <div key={content.id} onClick={() => handleCardClick(content)}>
+            <ContentCard content={content} />
+          </div>
         ))}
       </div>
 
