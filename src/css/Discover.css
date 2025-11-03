@@ -14,7 +14,7 @@
 }
 .content-grid > * {
     flex: 0 0 auto;
-    width: 220px;
+    width: 210px;
 }
 
 .button-row {
