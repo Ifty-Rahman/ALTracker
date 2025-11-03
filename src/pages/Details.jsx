@@ -15,6 +15,7 @@ import {
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaListUl } from "react-icons/fa";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { GoCheck } from "react-icons/go";
 import { GET_MEDIA_DETAILS } from "../services/Queries.jsx";
 import { SAVE_MEDIA_TO_LIST, TOGGLE_FAVOURITE } from "../services/Mutation.jsx";
 import "../css/Details.css";
@@ -350,7 +351,16 @@ function Details() {
                       selected={status === currentStatus}
                       onClick={() => handleStatusSelect(status)}
                     >
-                      {formatStatus(status, type)}
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        width="100%"
+                        gap={1.5}
+                      >
+                        <span>{formatStatus(status, type)}</span>
+                        {status === currentStatus && <GoCheck size={16} />}
+                      </Stack>
                     </MenuItem>
                   ))}
                 </Menu>
@@ -377,6 +387,14 @@ function Details() {
                   }`}
                 >
                   {actionError || actionMessage}
+                </Typography>
+              )}
+              {currentStatus && !actionError && !actionMessage && (
+                <Typography
+                  variant="caption"
+                  className="current-status-indicator"
+                >
+                  In list: {formatStatus(currentStatus, type)}
                 </Typography>
               )}
             </Box>
