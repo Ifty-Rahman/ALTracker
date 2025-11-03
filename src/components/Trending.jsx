@@ -5,7 +5,7 @@ import { GET_TRENDING_ANIMANGA } from "../services/Queries.jsx";
 import ContentCard from "./Contentcard.jsx";
 import { TrophySpin } from "react-loading-indicators";
 
-function TrendingAnime({ type }) {
+function Trending({ type }) {
   const navigate = useNavigate();
   const { loading, error, data } = useQuery(GET_TRENDING_ANIMANGA, {
     variables: {
@@ -61,4 +61,4 @@ function TrendingAnime({ type }) {
   );
 }
 
-export default TrendingAnime;
+export default Trending;

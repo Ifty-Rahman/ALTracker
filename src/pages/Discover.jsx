@@ -3,7 +3,7 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import PopularThisSeason from "../components/PopularThisSeason.jsx";
 import PopularAllTime from "../components/PopularAllTime.jsx";
 import UpcomingNextSeason from "../components/Upcoming.jsx";
-import TrendingAnime from "../components/TrendingAnime.jsx";
+import Trending from "../components/Trending.jsx";
 import PopularManhwa from "../components/PopularManhwa.jsx";
 import "../css/Discover.css";
 
@@ -28,7 +28,7 @@ function Discover() {
         </ToggleButtonGroup>
       </div>
 
-      <TrendingAnime type={mediaType} />
+      <Trending type={mediaType} />
       {mediaType === "ANIME" ? (
         <>
           <PopularThisSeason />
