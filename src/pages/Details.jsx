@@ -16,7 +16,11 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaListUl } from "react-icons/fa";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { GoCheck } from "react-icons/go";
-import { GET_MEDIA_DETAILS } from "../services/Queries.jsx";
+import {
+  GET_CURRENT_USER,
+  GET_MEDIA_DETAILS,
+  GET_USER_MEDIA_STATUS,
+} from "../services/Queries.jsx";
 import { SAVE_MEDIA_TO_LIST, TOGGLE_FAVOURITE } from "../services/Mutation.jsx";
 import "../css/Details.css";
 
@@ -69,6 +73,11 @@ function Details() {
   const rawType = searchParams.get("type");
   const type = rawType ? rawType.toUpperCase() : null;
 
+  const [authToken, setAuthToken] = useState(
+    typeof window !== "undefined"
+      ? localStorage.getItem("anilist_token")
+      : null,
+  );
   const [currentStatus, setCurrentStatus] = useState(null);
   const [isFavourite, setIsFavourite] = useState(false);
   const [actionMessage, setActionMessage] = useState("");
@@ -78,10 +87,34 @@ function Details() {
 
   const skipQuery = Number.isNaN(id) || !type;
 
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const handleAuthChange = () => {
+      setAuthToken(localStorage.getItem("anilist_token"));
+    };
+
+    window.addEventListener("authChange", handleAuthChange);
+    return () => {
+      window.removeEventListener("authChange", handleAuthChange);
+    };
+  }, []);
+
   const { loading, error, data, refetch } = useQuery(GET_MEDIA_DETAILS, {
     variables: { id, type },
     skip: skipQuery,
   });
+
+  const { data: viewerData } = useQuery(GET_CURRENT_USER, {
+    skip: !authToken,
+  });
+  const viewerId = viewerData?.Viewer?.id;
+
+  const skipStatusQuery = skipQuery || !viewerId;
+  const { data: userMediaStatusData, refetch: refetchUserMediaStatus } =
+    useQuery(GET_USER_MEDIA_STATUS, {
+      variables: { userId: viewerId, mediaId: id },
+      skip: skipStatusQuery,
+    });
 
   const [saveToList, { loading: listUpdating }] =
     useMutation(SAVE_MEDIA_TO_LIST);
@@ -90,10 +123,24 @@ function Details() {
 
   useEffect(() => {
     if (!data?.Media) return;
-    const { mediaListEntry, isFavourite: favouriteFlag } = data.Media;
-    setCurrentStatus(mediaListEntry?.status || null);
+    const { isFavourite: favouriteFlag } = data.Media;
     setIsFavourite(Boolean(favouriteFlag));
   }, [data]);
+
+  const statusFromListQuery = userMediaStatusData
+    ? (userMediaStatusData.MediaList?.status ?? null)
+    : undefined;
+  const derivedStatus =
+    statusFromListQuery !== undefined
+      ? statusFromListQuery
+      : (data?.Media?.mediaListEntry?.status ?? null);
+
+  useEffect(() => {
+    if (derivedStatus === undefined) return;
+    if (derivedStatus !== currentStatus) {
+      setCurrentStatus(derivedStatus);
+    }
+  }, [derivedStatus, currentStatus]);
 
   useEffect(() => {
     if (!actionMessage && !actionError) return undefined;
@@ -134,6 +181,9 @@ function Details() {
           : `Moved to ${formatStatus(status, type)}.`,
       );
       await refetch();
+      if (!skipStatusQuery) {
+        await refetchUserMediaStatus();
+      }
     } catch (mutationError) {
       setActionError("Unable to update the list right now.");
       console.error(mutationError);
