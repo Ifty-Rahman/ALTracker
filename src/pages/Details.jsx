@@ -439,14 +439,6 @@ function Details() {
                   {actionError || actionMessage}
                 </Typography>
               )}
-              {currentStatus && !actionError && !actionMessage && (
-                <Typography
-                  variant="caption"
-                  className="current-status-indicator"
-                >
-                  In list: {formatStatus(currentStatus, type)}
-                </Typography>
-              )}
             </Box>
 
             <Box className="details-info">
