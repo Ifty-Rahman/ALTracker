@@ -2,7 +2,7 @@
 
 ALTrack is a personal AniList companion that makes it easy to discover, track, and manage your anime and manga journey within a sleek, responsive interface.
 
-Live site: https://altrack.vercel.app/
+Live site: https://altrack.vercel.app/ — visit and log in with your AniList account to get started.
 
 ## Core Features
 
