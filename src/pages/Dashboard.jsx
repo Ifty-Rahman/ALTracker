@@ -57,6 +57,7 @@ function Dashboard() {
   const { loading, error, data } = useQuery(GET_CURRENT_MEDIA, {
     variables: { userName: username, type: mediaType },
     skip: !authToken || !username,
+    fetchPolicy: "network-only",
   });
 
   function getScoreDisplay(entry, scoreFormat) {
