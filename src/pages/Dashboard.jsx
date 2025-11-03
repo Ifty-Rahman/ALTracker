@@ -1,10 +1,7 @@
 import { useQuery, useMutation } from "@apollo/client/react";
+import { useNavigate } from "react-router-dom";
 import "../css/Dashboard.css";
-import {
-  GET_CURRENTLY_WATCHING,
-  GET_CURRENTLY_READING,
-  GET_CURRENT_USER,
-} from "../services/Queries.jsx";
+import { GET_CURRENT_MEDIA, GET_CURRENT_USER } from "../services/Queries.jsx";
 import {
   UPDATE_ANIME_ENTRY,
   UPDATE_MANGA_ENTRY,
@@ -16,6 +13,7 @@ import { TrophySpin } from "react-loading-indicators";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const [mediaType, setMediaType] = useState("ANIME");
 
   useEffect(() => {
@@ -56,29 +54,10 @@ function Dashboard() {
   const [editingId, setEditingId] = useState(null);
   const [tempScore, setTempScore] = useState("");
 
-  // Fetch anime data
-  const {
-    loading: animeLoading,
-    error: animeError,
-    data: animeData,
-  } = useQuery(GET_CURRENTLY_WATCHING, {
-    variables: { userName: username },
-    skip: !authToken || !username || mediaType !== "ANIME",
+  const { loading, error, data } = useQuery(GET_CURRENT_MEDIA, {
+    variables: { userName: username, type: mediaType },
+    skip: !authToken || !username,
   });
-
-  // Fetch manga data
-  const {
-    loading: mangaLoading,
-    error: mangaError,
-    data: mangaData,
-  } = useQuery(GET_CURRENTLY_READING, {
-    variables: { userName: username },
-    skip: !authToken || !username || mediaType !== "MANGA",
-  });
-
-  const loading = mediaType === "ANIME" ? animeLoading : mangaLoading;
-  const error = mediaType === "ANIME" ? animeError : mangaError;
-  const data = mediaType === "ANIME" ? animeData : mangaData;
 
   function getScoreDisplay(entry, scoreFormat) {
     const score = entry?.score ?? 0;
@@ -221,7 +200,6 @@ function Dashboard() {
         }
       }
     } else {
-      // MANGA
       if (isVolume) {
         const newVolumes = (entry.progressVolumes || 0) + delta;
         if (newVolumes < 0 || newVolumes > (entry.media.volumes || Infinity))
@@ -280,6 +258,10 @@ function Dashboard() {
     }
   };
 
+  const handleCardClick = (media) => {
+    navigate(`/Details?id=${media.id}&type=${media.type}`);
+  };
+
   return (
     <div>
       {authToken ? (
@@ -319,7 +301,9 @@ function Dashboard() {
                     className="dashboard-card-image"
                     style={{
                       backgroundImage: `url(${entry.media.coverImage.large})`,
+                      cursor: "pointer",
                     }}
+                    onClick={() => handleCardClick(entry.media)}
                   >
                     <h3 className="dashboard-anime-title">
                       {entry.media.title.english || entry.media.title.romaji}
