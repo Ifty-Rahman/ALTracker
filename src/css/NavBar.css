@@ -22,7 +22,7 @@
 }
 
 .AL {
-    color: #03a9ff;
+    color: #6e35ff;
     transition: color 0.3s ease;
 }
 
@@ -135,11 +135,8 @@
 
 /* Mobile Search Trigger */
 .search-trigger-mobile {
-    background: rgba(17, 25, 40, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
