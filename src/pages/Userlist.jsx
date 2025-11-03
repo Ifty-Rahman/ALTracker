@@ -142,7 +142,7 @@ function UserList() {
                 Visit Discover or Search to add some titles to your lists.
               </p>
               <div className="userlist-empty-actions">
-                <Link to="/Discover">Go to Discover</Link>
+                <Link to="/">Go to Discover</Link>
               </div>
             </div>
           )}
