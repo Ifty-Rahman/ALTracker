@@ -1,9 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { MdSearch } from "react-icons/md";
 import { PiHandTapBold } from "react-icons/pi";
 import "../css/NavBar.css";
-import { IoSettings, IoNotificationsSharp } from "react-icons/io5";
+import {
+  IoSettings,
+  IoNotificationsSharp,
+  IoSearchSharp,
+} from "react-icons/io5";
 
 function NavBar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -103,7 +106,7 @@ function NavBar() {
         <div className="nav-search-desktop" ref={searchContainerRef}>
           <form className="nav-search-form" onSubmit={handleSearchSubmit}>
             <div className="search-input-wrapper">
-              <MdSearch className="search-icon" size={20} />
+              <IoSearchSharp className="search-icon" size={20} />
               <input
                 ref={searchInputRef}
                 type="text"
@@ -143,7 +146,7 @@ function NavBar() {
         <>
           {!isSearchOpen && (
             <button className="search-trigger-mobile" onClick={openSearch}>
-              <MdSearch className="search-icon" size={24} />
+              <IoSearchSharp className="search-icon" size={24} />
             </button>
           )}
 
@@ -155,7 +158,7 @@ function NavBar() {
                   onSubmit={handleSearchSubmit}
                 >
                   <div className="search-header-mobile">
-                    <MdSearch className="search-icon-mobile" size={24} />
+                    <IoSearchSharp className="search-icon-mobile" size={24} />
                     <input
                       ref={searchInputRef}
                       type="text"
