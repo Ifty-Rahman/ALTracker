@@ -27,6 +27,7 @@ export const GET_POPULAR_ANIMANGA = gql`
       }
       media(type: $type, sort: POPULARITY_DESC) {
         id
+        type
         title {
           english
           romaji
@@ -52,6 +53,7 @@ export const GET_TRENDING_ANIMANGA = gql`
       }
       media(type: $type, sort: $sort) {
         id
+        type
         title {
           english
           romaji
@@ -88,6 +90,7 @@ export const GET_POPULAR_SEASONAL_ANIME = gql`
         seasonYear: $seasonYear
       ) {
         id
+        type
         title {
           english
           romaji
@@ -124,6 +127,7 @@ export const GET_UPCOMING_SEASONAL_ANIME = gql`
         seasonYear: $seasonYear
       ) {
         id
+        type
         title {
           english
           romaji
@@ -148,6 +152,7 @@ export const GET_POPULAR_MANHWA = gql`
       }
       media(type: MANGA, countryOfOrigin: KR, sort: POPULARITY_DESC) {
         id
+        type
         title {
           romaji
           english
@@ -326,6 +331,7 @@ export const GET_SEARCH_DATA = gql`
     Page(page: $page, perPage: $perPage) {
       media(search: $search, type: $type) {
         id
+        type
         title {
           romaji
           english
@@ -333,6 +339,142 @@ export const GET_SEARCH_DATA = gql`
         coverImage {
           large
         }
+      }
+    }
+  }
+`;
+
+export const GET_MEDIA_DETAILS = gql`
+  query GetMediaDetails($id: Int!, $type: MediaType!) {
+    Media(id: $id, type: $type) {
+      id
+      type
+      title {
+        romaji
+        english
+        native
+        userPreferred
+      }
+      coverImage {
+        large
+        medium
+      }
+      bannerImage
+      description
+      status
+      episodes # for anime
+      chapters # for manga
+      volumes # for manga
+      duration # minutes per episode
+      genres
+      averageScore
+      meanScore
+      popularity
+      favourites
+      season
+      seasonYear
+      startDate {
+        year
+        month
+        day
+      }
+      endDate {
+        year
+        month
+        day
+      }
+      isAdult
+      format
+      source
+      nextAiringEpisode {
+        airingAt
+        episode
+        timeUntilAiring
+      }
+      characters(sort: [ROLE, RELEVANCE]) {
+        edges {
+          role
+          node {
+            id
+            name {
+              full
+            }
+            image {
+              medium
+            }
+          }
+        }
+      }
+      staff(sort: [RELEVANCE, ROLE]) {
+        edges {
+          role
+          node {
+            id
+            name {
+              full
+            }
+            image {
+              medium
+            }
+          }
+        }
+      }
+      studios(isMain: true) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+      externalLinks {
+        site
+        url
+      }
+      rankings {
+        rank
+        type
+        allTime
+        context
+      }
+      recommendations {
+        nodes {
+          mediaRecommendation {
+            id
+            title {
+              romaji
+              english
+              userPreferred
+            }
+            coverImage {
+              medium
+              large
+            }
+          }
+        }
+      }
+      relations {
+        edges {
+          relationType
+          node {
+            id
+            type
+            title {
+              romaji
+              english
+              userPreferred
+            }
+            coverImage {
+              medium
+              large
+            }
+          }
+        }
+      }
+      streamingEpisodes {
+        title
+        thumbnail
+        url
       }
     }
   }
