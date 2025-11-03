@@ -1,48 +1,56 @@
-import { useState } from "react";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import PopularThisSeason from "../components/PopularThisSeason.jsx";
-import PopularAllTime from "../components/PopularAllTime.jsx";
-import UpcomingNextSeason from "../components/Upcoming.jsx";
-import Trending from "./Trending.jsx";
-import PopularManhwa from "../components/PopularManhwa.jsx";
-import "../css/Discover.css";
+import { useQuery } from "@apollo/client/react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { GET_POPULAR_MANHWA } from "../services/Queries.jsx";
+import ContentCard from "./Contentcard.jsx";
 
-function Discover() {
-  const [mediaType, setMediaType] = useState("ANIME");
+function PopularManhwa() {
+  const navigate = useNavigate();
+  const { loading, error, data } = useQuery(GET_POPULAR_MANHWA, {
+    variables: {
+      page: 1,
+      perPage: 15,
+    },
+  });
+  const [popularManhwa, setPopularManhwa] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setPopularManhwa(data.Page.media);
+    }
+  }, [data]);
+
+  const handleViewAll = () => {
+    navigate("/Browse?section=manhwa");
+  };
+
+  const handleButton = () => {
+    navigate("/Browse?section=manhwa");
+  };
+
+  if (error) return <p className="error-msg">Error: {error.message}</p>;
+  if (loading) return null;
 
   return (
-    <div className="discover">
-      <div className="discover-toggle">
-        <ToggleButtonGroup
-          className="toggle-group"
-          value={mediaType}
-          exclusive
-          onChange={(e, value) => value && setMediaType(value)}
-        >
-          <ToggleButton value="ANIME" aria-label="anime">
-            Anime
-          </ToggleButton>
-          <ToggleButton value="MANGA" aria-label="manga">
-            Manga
-          </ToggleButton>
-        </ToggleButtonGroup>
+    <>
+      <div className="button-row">
+        <button className="title-btn" onClick={handleButton}>
+          Popular Manhwa
+        </button>
+        <button className="view-all" onClick={handleViewAll}>
+          view all
+          <div className="arrow-wrapper">
+            <div className="arrow"></div>
+          </div>
+        </button>
       </div>
-
-      {mediaType === "ANIME" ? (
-        <>
-          <Trending type={mediaType} />
-          <PopularThisSeason />
-          <UpcomingNextSeason />
-          <PopularAllTime type={mediaType} />
-        </>
-      ) : (
-        <>
-          <PopularManhwa />
-          <PopularAllTime type={mediaType} />
-        </>
-      )}
-    </div>
+      <div className="content-grid">
+        {popularManhwa.map((content) => (
+          <ContentCard content={content} key={content.id} />
+        ))}
+      </div>
+    </>
   );
 }
 
-export default Discover;
+export default PopularManhwa;
