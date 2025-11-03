@@ -4,6 +4,40 @@
     justify-content: start;
 }
 
+.userlist-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    margin: 20px 0 10px;
+}
+
+.userlist-toggle-group .MuiToggleButton-root {
+    color: #b0b0b0 !important;
+    background-color: rgba(17, 25, 40, 0.4) !important;
+    border: none !important;
+    font-weight: 500;
+    text-transform: none;
+    padding: 6px 18px;
+    transition: all 0.2s ease;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.userlist-toggle-group .MuiToggleButton-root.Mui-selected {
+    color: #ffffff !important;
+    background-color: #6e35ff !important;
+    font-weight: 600;
+}
+
+.userlist-toggle-group .MuiToggleButton-root:hover {
+    background-color: rgba(17, 25, 40, 0.7) !important;
+}
+
+.userlist-toggle-group .MuiToggleButton-root.Mui-selected:hover {
+    background-color: #5a1ee6 !important;
+}
+
 .anime-list {
     width: 100%;
 }
@@ -62,6 +96,7 @@
     align-items: flex-end;
     position: relative;
     padding: 0;
+    cursor: pointer;
 }
 
 .anime-card-title {
@@ -87,9 +122,17 @@
 .anime-info-list {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
     color: lightgrey;
-    padding: 0 20px;
+    padding: 0 20px 16px;
     font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.anime-info-list p {
+    margin: 4px 0;
 }
 
 .anime-card-list:hover {
