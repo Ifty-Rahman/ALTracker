@@ -14,6 +14,7 @@ import ProfilePage from "./pages/Profile.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Dock from "./components/Dock.jsx";
 import Search from "./pages/Search.jsx";
+import Details from "./pages/Details.jsx";
 import {
   MdDashboard,
   MdExplore,
@@ -148,6 +149,7 @@ export default function App() {
             <Route path="/Userlist" element={<UserList />} />
             <Route path="/Profile" element={<ProfilePage />} />
             <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Details" element={<Details />} />
           </Routes>
           <DockWrapper />
         </ApolloProvider>
