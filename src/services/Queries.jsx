@@ -1,6 +1,5 @@
 import { gql } from "@apollo/client";
 
-// Query to get the current logged-in user
 export const GET_CURRENT_USER = gql`
   query {
     Viewer {
@@ -14,7 +13,6 @@ export const GET_CURRENT_USER = gql`
   }
 `;
 
-// Query to get top popular anime
 export const GET_POPULAR_ANIMANGA = gql`
   query ($page: Int, $perPage: Int, $type: MediaType) {
     Page(page: $page, perPage: $perPage) {
@@ -40,7 +38,6 @@ export const GET_POPULAR_ANIMANGA = gql`
   }
 `;
 
-// Query to get top trending anime
 export const GET_TRENDING_ANIMANGA = gql`
   query ($page: Int, $perPage: Int, $sort: [MediaSort], $type: MediaType) {
     Page(page: $page, perPage: $perPage) {
@@ -66,7 +63,6 @@ export const GET_TRENDING_ANIMANGA = gql`
   }
 `;
 
-// Query to get top popular anime for the current season
 export const GET_POPULAR_SEASONAL_ANIME = gql`
   query (
     $page: Int
@@ -103,7 +99,6 @@ export const GET_POPULAR_SEASONAL_ANIME = gql`
   }
 `;
 
-// Query to get top upcoming anime for next season
 export const GET_UPCOMING_SEASONAL_ANIME = gql`
   query (
     $page: Int
@@ -140,7 +135,6 @@ export const GET_UPCOMING_SEASONAL_ANIME = gql`
   }
 `;
 
-// Query to get top trending manhwa
 export const GET_POPULAR_MANHWA = gql`
   query ($page: Int, $perPage: Int) {
     Page(page: $page, perPage: $perPage) {
@@ -170,19 +164,19 @@ export const GET_POPULAR_MANHWA = gql`
   }
 `;
 
-// Query to get a user's current anime list
 export const GET_USER_ANIME_LIST = gql`
   query GetUserAnimeList($userName: String) {
     Viewer {
       id
       name
     }
-    MediaListCollection(userName: $userName, type: ANIME) {
+    anime: MediaListCollection(userName: $userName, type: ANIME) {
       lists {
         name
         entries {
           media {
             id
+            type
             title {
               english
               romaji
@@ -197,6 +191,29 @@ export const GET_USER_ANIME_LIST = gql`
         }
       }
     }
+    manga: MediaListCollection(userName: $userName, type: MANGA) {
+      lists {
+        name
+        entries {
+          media {
+            id
+            type
+            title {
+              english
+              romaji
+            }
+            coverImage {
+              large
+            }
+            chapters
+            volumes
+          }
+          score
+          progress
+          progressVolumes
+        }
+      }
+    }
     User(name: $userName) {
       id
       mediaListOptions {
@@ -206,7 +223,6 @@ export const GET_USER_ANIME_LIST = gql`
   }
 `;
 
-// Query to get user statistics
 export const GET_USER_STATISTICS = gql`
   query Query {
     Viewer {
@@ -237,51 +253,11 @@ export const GET_USER_STATISTICS = gql`
   }
 `;
 
-// Query to get the currently watching anime for a user
-export const GET_CURRENTLY_WATCHING = gql`
-  query GetCurrentlyWatching($userName: String) {
+export const GET_CURRENT_MEDIA = gql`
+  query GetCurrentMedia($userName: String, $type: MediaType) {
     MediaListCollection(
       userName: $userName
-      type: ANIME
-      status: CURRENT
-      sort: UPDATED_TIME_DESC
-    ) {
-      lists {
-        entries {
-          id
-          mediaId
-          status
-          score
-          progress
-          media {
-            id
-            title {
-              english
-              romaji
-            }
-            coverImage {
-              large
-            }
-            episodes
-          }
-        }
-      }
-    }
-    User(name: $userName) {
-      id
-      mediaListOptions {
-        scoreFormat
-      }
-    }
-  }
-`;
-
-// Query to get the currently reading manga for a user
-export const GET_CURRENTLY_READING = gql`
-  query GetCurrentlyReading($userName: String) {
-    MediaListCollection(
-      userName: $userName
-      type: MANGA
+      type: $type
       status: CURRENT
       sort: UPDATED_TIME_DESC
     ) {
@@ -295,6 +271,7 @@ export const GET_CURRENTLY_READING = gql`
           progressVolumes
           media {
             id
+            type
             title {
               english
               romaji
@@ -302,6 +279,7 @@ export const GET_CURRENTLY_READING = gql`
             coverImage {
               large
             }
+            episodes
             chapters
             volumes
           }
@@ -362,10 +340,10 @@ export const GET_MEDIA_DETAILS = gql`
       bannerImage
       description
       status
-      episodes # for anime
-      chapters # for manga
-      volumes # for manga
-      duration # minutes per episode
+      episodes
+      chapters
+      volumes
+      duration
       genres
       averageScore
       meanScore
