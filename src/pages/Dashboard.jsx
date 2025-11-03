@@ -264,7 +264,7 @@ function Dashboard() {
     navigate(`/Details?id=${media.id}&type=${targetType}`);
   };
 
-  const redirectToDiscover = () => navigate("/Discover");
+  const redirectToDiscover = () => navigate("/");
 
   return (
     <div>
