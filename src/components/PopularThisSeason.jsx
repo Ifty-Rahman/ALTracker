@@ -39,6 +39,10 @@ function PopularThisSeason() {
     navigate("/Browse?section=seasonal");
   };
 
+  const handleCardClick = (content) => {
+    navigate(`/Details?id=${content.id}&type=${content.type}`);
+  };
+
   if (error) return <p className="error-msg">Error: {error.message}</p>;
   if (loading) return;
 
@@ -55,9 +59,11 @@ function PopularThisSeason() {
           </div>
         </button>
       </div>
-      <div className="content-grid">
+      <div onClick={() => handleCardClick(content)} className="content-grid">
         {popular_seasonal_anime.map((content) => (
-          <ContentCard content={content} key={content.id} />
+          <div key={content.id} onClick={() => handleCardClick(content)}>
+            <ContentCard content={content} />
+          </div>
         ))}
       </div>
     </>

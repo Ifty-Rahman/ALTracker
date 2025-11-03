@@ -31,6 +31,10 @@ function Trending({ type }) {
     navigate("/Browse?section=trending");
   };
 
+  const handleCardClick = (content) => {
+    navigate(`/Details?id=${content.id}&type=${content.type}`);
+  };
+
   if (loading)
     return (
       <div className="loading-indicator">
@@ -52,9 +56,11 @@ function Trending({ type }) {
           </div>
         </button>
       </div>
-      <div className="content-grid">
+      <div onClick={() => handleCardClick(content)} className="content-grid">
         {trendingAnime.map((content) => (
-          <ContentCard content={content} key={content.id} />
+          <div key={content.id} onClick={() => handleCardClick(content)}>
+            <ContentCard content={content} />
+          </div>
         ))}
       </div>
     </>

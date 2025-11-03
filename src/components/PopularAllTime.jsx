@@ -30,8 +30,8 @@ function PopularAllTime({ type }) {
     navigate("/Browse?section=popular");
   };
 
-  const handleCardClick = () => {
-    navigate(`/Details?id=${content.id}`);
+  const handleCardClick = (content) => {
+    navigate(`/Details?id=${content.id}&type=${content.type}`);
   };
 
   if (error) return <p className="error-msg">Error: {error.message}</p>;
@@ -50,9 +50,11 @@ function PopularAllTime({ type }) {
           </div>
         </button>
       </div>
-      <div onClick={handleCardClick} className="content-grid">
+      <div onClick={() => handleCardClick(content)} className="content-grid">
         {popularAnime.map((content) => (
-          <ConentCard content={content} key={content.id} />
+          <div key={content.id} onClick={() => handleCardClick(content)}>
+            <ConentCard content={content} />
+          </div>
         ))}
       </div>
     </>
