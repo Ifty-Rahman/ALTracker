@@ -13,7 +13,6 @@ import {
   useRef,
   useState,
 } from "react";
-
 import "../css/Dock.css";
 
 motion;
@@ -46,6 +45,17 @@ function DockItem({
   );
   const size = useSpring(targetSize, spring);
 
+  const handleClick = (event) => {
+    if (typeof onClick === "function") {
+      onClick(event);
+    }
+
+    if (event?.detail > 0) {
+      isHovered.set(0);
+      ref.current?.blur();
+    }
+  };
+
   return (
     <motion.div
       ref={ref}
@@ -57,7 +67,7 @@ function DockItem({
       onHoverEnd={() => isHovered.set(0)}
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
-      onClick={onClick}
+      onClick={handleClick}
       className={`dock-item ${className}`}
       tabIndex={0}
       role="button"
