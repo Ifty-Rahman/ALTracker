@@ -17,7 +17,7 @@ function Discover() {
           className="toggle-group"
           value={mediaType}
           exclusive
-          onChange={(value) => value && setMediaType(value)}
+          onChange={(_, value) => value && setMediaType(value)}
         >
           <ToggleButton value="ANIME" aria-label="anime">
             Anime
