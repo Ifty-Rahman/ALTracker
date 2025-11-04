@@ -27,16 +27,14 @@ function NavBar() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Handle keyboard shortcuts
+  // Keyboard shortcut Cmd/Ctrl + K
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Cmd+K or Ctrl+K to open search
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setIsSearchOpen(true);
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isSearchOpen]);
@@ -48,7 +46,7 @@ function NavBar() {
     }
   }, [isSearchOpen]);
 
-  // Close search when clicking outside
+  // Close search when clicking outside (mobile only)
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -60,7 +58,6 @@ function NavBar() {
         setIsSearchOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobile, isSearchOpen]);
@@ -70,9 +67,7 @@ function NavBar() {
     const trimmedQuery = searchQuery.trim();
 
     const params = new URLSearchParams();
-    if (trimmedQuery) {
-      params.set("query", trimmedQuery);
-    }
+    if (trimmedQuery) params.set("query", trimmedQuery);
     params.set("type", searchType);
 
     navigate(`/Search?${params.toString()}`);
@@ -87,10 +82,7 @@ function NavBar() {
     setSearchType((prevType) => (prevType === "Anime" ? "Manga" : "Anime"));
   };
 
-  const openSearch = () => {
-    setIsSearchOpen(true);
-  };
-
+  const openSearch = () => setIsSearchOpen(true);
   const clearSearch = () => setSearchQuery("");
 
   return (
@@ -101,7 +93,7 @@ function NavBar() {
         </Link>
       </div>
 
-      {/* Desktop Search - Always visible */}
+      {/* Desktop Search */}
       {!isMobile && (
         <div className="nav-search-desktop" ref={searchContainerRef}>
           <form className="nav-search-form" onSubmit={handleSearchSubmit}>
@@ -141,61 +133,57 @@ function NavBar() {
         </div>
       )}
 
-      {/* Mobile Search */}
-      {isMobile && (
-        <>
-          {!isSearchOpen && (
-            <button className="search-trigger-mobile" onClick={openSearch}>
-              <IoSearchSharp className="search-icon" size={24} />
-            </button>
-          )}
-
-          {isSearchOpen && (
-            <div className="search-overlay-mobile">
-              <div className="search-modal-mobile" ref={searchContainerRef}>
-                <form
-                  className="nav-search-form-mobile"
-                  onSubmit={handleSearchSubmit}
-                >
-                  <div className="search-header-mobile">
-                    <IoSearchSharp className="search-icon-mobile" size={24} />
-                    <input
-                      ref={searchInputRef}
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder={`Search ${searchType}...`}
-                      className="search-input-mobile"
-                    />
-                    {searchQuery && (
-                      <button
-                        type="button"
-                        className="clear-btn-mobile"
-                        onClick={clearSearch}
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
-                  <div className="search-footer-mobile">
-                    <button
-                      type="button"
-                      className={`search-type-toggle-mobile search-type-toggle--${searchType}`}
-                      onClick={toggleSearchType}
-                    >
-                      {searchType === "Anime" ? "Anime" : "Manga"}
-                    </button>
-                    <button type="submit" className="search-submit-mobile">
-                      Search
-                    </button>
-                  </div>
-                </form>
+      {/* Mobile Search Overlay */}
+      {isMobile && isSearchOpen && (
+        <div className="search-overlay-mobile">
+          <div className="search-modal-mobile" ref={searchContainerRef}>
+            <form
+              className="nav-search-form-mobile"
+              onSubmit={handleSearchSubmit}
+            >
+              <div className="search-header-mobile">
+                <IoSearchSharp className="search-icon-mobile" size={24} />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={`Search ${searchType}...`}
+                  className="search-input-mobile"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    className="clear-btn-mobile"
+                    onClick={clearSearch}
+                  >
+                    ✕
+                  </button>
+                )}
               </div>
-            </div>
-          )}
-        </>
+              <div className="search-footer-mobile">
+                <button
+                  type="button"
+                  className={`search-type-toggle-mobile search-type-toggle--${searchType}`}
+                  onClick={toggleSearchType}
+                >
+                  {searchType === "Anime" ? "Anime" : "Manga"}
+                </button>
+                <button type="submit" className="search-submit-mobile">
+                  Search
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
+
       <div className="settings">
+        {isMobile && !isSearchOpen && (
+          <button className="search-trigger-mobile" onClick={openSearch}>
+            <IoSearchSharp className="search-icon" size={24} />
+          </button>
+        )}
         <IoNotificationsSharp size={24} />
         <IoSettings size={24} />
       </div>
