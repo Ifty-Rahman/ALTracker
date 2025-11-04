@@ -80,22 +80,3 @@
 .status-dropdown-container {
     display: block;
 }
-
-@media (max-width: 480px) {
-    .content-card:hover {
-        transform: scale(1);
-    }
-    .content-card h3 {
-        font-size: 0.7rem;
-    }
-
-    .content-title-popup-content {
-        font-size: 0.7rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .content-card img {
-        height: 240px;
-    }
-}

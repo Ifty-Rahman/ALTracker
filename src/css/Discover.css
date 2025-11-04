@@ -121,14 +121,3 @@ button:hover .arrow:before {
     border-color: var(--hover-color);
     right: 0;
 }
-
-@media (max-width: 480px) {
-    .content-grid > * {
-        flex: 0 0 auto;
-        height: 200px;
-        width: 160px;
-    }
-    .discover h1 {
-        font-size: 1.5rem;
-    }
-}
