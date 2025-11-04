@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client/react";
+import { useAuth } from "../contexts/AuthContext.js";
 import {
   Box,
   Button,
@@ -22,50 +23,12 @@ import {
   GET_USER_MEDIA_STATUS,
 } from "../services/Queries.jsx";
 import { SAVE_MEDIA_TO_LIST, TOGGLE_FAVOURITE } from "../services/Mutation.jsx";
+import {
+  LIST_STATUSES,
+  formatStatus,
+  formatRelation,
+} from "../utils/detailsHelpers.js";
 import "../css/Details.css";
-
-const LIST_STATUSES = [
-  "CURRENT",
-  "PLANNING",
-  "COMPLETED",
-  "PAUSED",
-  "DROPPED",
-  "REPEATING",
-];
-
-const STATUS_LABELS = {
-  CURRENT: { ANIME: "Currently Watching", MANGA: "Currently Reading" },
-  PLANNING: { default: "Planning" },
-  COMPLETED: { default: "Completed" },
-  PAUSED: { default: "On Hold" },
-  DROPPED: { default: "Dropped" },
-  REPEATING: { ANIME: "Rewatching", MANGA: "Rereading", default: "Rewatching" },
-};
-
-const toDisplayText = (label) =>
-  label
-    .toLowerCase()
-    .split(" ")
-    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-    .join(" ");
-
-const formatStatus = (status, mediaType) => {
-  if (!status) return "";
-  const formattedStatus = STATUS_LABELS[status];
-  if (!formattedStatus) {
-    return toDisplayText(status.replace(/_/g, " "));
-  }
-  if (typeof formattedStatus === "string") {
-    return formattedStatus;
-  }
-  return (
-    formattedStatus[mediaType] ||
-    formattedStatus.default ||
-    toDisplayText(status.replace(/_/g, " "))
-  );
-};
-
-const formatRelation = (relation) => toDisplayText(relation.replace(/_/g, " "));
 
 function Details() {
   const [searchParams] = useSearchParams();
@@ -73,11 +36,7 @@ function Details() {
   const rawType = searchParams.get("type");
   const type = rawType ? rawType.toUpperCase() : null;
 
-  const [authToken, setAuthToken] = useState(
-    typeof window !== "undefined"
-      ? localStorage.getItem("anilist_token")
-      : null,
-  );
+  const { authToken } = useAuth();
   const [currentStatus, setCurrentStatus] = useState(null);
   const [isFavourite, setIsFavourite] = useState(false);
   const [actionMessage, setActionMessage] = useState("");
@@ -86,18 +45,6 @@ function Details() {
   const listMenuOpen = Boolean(anchorEl);
 
   const skipQuery = Number.isNaN(id) || !type;
-
-  useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-    const handleAuthChange = () => {
-      setAuthToken(localStorage.getItem("anilist_token"));
-    };
-
-    window.addEventListener("authChange", handleAuthChange);
-    return () => {
-      window.removeEventListener("authChange", handleAuthChange);
-    };
-  }, []);
 
   const { loading, error, data, refetch } = useQuery(GET_MEDIA_DETAILS, {
     variables: { id, type },
@@ -245,7 +192,7 @@ function Details() {
     if (!media) return [];
     const seasonLabel =
       media.season && media.seasonYear
-        ? `${toDisplayText(media.season)} ${media.seasonYear}`
+        ? `${media.season.charAt(0) + media.season.slice(1).toLowerCase()} ${media.seasonYear}`
         : null;
     const startDate = media.startDate
       ? [media.startDate.year, media.startDate.month, media.startDate.day]
@@ -267,13 +214,18 @@ function Details() {
         ? media.episodes || media.chapters || media.volumes
         : "N/A";
 
+    const statusText = media.status
+      ? media.status.charAt(0) +
+        media.status.slice(1).toLowerCase().replace(/_/g, " ")
+      : "Unknown";
+
     return [
       { label: "Type", value: media.format || media.type },
       {
         label: type === "ANIME" ? "Episodes" : "Chapters/Volumes",
         value: countLabel,
       },
-      { label: "Status", value: toDisplayText(media.status || "Unknown") },
+      { label: "Status", value: statusText },
       {
         label: "Average Score",
         value: media.averageScore ? `${media.averageScore}%` : "N/A",
