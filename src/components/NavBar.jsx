@@ -2,11 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { PiHandTapBold } from "react-icons/pi";
 import "../css/NavBar.css";
-import {
-  IoSettings,
-  IoNotificationsSharp,
-  IoSearchSharp,
-} from "react-icons/io5";
+import { IoNotificationsSharp, IoSearchSharp } from "react-icons/io5";
 
 function NavBar() {
   const [searchQuery, setSearchQuery] = useState("");
