@@ -9,3 +9,9 @@
     margin-bottom: 20px;
     padding: 0;
 }
+
+@media (max-width: 480px) {
+    .search-grid {
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+    }
+}
