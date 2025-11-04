@@ -1,5 +1,5 @@
 import "../css/Profile.css";
-import { useState, useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext.js";
 import LogOut from "../components/LogoutButton.jsx";
 import ProfileMedia from "../components/ProfileMedia.jsx";
 import UserStats from "../components/UserStats.jsx";
@@ -9,21 +9,7 @@ import { useMemo } from "react";
 import { TrophySpin } from "react-loading-indicators";
 
 function ProfilePage() {
-  const [authToken, setAuthToken] = useState(
-    localStorage.getItem("anilist_token"),
-  );
-
-  useEffect(() => {
-    const handleAuthChange = () => {
-      setAuthToken(localStorage.getItem("anilist_token"));
-    };
-
-    window.addEventListener("authChange", handleAuthChange);
-
-    return () => {
-      window.removeEventListener("authChange", handleAuthChange);
-    };
-  }, []);
+  const { authToken } = useAuth();
 
   const {
     loading: userLoading,

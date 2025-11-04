@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.js";
 import "../css/LogoutButtton.css";
 
 function LogOut() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   function handleLogout() {
-    localStorage.removeItem("anilist_token");
-    window.dispatchEvent(new Event("authChange"));
+    logout();
     navigate("/");
   }
 

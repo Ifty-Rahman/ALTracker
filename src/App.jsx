@@ -6,6 +6,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./css/App.css";
+import { useAuth } from "./contexts/AuthContext.js";
 import Discover from "./pages/Discover.jsx";
 import UserList from "./pages/Userlist.jsx";
 import Browse from "./pages/Browse.jsx";
@@ -24,8 +25,9 @@ import {
 } from "react-icons/md";
 
 const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${import.meta.env.VITE_ANILIST_CLIENT_ID}&response_type=token`;
-const token = localStorage.getItem("anilist_token");
+
 const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("anilist_token");
   return {
     headers: {
       ...headers,
@@ -59,30 +61,16 @@ const client = new ApolloClient({
 });
 
 function DockWrapper() {
-  const [authToken, setAuthToken] = useState(
-    localStorage.getItem("anilist_token"),
-  );
-
+  const { authToken } = useAuth();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    handleResize(); // initial check
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    const handleAuthChange = () => {
-      setAuthToken(localStorage.getItem("anilist_token"));
-    };
-
-    window.addEventListener("authChange", handleAuthChange);
-
-    return () => {
-      window.removeEventListener("authChange", handleAuthChange);
-    };
-  }, []);
   const navigate = useNavigate();
 
   const dockItems = [

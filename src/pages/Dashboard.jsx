@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from "@apollo/client/react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.js";
 import "../css/Dashboard.css";
 import { GET_CURRENT_MEDIA, GET_CURRENT_USER } from "../services/Queries.jsx";
 import {
@@ -14,45 +15,28 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 function Dashboard() {
   const navigate = useNavigate();
+  const { authToken, login } = useAuth();
   const [mediaType, setMediaType] = useState("ANIME");
-
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
       const params = new URLSearchParams(hash.replace("#", ""));
       const token = params.get("access_token");
       if (token) {
-        localStorage.setItem("anilist_token", token);
-        window.dispatchEvent(new Event("authChange"));
+        login(token);
         window.history.replaceState(null, null, window.location.pathname);
         window.location.reload();
       }
     }
-  }, []);
+  }, [login]);
 
-  const [authToken, setAuthToken] = useState(
-    localStorage.getItem("anilist_token"),
-  );
-
-  useEffect(() => {
-    const handleAuthChange = () => {
-      setAuthToken(localStorage.getItem("anilist_token"));
-    };
-
-    window.addEventListener("authChange", handleAuthChange);
-
-    return () => {
-      window.removeEventListener("authChange", handleAuthChange);
-    };
-  }, []);
+  const [editingId, setEditingId] = useState(null);
+  const [tempScore, setTempScore] = useState("");
 
   const { data: viewerData } = useQuery(GET_CURRENT_USER, {
     skip: !authToken,
   });
   const username = viewerData?.Viewer?.name;
-
-  const [editingId, setEditingId] = useState(null);
-  const [tempScore, setTempScore] = useState("");
 
   const { loading, error, data } = useQuery(GET_CURRENT_MEDIA, {
     variables: { userName: username, type: mediaType },
