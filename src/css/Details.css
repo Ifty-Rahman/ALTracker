@@ -277,6 +277,7 @@
     border-radius: 18px;
     padding: 14px;
     border: 1px solid transparent;
+    cursor: pointer;
     transition:
         transform 0.2s ease,
         border-color 0.2s ease,
@@ -288,6 +289,11 @@
     transform: translateY(-6px);
     border-color: rgba(99, 102, 241, 0.3);
     background: rgba(30, 41, 59, 0.95);
+}
+
+.media-card:focus-visible {
+    outline: 2px solid rgba(99, 102, 241, 0.8);
+    outline-offset: 3px;
 }
 
 .media-card-img,

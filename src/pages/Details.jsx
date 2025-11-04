@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { useAuth } from "../contexts/AuthContext.js";
 import {
   Box,
   Button,
   Chip,
-  CircularProgress,
   IconButton,
   Menu,
   MenuItem,
@@ -29,9 +28,11 @@ import {
   formatRelation,
 } from "../utils/detailsHelpers.js";
 import "../css/Details.css";
+import { TrophySpin } from "react-loading-indicators";
 
 function Details() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const id = parseInt(searchParams.get("id"));
   const rawType = searchParams.get("type");
   const type = rawType ? rawType.toUpperCase() : null;
@@ -256,6 +257,14 @@ function Details() {
     ? formatStatus(currentStatus, type)
     : "Add to List";
 
+  const handleNavigateToMedia = (targetId, targetType) => {
+    if (!targetId || !targetType) return;
+    navigate({
+      pathname: "/Details",
+      search: `?id=${targetId}&type=${targetType}`,
+    });
+  };
+
   if (skipQuery) {
     return (
       <Box className="details-page">
@@ -266,13 +275,12 @@ function Details() {
     );
   }
 
-  if (loading) {
+  if (loading)
     return (
-      <Box className="details-page loading-state">
-        <CircularProgress color="inherit" size={48} />
-      </Box>
+      <div className="loading-indicator">
+        <TrophySpin color="#6e35ff" size="large" />
+      </div>
     );
-  }
 
   if (error) {
     return (
@@ -448,7 +456,28 @@ function Details() {
             </Box>
             <Box className="card-row">
               {relations.slice(0, 12).map((relation) => (
-                <Box key={relation.node.id} className="media-card">
+                <Box
+                  key={relation.node.id}
+                  className="media-card"
+                  role="link"
+                  tabIndex={0}
+                  onClick={() =>
+                    handleNavigateToMedia(relation.node.id, relation.node.type)
+                  }
+                  onKeyDown={(event) => {
+                    if (
+                      event.key === "Enter" ||
+                      event.key === " " ||
+                      event.key === "Spacebar"
+                    ) {
+                      event.preventDefault();
+                      handleNavigateToMedia(
+                        relation.node.id,
+                        relation.node.type,
+                      );
+                    }
+                  }}
+                >
                   <img
                     src={relation.node.coverImage?.medium}
                     alt={relation.node.title?.romaji}

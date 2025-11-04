@@ -50,7 +50,7 @@ function PopularAllTime({ type }) {
           </div>
         </button>
       </div>
-      <div onClick={() => handleCardClick(content)} className="content-grid">
+      <div className="content-grid">
         {popularAnime.map((content) => (
           <div key={content.id} onClick={() => handleCardClick(content)}>
             <ConentCard content={content} />

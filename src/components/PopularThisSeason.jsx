@@ -59,7 +59,7 @@ function PopularThisSeason() {
           </div>
         </button>
       </div>
-      <div onClick={() => handleCardClick(content)} className="content-grid">
+      <div className="content-grid">
         {popular_seasonal_anime.map((content) => (
           <div key={content.id} onClick={() => handleCardClick(content)}>
             <ContentCard content={content} />
