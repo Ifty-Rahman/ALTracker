@@ -133,17 +133,17 @@
 
 @media (max-width: 480px) {
     .anime-grid-list {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
     }
 
     .anime-card-image {
-        height: 200px;
+        height: 240px;
     }
 }
 
 .userlist-select {
-    min-width: 200px;
+    min-width: 240px;
 }
 
 .userlist-select .MuiInputLabel-root,
