@@ -185,7 +185,6 @@ function NavBar() {
           </button>
         )}
         <IoNotificationsSharp size={24} />
-        <IoSettings size={24} />
       </div>
     </nav>
   );
