@@ -125,7 +125,6 @@ button:hover .arrow:before {
     .button-row button {
         font-size: 1.1rem;
         padding: 8px 20px;
-        font-weight: 400;
     }
     button {
         --arrow-stroke: 2px;
