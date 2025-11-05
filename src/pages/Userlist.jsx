@@ -5,14 +5,9 @@ import { useAuth } from "../contexts/AuthContext.js";
 import { GET_CURRENT_USER, GET_USER_ANIME_LIST } from "../services/Queries.jsx";
 import { TrophySpin } from "react-loading-indicators";
 import "../css/Userlist.css";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "@mui/material";
+import UserListGrid from "../components/UserListGrid.jsx";
+import UserListSelect from "../components/UserListSelect.jsx";
+import UserListToggleGroup from "../components/UserListToggleGroup.jsx";
 
 function UserList() {
   const navigate = useNavigate();
@@ -110,84 +105,32 @@ function UserList() {
       {authToken ? (
         <div className="anime-list-container">
           <div className="userlist-header">
-            <ToggleButtonGroup
+            <UserListToggleGroup
               className="userlist-toggle-group"
               value={mediaType}
-              exclusive
               onChange={(_, value) => {
                 if (value) {
                   setMediaType(value);
                   setSelectedListName("Completed");
                 }
               }}
-            >
-              <ToggleButton value="ANIME" aria-label="anime lists">
-                Anime
-              </ToggleButton>
-              <ToggleButton value="MANGA" aria-label="manga lists">
-                Manga
-              </ToggleButton>
-            </ToggleButtonGroup>
+            />
             {listOptions.length > 0 && (
-              <FormControl
-                size="small"
+              <UserListSelect
                 className="userlist-select"
-                variant="outlined"
-              >
-                <InputLabel id="userlist-select-label">List</InputLabel>
-                <Select
-                  labelId="userlist-select-label"
-                  label="List"
-                  value={selectedListName}
-                  onChange={(event) => setSelectedListName(event.target.value)}
-                >
-                  {listOptions.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                value={selectedListName}
+                options={listOptions}
+                onChange={(event) => setSelectedListName(event.target.value)}
+              />
             )}
           </div>
           {hasLists ? (
             hasSelectedEntries ? (
-              <div className="anime-grid-list">
-                {selectedEntries.map(
-                  ({ media, score, progress, progressVolumes }) => {
-                    const totalEpisodes = media.episodes ?? "?";
-                    const totalChapters = media.chapters ?? "?";
-                    const totalVolumes = media.volumes ?? "?";
-                    const progressCount = progress ?? 0;
-                    const progressText = isAnime
-                      ? `Ep: ${progressCount}/${totalEpisodes}`
-                      : `Ch: ${progressCount}/${totalChapters}`;
-                    const volumeText = `Vol: ${progressVolumes ?? 0}/${totalVolumes}`;
-                    const scoreText = `Score: ${score ?? "-"}`;
-
-                    return (
-                      <div className="anime-card-list" key={media.id}>
-                        <div
-                          onClick={() => handleCardClick(media)}
-                          className="anime-card-image"
-                          style={{
-                            backgroundImage: `url(${media.coverImage.large})`,
-                          }}
-                        >
-                          <h3 className="anime-card-title">
-                            {media.title.english || media.title.romaji}
-                          </h3>
-                        </div>
-                        <div className="anime-info-list">
-                          <p>{progressText}</p>
-                          <p> {scoreText}</p>
-                          {!isAnime && <p>{volumeText}</p>}
-                        </div>
-                      </div>
-                    );
-                  },
-                )}
-              </div>
+              <UserListGrid
+                entries={selectedEntries}
+                isAnime={isAnime}
+                onCardClick={handleCardClick}
+              />
             ) : (
               <div className="userlist-empty">
                 <p>
@@ -214,7 +157,7 @@ function UserList() {
         </div>
       ) : (
         <div className="Not-Logged-In">
-          <p>Please log in to see your lists</p>
+          <p>Please log in with you Anilist account to see your lists</p>
         </div>
       )}
     </div>
