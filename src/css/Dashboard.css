@@ -291,6 +291,9 @@
 }
 
 @media (max-width: 480px) {
+    .dashboard-card-image {
+        height: 220px;
+    }
     .dashboard-container {
         margin: 0 20px 10px 20px;
     }
