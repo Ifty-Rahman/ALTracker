@@ -132,6 +132,7 @@ export default function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<Discover />} />
+            <Route path="/Discover" element={<Discover />} />
             <Route path="/Browse" element={<Browse />} />
             <Route path="/Search" element={<Search />} />
             <Route path="/Userlist" element={<UserList />} />
