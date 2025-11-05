@@ -6,7 +6,6 @@
         box-shadow 0.2s ease;
     cursor: default;
     position: relative;
-    margin-top: 10px;
 }
 
 .content-card img {
@@ -29,9 +28,9 @@
     margin: 0;
     padding: 10px 12px;
     font-size: 1rem;
-    color: lightgray;
-    font-weight: 600;
-    background: rgba(0, 0, 0, 0.8);
+    color: var(--text);
+    font-weight: 400;
+    background: var(--transparent);
     z-index: 2;
     box-sizing: border-box;
     border-radius: 0 0 10px 10px;
@@ -58,13 +57,10 @@
 }
 
 .content-title-popup-content {
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: #f1f1f1;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--text);
     border-radius: 12px;
     max-width: 90%;
-    width: 320px;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
     text-align: center;
 }
@@ -73,10 +69,18 @@
     padding: 10px;
 }
 
-.content-card:hover .status-dropdown-container {
-    display: block;
-}
-
-.status-dropdown-container {
-    display: block;
+@media (max-width: 768px) {
+    .content-title-popup {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        padding: 12px;
+        border-radius: 10px;
+    }
+    .content-card h3 {
+        font-size: 1rem;
+    }
+    .content-card:hover {
+        transform: none;
+    }
 }

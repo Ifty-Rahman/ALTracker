@@ -23,18 +23,6 @@ function NavBar() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Keyboard shortcut Cmd/Ctrl + K
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        setIsSearchOpen(true);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isSearchOpen]);
-
   // Focus input when search opens
   useEffect(() => {
     if (isSearchOpen && searchInputRef.current) {
@@ -120,10 +108,6 @@ function NavBar() {
                 {searchType === "Anime" ? "Anime" : "Manga"}
                 <PiHandTapBold size={15} />
               </button>
-              <div className="search-shortcuts">
-                <kbd className="kbd">⌘</kbd>
-                <kbd className="kbd">K</kbd>
-              </div>
             </div>
           </form>
         </div>
@@ -160,7 +144,7 @@ function NavBar() {
               <div className="search-footer-mobile">
                 <button
                   type="button"
-                  className={`search-type-toggle-mobile search-type-toggle--${searchType}`}
+                  className="search-type-toggle-mobile"
                   onClick={toggleSearchType}
                 >
                   {searchType === "Anime" ? "Anime" : "Manga"}
@@ -177,10 +161,14 @@ function NavBar() {
       <div className="settings">
         {isMobile && !isSearchOpen && (
           <button className="search-trigger-mobile" onClick={openSearch}>
-            <IoSearchSharp className="search-icon" size={24} />
+            <IoSearchSharp
+              color="var(--text)"
+              className="search-icon"
+              size={24}
+            />
           </button>
         )}
-        <IoNotificationsSharp size={24} />
+        <IoNotificationsSharp color="var(--text)" size={24} />
       </div>
     </nav>
   );

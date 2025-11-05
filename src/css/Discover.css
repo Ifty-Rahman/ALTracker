@@ -6,12 +6,14 @@
     display: flex;
     gap: 20px;
     overflow-x: auto;
-    padding: 0 20px 10px 20px;
+    padding: 10px 20px;
     scroll-behavior: smooth;
 }
+
 .content-grid::-webkit-scrollbar {
     display: none;
 }
+
 .content-grid > * {
     flex: 0 0 auto;
     width: 210px;
@@ -23,9 +25,9 @@
     align-items: center;
 }
 
-.view-all {
-    font-size: 1rem;
-    font-weight: 50;
+.button-row button {
+    color: var(--text);
+    font-weight: 600;
 }
 
 .discover-toggle {
@@ -39,8 +41,8 @@
 }
 
 .toggle-group .MuiToggleButton-root {
-    color: #b0b0b0 !important; /* Unselected text */
-    background-color: rgba(60, 57, 57, 0.2) !important;
+    color: var(--text-secondary) !important; /* Unselected text */
+    background-color: var(--transparent) !important;
     border: none !important;
     font-weight: 500;
     text-transform: none;
@@ -51,8 +53,8 @@
 }
 
 .toggle-group .MuiToggleButton-root.Mui-selected {
-    color: white !important;
-    background-color: #6e35ff !important;
+    color: var(--text) !important;
+    background-color: var(--primary) !important;
     font-weight: 600;
 }
 
@@ -61,25 +63,22 @@
 }
 
 .toggle-group .MuiToggleButton-root.Mui-selected:hover {
-    background-color: #5a1ee6 !important;
+    background-color: var(--hover) !important;
 }
 
 button {
-    --primary-color: transparent;
-    --secondary-color: lightgrey;
-    --hover-color: #6e35ff;
     --arrow-width: 10px;
-    --arrow-stroke: 2px;
+    --arrow-stroke: 3px;
     box-sizing: border-box;
     border: 0;
     border-radius: 20px;
-    color: var(--secondary-color);
+    color: var(--text);
     padding: 0.5em 1em;
-    background: var(--primary-color);
+    background: transparent;
     display: flex;
     transition: 0.2s color;
     align-items: center;
-    gap: 0.6em;
+    gap: 8px;
     font-size: 1.3rem;
     font-weight: bold;
     margin-left: 10px 0;
@@ -93,7 +92,7 @@ button .arrow-wrapper {
 button .arrow {
     margin-top: 1px;
     width: var(--arrow-width);
-    background: var(--primary-color);
+    background: transparent;
     height: var(--arrow-stroke);
     position: relative;
     transition: 0.2s;
@@ -102,7 +101,7 @@ button .arrow::before {
     content: "";
     box-sizing: border-box;
     position: absolute;
-    border: solid var(--secondary-color);
+    border: solid var(--text);
     border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
     display: inline-block;
     top: -3px;
@@ -112,12 +111,28 @@ button .arrow::before {
     transform: rotate(-45deg);
 }
 button:hover {
-    color: var(--hover-color);
+    color: var(--primary);
 }
 button:hover .arrow {
-    background: var(--hover-color);
+    background: var(--primary);
 }
 button:hover .arrow:before {
-    border-color: var(--hover-color);
+    border-color: var(--primary);
     right: 0;
+}
+
+@media (max-width: 768px) {
+    .button-row button {
+        font-size: 1.1rem;
+        padding: 8px 20px;
+        font-weight: 300;
+    }
+    button {
+        --arrow-stroke: 2px;
+    }
+}
+@media (max-width: 480px) {
+    .discover {
+        margin-bottom: 0;
+    }
 }
