@@ -1,23 +1,24 @@
 .user-stats-container {
     width: 100%;
     background-color: transparent;
-    color: #fff;
+    color: var(--text);
     border-radius: 1.5rem;
 }
 
 .overview-title {
     text-align: center;
-    color: #fff;
+    color: var(--text);
     font-size: 1.5rem;
     font-weight: 600;
+    margin: 30px 0;
 }
 
 .stats-box {
     display: flex;
     justify-content: space-between;
-    background-color: rgba(27, 27, 30, 0.25);
+    background-color: var(--transparent-less);
     border-radius: 1rem;
-    padding: 2rem;
+    padding: 1.5rem 2rem;
 }
 
 .stats-section {
@@ -76,9 +77,9 @@
 }
 
 .genre-title {
+    margin: 30px 0;
     text-align: center;
-    margin-top: 2rem;
-    color: #fff;
+    color: var(--text);
     font-size: 1.5rem;
     font-weight: 600;
 }
@@ -90,10 +91,10 @@
 }
 
 .top-genres {
-    background-color: rgba(27, 27, 30, 0.25);
+    background-color: var(--transparent-less);
     border-radius: 20px;
     padding: 25px;
-    color: #fff;
+    color: var(--text);
     font-family: system-ui, sans-serif;
     flex: 1;
 }
@@ -106,13 +107,17 @@
 
 .top-genres h3 {
     text-align: center;
-    color: #fff;
+    color: var(--text);
     font-size: 1.7rem;
     font-weight: 600;
-    margin-bottom: 15px;
+    margin: 0;
 }
 
 @media (max-width: 768px) {
+    .stats-box {
+        padding: 1rem 2rem;
+    }
+
     .genres-box {
         flex-direction: column;
     }
@@ -124,8 +129,12 @@
     }
 
     .top-genres {
-        padding: 16px;
+        padding: 0 20px 10px;
         border-radius: 12px;
+    }
+
+    .top-genres h3 {
+        margin: 30px 0;
     }
 
     .stat-label {

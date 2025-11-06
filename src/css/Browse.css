@@ -1,112 +1,74 @@
 .browse-container {
-    padding: 20px;
+    padding: 0 20px;
 }
 
 .browse-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 5px 0;
 }
 
 .browse-title {
     font-size: 1.2rem;
     font-weight: 700;
-    color: lightgray;
-    margin: 0 0 10px 0;
+    color: var(--text);
 }
 
 .browse-subtitle {
-    font-size: 1.1rem;
-    color: #9eaec9;
-    margin: 0;
+    font-size: 1.2rem;
+    color: var(--text);
 }
 
 .browse-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
-    margin-bottom: 20px;
-    padding: 0;
 }
 
 .browse-pagination {
     display: flex;
     justify-content: center;
-    padding: 40px 0 0 0;
-}
-
-@media (max-width: 1024px) {
-    .browse-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 25px;
-    }
-
-    .browse-title {
-        font-size: 2rem;
-    }
+    padding: 25px 0 20px;
 }
 
 @media (max-width: 768px) {
-    .browse-container {
-        padding: 15px;
+    .browse-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+    }
+    .browse-pagination {
+        transform: scale(0.85);
+        padding: 15px 0 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .browse-grid {
+        grid-template-columns: repeat(2, minmax(180px, 1fr));
+        gap: 15px;
     }
 
-    .browse-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 20px;
+    .content-card img {
+        height: 260px;
     }
 
     .browse-title {
-        font-size: 1.8rem;
+        font-size: 1rem;
     }
 
     .browse-subtitle {
         font-size: 1rem;
     }
-
-    .browse-pagination {
-        padding: 30px 0;
-    }
 }
 
-@media (max-width: 480px) {
-    .browse-container {
-        padding: 15px;
-    }
-
+@media (max-width: 410px) {
     .browse-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
         gap: 15px;
     }
 
-    .browse-title {
-        font-size: 1.5rem;
-    }
-
-    .browse-subtitle {
-        font-size: 0.9rem;
-    }
-
-    .browse-header {
-        margin-bottom: 20px;
-    }
-
-    .browse-pagination .MuiPagination-root {
-        transform: scale(0.85);
-    }
-}
-
-@media (max-width: 360px) {
-    .browse-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 12px;
-    }
-
-    .browse-title {
-        font-size: 1.3rem;
-    }
-
-    .browse-pagination .MuiPagination-root {
-        transform: scale(0.75);
+    .content-card img {
+        height: 220px;
     }
 }
