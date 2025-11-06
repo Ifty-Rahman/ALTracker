@@ -124,14 +124,17 @@ function DockWrapper() {
   );
 }
 
-export default function App() {
+function App(authToken) {
   return (
     <>
       <main className="app">
         <ApolloProvider client={client}>
           <NavBar />
           <Routes>
-            <Route path="/" element={<Discover />} />
+            <Route
+              path="/"
+              element={authToken ? <Dashboard /> : <Discover />}
+            />
             <Route path="/Discover" element={<Discover />} />
             <Route path="/Browse" element={<Browse />} />
             <Route path="/Search" element={<Search />} />
@@ -158,3 +161,5 @@ export default function App() {
     </>
   );
 }
+
+export default App;
