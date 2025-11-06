@@ -42,19 +42,18 @@ const client = new ApolloClient({
     typePolicies: {
       Query: {
         fields: {
-          Page: {
-            keyArgs: false,
+          Viewer: { merge: true },
+        },
+      },
+      User: { keyFields: ["id"] },
+      Media: {
+        fields: {
+          title: {
             merge(existing = {}, incoming) {
               return { ...existing, ...incoming };
             },
           },
-          Viewer: {
-            merge: true,
-          },
         },
-      },
-      User: {
-        keyFields: ["id"],
       },
     },
   }),
@@ -83,7 +82,7 @@ function DockWrapper() {
     {
       label: "Discover",
       icon: <MdExplore size={28} />,
-      onClick: () => navigate("/"),
+      onClick: () => navigate("/Discover"),
       className: "dock-item-discover",
     },
     {
