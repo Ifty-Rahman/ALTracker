@@ -1,12 +1,13 @@
 import "../css/Profile.css";
 import { useAuth } from "../contexts/AuthContext.js";
-import LogOut from "../components/LogoutButton.jsx";
-import ProfileMedia from "../components/ProfileMedia.jsx";
-import UserStats from "../components/UserStats.jsx";
+import LogOut from "../components/Profile/LogoutButton.jsx";
+import ProfileMedia from "../components/Profile/ProfileMedia.jsx";
+import UserStats from "../components/Profile/UserStats.jsx";
 import { GET_CURRENT_USER, GET_USER_STATISTICS } from "../services/Queries.jsx";
 import { useQuery } from "@apollo/client/react";
 import { useMemo } from "react";
 import { TrophySpin } from "react-loading-indicators";
+import { toast } from "react-toastify";
 
 function ProfilePage() {
   const { authToken } = useAuth();
@@ -40,7 +41,12 @@ function ProfilePage() {
       </div>
     );
   if (userError) return <p>Error: {userError.message}</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error)
+    return toast.error(
+      error.message.includes("429")
+        ? "API limit reached. Please try again later."
+        : error.message,
+    );
 
   return (
     <div className="profile-main">

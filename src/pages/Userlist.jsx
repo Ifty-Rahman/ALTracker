@@ -5,9 +5,9 @@ import { useAuth } from "../contexts/AuthContext.js";
 import { GET_CURRENT_USER, GET_USER_ANIME_LIST } from "../services/Queries.jsx";
 import { TrophySpin } from "react-loading-indicators";
 import "../css/Userlist.css";
-import UserListGrid from "../components/UserListGrid.jsx";
-import UserListSelect from "../components/UserListSelect.jsx";
-import UserListToggleGroup from "../components/UserListToggleGroup.jsx";
+import UserListGrid from "../components/Userlist/UserListGrid.jsx";
+import UserListSelect from "../components/Userlist/UserListSelect.jsx";
+import UserListToggleGroup from "../components/Userlist/UserListToggleGroup.jsx";
 
 function UserList() {
   const navigate = useNavigate();

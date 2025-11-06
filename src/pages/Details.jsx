@@ -2,31 +2,19 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { useAuth } from "../contexts/AuthContext.js";
-import {
-  Box,
-  Button,
-  Chip,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import { FaListUl } from "react-icons/fa";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { GoCheck } from "react-icons/go";
+import { Box, Stack } from "@mui/material";
 import {
   GET_CURRENT_USER,
   GET_MEDIA_DETAILS,
   GET_USER_MEDIA_STATUS,
 } from "../services/Queries.jsx";
 import { SAVE_MEDIA_TO_LIST, TOGGLE_FAVOURITE } from "../services/Mutation.jsx";
-import {
-  LIST_STATUSES,
-  formatStatus,
-  formatRelation,
-} from "../utils/detailsHelpers.js";
+import DetailsBanner from "../components/Details/DetailsBanner.jsx";
+import DetailsCoverSection from "../components/Details/DetailsCoverSection.jsx";
+import DetailsInfoSection from "../components/Details/DetailsInfoSection.jsx";
+import DetailsRelationsSection from "../components/Details/DetailsRelationsSection.jsx";
+import DetailsCharactersSection from "../components/Details/DetailsCharactersSection.jsx";
+import DetailsStaffSection from "../components/Details/DetailsStaffSection.jsx";
 import "../css/Details.css";
 import { TrophySpin } from "react-loading-indicators";
 
@@ -125,8 +113,8 @@ function Details() {
       setCurrentStatus(status);
       setActionMessage(
         status === currentStatus
-          ? `Updated list as ${formatStatus(status, type)}.`
-          : `Moved to ${formatStatus(status, type)}.`,
+          ? `Updated list as ${status}.`
+          : `Moved to ${status}.`,
       );
       await refetch();
       if (!skipStatusQuery) {
@@ -253,10 +241,6 @@ function Details() {
     media?.characters?.edges?.filter((edge) => edge?.node) || [];
   const staff = media?.staff?.edges?.filter((edge) => edge?.node) || [];
 
-  const listButtonLabel = currentStatus
-    ? formatStatus(currentStatus, type)
-    : "Add to List";
-
   const handleNavigateToMedia = (targetId, targetType) => {
     if (!targetId || !targetType) return;
     navigate({
@@ -302,250 +286,44 @@ function Details() {
 
   return (
     <Box className="details-page">
-      {media.bannerImage && (
-        <Box
-          className="details-banner"
-          style={{ backgroundImage: `url(${media.bannerImage})` }}
-        >
-          <Box className="banner-overlay" />
-        </Box>
-      )}
+      <DetailsBanner bannerImage={media.bannerImage} />
       <Box className="details-container">
         <Box className="details-card">
           <Stack
             direction={{ xs: "column", md: "row" }}
             spacing={{ xs: 3, md: 4 }}
           >
-            <Box className="cover-section">
-              <img
-                src={media.coverImage?.large || media.coverImage?.medium}
-                alt={
-                  media.title?.userPreferred ||
-                  media.title?.romaji ||
-                  media.title?.english ||
-                  "Cover art"
-                }
-                className="cover-img"
-              />
-              <Stack
-                spacing={{ xs: 1, sm: 1.5 }}
-                direction="row"
-                className="cover-actions"
-              >
-                <Button
-                  id="list-menu-button"
-                  aria-haspopup="true"
-                  aria-expanded={listMenuOpen ? "true" : undefined}
-                  aria-controls={listMenuOpen ? "list-menu" : undefined}
-                  variant="contained"
-                  color="primary"
-                  startIcon={<FaListUl size={16} />}
-                  endIcon={<MdKeyboardArrowDown size={18} />}
-                  onClick={handleOpenMenu}
-                  disabled={listUpdating}
-                  className="list-button"
-                >
-                  {listUpdating ? "Saving..." : listButtonLabel}
-                </Button>
-                <Menu
-                  id="list-menu"
-                  anchorEl={anchorEl}
-                  open={listMenuOpen}
-                  onClose={handleCloseMenu}
-                  MenuListProps={{ "aria-labelledby": "list-menu-button" }}
-                  className="list-menu"
-                >
-                  {LIST_STATUSES.map((status) => (
-                    <MenuItem
-                      key={status}
-                      selected={status === currentStatus}
-                      onClick={() => handleStatusSelect(status)}
-                    >
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="space-between"
-                        width="100%"
-                        gap={1.5}
-                      >
-                        <span>{formatStatus(status, type)}</span>
-                        {status === currentStatus && <GoCheck size={16} />}
-                      </Stack>
-                    </MenuItem>
-                  ))}
-                </Menu>
-                <IconButton
-                  onClick={handleToggleFavourite}
-                  className={`favourite-button ${isFavourite ? "active" : ""}`}
-                  aria-label={
-                    isFavourite ? "Remove from favourites" : "Add to favourites"
-                  }
-                  disabled={favouriteUpdating}
-                >
-                  {isFavourite ? (
-                    <AiFillHeart className="heart-icon filled" size={22} />
-                  ) : (
-                    <AiOutlineHeart className="heart-icon" size={22} />
-                  )}
-                </IconButton>
-              </Stack>
-              {(actionMessage || actionError) && (
-                <Typography
-                  variant="caption"
-                  className={`action-feedback ${
-                    actionError ? "error" : "success"
-                  }`}
-                >
-                  {actionError || actionMessage}
-                </Typography>
-              )}
-            </Box>
-
-            <Box className="details-info">
-              <Typography variant="h3" className="details-title">
-                {media.title?.userPreferred ||
-                  media.title?.romaji ||
-                  media.title?.english}
-              </Typography>
-              {alternateTitleLine && (
-                <Typography variant="subtitle2" className="alt-titles">
-                  {alternateTitleLine}
-                </Typography>
-              )}
-              {media.genres?.length > 0 && (
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  flexWrap="wrap"
-                  className="genre-stack"
-                >
-                  {media.genres.map((genre) => (
-                    <Chip
-                      key={genre}
-                      label={genre}
-                      className="genre-chip"
-                      variant="outlined"
-                      size="small"
-                    />
-                  ))}
-                </Stack>
-              )}
-              <Typography variant="body1" className="description">
-                {cleanDescription}
-              </Typography>
-              <Box className="meta-grid">
-                {metaDetails.map((item) => (
-                  <Box key={item.label} className="meta-item">
-                    <Typography variant="overline" className="meta-label">
-                      {item.label}
-                    </Typography>
-                    <Typography variant="body2" className="meta-value">
-                      {item.value}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
+            <DetailsCoverSection
+              media={media}
+              type={type}
+              currentStatus={currentStatus}
+              isFavourite={isFavourite}
+              listUpdating={listUpdating}
+              favouriteUpdating={favouriteUpdating}
+              anchorEl={anchorEl}
+              listMenuOpen={listMenuOpen}
+              actionMessage={actionMessage}
+              actionError={actionError}
+              onOpenMenu={handleOpenMenu}
+              onCloseMenu={handleCloseMenu}
+              onStatusSelect={handleStatusSelect}
+              onToggleFavourite={handleToggleFavourite}
+            />
+            <DetailsInfoSection
+              media={media}
+              alternateTitleLine={alternateTitleLine}
+              cleanDescription={cleanDescription}
+              metaDetails={metaDetails}
+            />
           </Stack>
         </Box>
 
-        {relations.length > 0 && (
-          <Box className="details-section">
-            <Box className="section-header">
-              <Typography variant="h5">Relations</Typography>
-            </Box>
-            <Box className="card-row">
-              {relations.slice(0, 12).map((relation) => (
-                <Box
-                  key={relation.node.id}
-                  className="media-card"
-                  role="link"
-                  tabIndex={0}
-                  onClick={() =>
-                    handleNavigateToMedia(relation.node.id, relation.node.type)
-                  }
-                  onKeyDown={(event) => {
-                    if (
-                      event.key === "Enter" ||
-                      event.key === " " ||
-                      event.key === "Spacebar"
-                    ) {
-                      event.preventDefault();
-                      handleNavigateToMedia(
-                        relation.node.id,
-                        relation.node.type,
-                      );
-                    }
-                  }}
-                >
-                  <img
-                    src={relation.node.coverImage?.medium}
-                    alt={relation.node.title?.romaji}
-                    className="media-card-img"
-                  />
-                  <Typography variant="subtitle2" className="media-card-title">
-                    {relation.node.title?.userPreferred ||
-                      relation.node.title?.romaji ||
-                      relation.node.title?.english}
-                  </Typography>
-                  <Typography variant="caption" className="media-card-subtitle">
-                    {formatRelation(relation.relationType)}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          </Box>
-        )}
-
-        {characters.length > 0 && (
-          <Box className="details-section">
-            <Box className="section-header">
-              <Typography variant="h5">Characters</Typography>
-            </Box>
-            <Box className="card-row">
-              {characters.slice(0, 12).map((character) => (
-                <Box key={character.node.id} className="person-card">
-                  <img
-                    src={character.node.image?.medium}
-                    alt={character.node.name?.full}
-                    className="person-card-img"
-                  />
-                  <Typography variant="subtitle2" className="person-card-name">
-                    {character.node.name?.full}
-                  </Typography>
-                  <Typography variant="caption" className="person-card-role">
-                    {formatRelation(character.role)}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          </Box>
-        )}
-
-        {staff.length > 0 && (
-          <Box className="details-section">
-            <Box className="section-header">
-              <Typography variant="h5">Staff</Typography>
-            </Box>
-            <Box className="card-row">
-              {staff.slice(0, 12).map((staffMember) => (
-                <Box key={staffMember.node.id} className="person-card">
-                  <img
-                    src={staffMember.node.image?.medium}
-                    alt={staffMember.node.name?.full}
-                    className="person-card-img"
-                  />
-                  <Typography variant="subtitle2" className="person-card-name">
-                    {staffMember.node.name?.full}
-                  </Typography>
-                  <Typography variant="caption" className="person-card-role">
-                    {staffMember.role}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          </Box>
-        )}
+        <DetailsRelationsSection
+          relations={relations}
+          onNavigate={handleNavigateToMedia}
+        />
+        <DetailsCharactersSection characters={characters} />
+        <DetailsStaffSection staff={staff} />
       </Box>
     </Box>
   );

@@ -2,7 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { PiHandTapBold } from "react-icons/pi";
 import "../css/NavBar.css";
-import { IoNotificationsSharp, IoSearchSharp } from "react-icons/io5";
+import { IoSearchSharp } from "react-icons/io5";
+import Notifications from "./Notifications.jsx";
 
 function NavBar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -168,7 +169,7 @@ function NavBar() {
             />
           </button>
         )}
-        <IoNotificationsSharp color="var(--text)" size={24} />
+        <Notifications />
       </div>
     </nav>
   );

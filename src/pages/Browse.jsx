@@ -2,9 +2,10 @@ import { useQuery } from "@apollo/client/react";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Pagination } from "@mui/material";
+import { Pagination, useMediaQuery } from "@mui/material";
 import ContentCard from "../components/Contentcard.jsx";
 import { TrophySpin } from "react-loading-indicators";
+import { toast } from "react-toastify";
 import {
   GET_POPULAR_SEASONAL_ANIME,
   GET_UPCOMING_SEASONAL_ANIME,
@@ -15,11 +16,14 @@ import {
 import "../css/Browse.css";
 
 function Browse() {
+  const isTablet = useMediaQuery("(max-width: 1440px)");
+  const isMobile = useMediaQuery("(max-width: 480px)");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const section = searchParams.get("section") || "trending";
+  const type = searchParams.get("type") || "ANIME";
   const [page, setPage] = useState(1);
-  const perPage = 32;
+  const perPage = isTablet ? 30 : 32;
 
   useEffect(() => {
     setPage(1);
@@ -42,7 +46,12 @@ function Browse() {
         <TrophySpin color="#6e35ff" size="large" />
       </div>
     );
-  if (error) return <p className="error-msg">Error: {error.message}</p>;
+  if (error)
+    return toast.error(
+      error.message.includes("429")
+        ? "API limit reached. Please try again later."
+        : error.message,
+    );
 
   const anime = data?.Page?.media || [];
   const pageInfo = data?.Page?.pageInfo;
@@ -61,12 +70,12 @@ function Browse() {
       case "popular":
         return {
           query: GET_POPULAR_ANIMANGA,
-          variables: { page, perPage, sort: ["POPULARITY_DESC"] },
+          variables: { page, perPage, sort: ["POPULARITY_DESC"], type: type },
         };
       case "manhwa":
         return {
           query: GET_POPULAR_MANHWA,
-          variables: { page, perPage, sort: ["POPULARITY_DESC"] },
+          variables: { page, perPage, sort: ["POPULARITY_DESC"], type: type },
         };
       case "seasonal":
         return {
@@ -77,6 +86,7 @@ function Browse() {
             sort: ["POPULARITY_DESC"],
             season,
             seasonYear: year,
+            type: type,
           },
         };
       case "upcoming": {
@@ -90,13 +100,14 @@ function Browse() {
             sort: ["POPULARITY_DESC"],
             season: nextSeason,
             seasonYear: nextYear,
+            type: type,
           },
         };
       }
       default:
         return {
           query: GET_TRENDING_ANIMANGA,
-          variables: { page, perPage, sort: ["TRENDING_DESC"] },
+          variables: { page, perPage, sort: ["TRENDING_DESC"], type: type },
         };
     }
   }
@@ -151,20 +162,18 @@ function Browse() {
             onChange={handlePageChange}
             color="primary"
             size="large"
-            showFirstButton
-            showLastButton
-            siblingCount={1}
+            siblingCount={isMobile ? 0 : 1}
             boundaryCount={1}
             sx={{
               "& .MuiPaginationItem-root": {
-                color: "#cfd8e3",
+                color: "var(--text)",
                 fontSize: "1rem",
                 fontWeight: 500,
               },
               "& .MuiPaginationItem-root.Mui-selected": {
-                backgroundColor: "#6e35ff",
-                color: "white",
-                "&:hover": { backgroundColor: "#5725cc" },
+                backgroundColor: "var(--primary)",
+                color: "var(--text)",
+                "&:hover": { backgroundColor: "var(--hover)" },
               },
               "& .MuiPaginationItem-root:hover": {
                 backgroundColor: "rgba(110, 53, 255, 0.2)",

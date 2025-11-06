@@ -457,3 +457,32 @@ export const GET_MEDIA_DETAILS = gql`
     }
   }
 `;
+
+export const GET_NOTIFICATIONS = gql`
+  query ($page: Int, $perPage: Int) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        currentPage
+        lastPage
+        hasNextPage
+        perPage
+      }
+      notifications {
+        __typename
+        ... on AiringNotification {
+          id
+          type
+          episode
+          contexts
+          media {
+            id
+            title {
+              romaji
+            }
+          }
+        }
+      }
+    }
+  }
+`;
