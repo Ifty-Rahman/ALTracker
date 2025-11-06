@@ -41,6 +41,9 @@
         transform: scale(0.85);
         padding: 15px 0 0;
     }
+    .content-card img {
+        height: 300px;
+    }
 }
 
 @media (max-width: 480px) {
