@@ -33,16 +33,9 @@
 }
 
 @media (max-width: 768px) {
-    .browse-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 20px;
-    }
     .browse-pagination {
         transform: scale(0.85);
         padding: 15px 0 0;
-    }
-    .content-card img {
-        height: 300px;
     }
 }
 
