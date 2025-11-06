@@ -32,10 +32,13 @@
     padding: 25px 0 20px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .content-card img {
         height: 300px;
     }
+}
+
+@media (max-width: 768px) {
     .browse-pagination {
         transform: scale(0.85);
         padding: 15px 0 0;
