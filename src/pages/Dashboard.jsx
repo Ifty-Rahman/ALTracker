@@ -39,7 +39,7 @@ function Dashboard() {
   const { loading, error, data } = useQuery(GET_CURRENT_MEDIA, {
     variables: { userName: username, type: mediaType },
     skip: !authToken || !username,
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-first",
   });
 
   const [updateAnimeEntry] = useMutation(UPDATE_ANIME_ENTRY, {
@@ -117,7 +117,7 @@ function Dashboard() {
             </ToggleButtonGroup>
           </div>
 
-          {hasEntries ? (
+          {!loading && data && hasEntries ? (
             <div className="dashboard-grid">
               {entries.map((entry) => (
                 <DashboardCard
@@ -130,9 +130,9 @@ function Dashboard() {
                 />
               ))}
             </div>
-          ) : (
+          ) : !loading && data ? (
             <DashboardEmptyState onRedirectToDiscover={redirectToDiscover} />
-          )}
+          ) : null}
         </div>
       ) : (
         <div className="Not-Logged-In">

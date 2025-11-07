@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.js";
-import { GET_CURRENT_USER, GET_USER_ANIME_LIST } from "../services/Queries.jsx";
+import { GET_CURRENT_USER, GET_USER_MEDIA_LIST } from "../services/Queries.jsx";
 import { TrophySpin } from "react-loading-indicators";
 import "../css/Userlist.css";
 import UserListGrid from "../components/Userlist/UserListGrid.jsx";
@@ -29,10 +29,10 @@ function UserList() {
     loading: listsLoading,
     error: listsError,
     data,
-  } = useQuery(GET_USER_ANIME_LIST, {
+  } = useQuery(GET_USER_MEDIA_LIST, {
     variables: { userName: username },
     skip: !authToken || !username,
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-first",
   });
 
   const isAnime = mediaType === "ANIME";
