@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@apollo/client/react";
+import Badge from "@mui/material/Badge";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { GET_NOTIFICATIONS } from "../services/Queries";
 import "../css/Notifications.css";
@@ -7,7 +8,10 @@ import "../css/Notifications.css";
 function Notifications() {
   const [notifications, setNotifications] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isRead, setIsRead] = useState(true);
+  const [lastReadNotificationId, setLastReadNotificationId] = useState(null);
   const dropdownRef = useRef(null);
+  const hasInitializedRef = useRef(false);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -27,17 +31,45 @@ function Notifications() {
     data: notificationData,
   } = useQuery(GET_NOTIFICATIONS, {
     variables: { page: 1, perPage: 15 },
-    skip: !isOpen,
+    fetchPolicy: "cache-first",
   });
 
   useEffect(() => {
-    if (notificationData) {
-      setNotifications(notificationData?.Page?.notifications || []);
+    if (!notificationData) {
+      return;
     }
-  }, [notificationData]);
+
+    const fetchedNotifications = notificationData?.Page?.notifications || [];
+    const newestNotificationId = fetchedNotifications[0]?.id ?? null;
+
+    setNotifications(fetchedNotifications);
+
+    if (!hasInitializedRef.current) {
+      hasInitializedRef.current = true;
+      setLastReadNotificationId(newestNotificationId);
+      setIsRead(true);
+      return;
+    }
+
+    if (
+      !isOpen &&
+      newestNotificationId &&
+      newestNotificationId !== lastReadNotificationId
+    ) {
+      setIsRead(false);
+    }
+  }, [notificationData, isOpen, lastReadNotificationId]);
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prev) => {
+      const next = !prev;
+      if (!prev && next) {
+        const newestNotificationId = notifications[0]?.id ?? null;
+        setLastReadNotificationId(newestNotificationId);
+        setIsRead(true);
+      }
+      return next;
+    });
   };
 
   return (
@@ -48,7 +80,18 @@ function Notifications() {
         type="button"
         aria-label="Notifications"
       >
-        <IoNotificationsSharp color="var(--text)" size={24} />
+        <Badge
+          color="error"
+          overlap="circular"
+          variant="dot"
+          invisible={isRead}
+        >
+          <IoNotificationsSharp
+            className="notification-icon"
+            color="var(--text)"
+            size={24}
+          />
+        </Badge>
       </button>
 
       {isOpen && (

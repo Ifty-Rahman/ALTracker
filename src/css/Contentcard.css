@@ -84,3 +84,9 @@
         transform: none;
     }
 }
+
+@media (max-width: 410px) {
+    .content-card img {
+        height: 230px;
+    }
+}

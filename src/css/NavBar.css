@@ -294,4 +294,12 @@
     .nav-search-form-mobile {
         padding: 12px;
     }
+    .search-icon {
+        height: 23px;
+        width: 23px;
+    }
+    .notification-icon {
+        height: 23px;
+        width: 23px;
+    }
 }

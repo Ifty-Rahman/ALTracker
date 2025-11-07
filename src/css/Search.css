@@ -30,18 +30,10 @@
     .search-grid {
         grid-template-columns: repeat(2, minmax(180px, 1fr));
     }
-
-    .content-card img {
-        height: 260px;
-    }
 }
 
 @media (max-width: 410px) {
     .search-grid {
         grid-template-columns: repeat(2, minmax(150px, 1fr));
-    }
-
-    .content-card img {
-        height: 220px;
     }
 }

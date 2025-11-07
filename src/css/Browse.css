@@ -32,12 +32,6 @@
     padding: 25px 0 20px;
 }
 
-@media (max-width: 1024px) {
-    .content-card img {
-        height: 320px;
-    }
-}
-
 @media (max-width: 768px) {
     .browse-pagination {
         transform: scale(0.85);
@@ -49,10 +43,6 @@
     .browse-grid {
         grid-template-columns: repeat(2, minmax(180px, 1fr));
         gap: 15px;
-    }
-
-    .content-card img {
-        height: 260px;
     }
 
     .browse-title {
@@ -68,9 +58,5 @@
     .browse-grid {
         grid-template-columns: repeat(2, minmax(150px, 1fr));
         gap: 15px;
-    }
-
-    .content-card img {
-        height: 220px;
     }
 }
