@@ -19,12 +19,17 @@ function Details() {
 
   const skipQuery = Number.isNaN(id) || !type;
 
-  const { loading, error, data, refetch } = useQuery(GET_MEDIA_DETAILS, {
-    variables: { id, type },
-    skip: skipQuery,
-  });
+  const { loading, error, data, previousData, refetch } = useQuery(
+    GET_MEDIA_DETAILS,
+    {
+      variables: { id, type },
+      skip: skipQuery,
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
-  const media = data?.Media;
+  const media = data?.Media ?? previousData?.Media;
+  const isInitialLoading = loading && !data && !previousData;
 
   if (skipQuery) {
     return (
@@ -36,7 +41,7 @@ function Details() {
     );
   }
 
-  if (loading)
+  if (isInitialLoading)
     return (
       <div className="loading-indicator">
         <TrophySpin color="#6e35ff" size="large" />

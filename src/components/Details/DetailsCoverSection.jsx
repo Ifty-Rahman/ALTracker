@@ -1,22 +1,16 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, Menu, MenuItem, Stack } from "@mui/material";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaListUl } from "react-icons/fa";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { GoCheck } from "react-icons/go";
 import { useMutation, useQuery } from "@apollo/client/react";
+import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/AuthContext.js";
 import {
   GET_CURRENT_MEDIA,
   GET_CURRENT_USER,
+  GET_USER_MEDIA_LIST,
   GET_USER_MEDIA_STATUS,
 } from "../../services/Queries.jsx";
 import {
@@ -34,8 +28,6 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
   const [currentStatus, setCurrentStatus] = useState(null);
   const [currentListEntryId, setCurrentListEntryId] = useState(null);
   const [isFavourite, setIsFavourite] = useState(Boolean(media?.isFavourite));
-  const [actionMessage, setActionMessage] = useState("");
-  const [actionError, setActionError] = useState("");
 
   const { data: viewerData } = useQuery(GET_CURRENT_USER, {
     skip: !authToken,
@@ -90,16 +82,6 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
     }
   }, [derivedEntryId, currentListEntryId]);
 
-  useEffect(() => {
-    if (!actionMessage && !actionError) return undefined;
-    const timeout = setTimeout(() => {
-      setActionMessage("");
-      setActionError("");
-    }, 4000);
-
-    return () => clearTimeout(timeout);
-  }, [actionError, actionMessage]);
-
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -115,14 +97,15 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
             query: GET_CURRENT_MEDIA,
             variables: { userName: username, type },
           },
+          {
+            query: GET_USER_MEDIA_LIST,
+            variables: { userName: username },
+          },
         ]
       : [];
 
   const handleStatusSelect = async (status) => {
     if (!resolvedMediaId) return;
-    setActionError("");
-    setActionMessage("");
-
     const refetchListQueries = getRefetchListQueries();
 
     try {
@@ -135,17 +118,18 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
         saveResult?.SaveMediaListEntry?.id ?? currentListEntryId ?? null;
       setCurrentListEntryId(updatedEntryId);
       setCurrentStatus(status);
-      setActionMessage(
+      const formattedStatus = formatStatus(status, type);
+      toast.success(
         status === previousStatus
-          ? `Updated list as ${status}.`
-          : `Moved to ${status}.`,
+          ? `Updated list as ${formattedStatus}.`
+          : `Moved to ${formattedStatus}.`,
       );
       await onMediaRefetch?.();
       if (!skipStatusQuery) {
         await refetchUserMediaStatus?.();
       }
     } catch (mutationError) {
-      setActionError("Unable to update the list right now.");
+      toast.error("Unable to update the list right now.");
       console.error(mutationError);
     } finally {
       handleCloseMenu();
@@ -157,9 +141,6 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
       handleCloseMenu();
       return;
     }
-    setActionError("");
-    setActionMessage("");
-
     const refetchListQueries = getRefetchListQueries();
 
     try {
@@ -169,13 +150,13 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
       });
       setCurrentStatus(null);
       setCurrentListEntryId(null);
-      setActionMessage("Removed from list.");
+      toast.success("Removed from list.");
       await onMediaRefetch?.();
       if (!skipStatusQuery) {
         await refetchUserMediaStatus?.();
       }
     } catch (mutationError) {
-      setActionError("Unable to remove from the list right now.");
+      toast.error("Unable to remove from the list right now.");
       console.error(mutationError);
     } finally {
       handleCloseMenu();
@@ -184,8 +165,6 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
 
   const handleToggleFavourite = async () => {
     if (!resolvedMediaId || !type) return;
-    setActionError("");
-    setActionMessage("");
     try {
       const favouriteVars =
         type === "ANIME"
@@ -196,12 +175,12 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
       });
       const nextFavourite = !isFavourite;
       setIsFavourite(nextFavourite);
-      setActionMessage(
+      toast.success(
         nextFavourite ? "Added to favourites." : "Removed from favourites.",
       );
       await onMediaRefetch?.();
     } catch (mutationError) {
-      setActionError("Unable to update favourites right now.");
+      toast.error("Unable to update favourites right now.");
       console.error(mutationError);
     }
   };
@@ -307,14 +286,6 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
           )}
         </IconButton>
       </Stack>
-      {(actionMessage || actionError) && (
-        <Typography
-          variant="caption"
-          className={`action-feedback ${actionError ? "error" : "success"}`}
-        >
-          {actionError || actionMessage}
-        </Typography>
-      )}
     </Box>
   );
 }
