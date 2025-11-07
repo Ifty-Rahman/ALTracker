@@ -1,8 +1,14 @@
+import { useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 import { formatRelation } from "../../utils/detailsHelpers.js";
 
-function DetailsCharactersSection({ characters }) {
-  if (!characters || characters.length === 0) return null;
+function DetailsCharactersSection({ media }) {
+  const characters = useMemo(
+    () => media?.characters?.edges?.filter((edge) => edge?.node) || [],
+    [media?.characters?.edges],
+  );
+
+  if (!characters.length) return null;
 
   return (
     <Box className="details-section">

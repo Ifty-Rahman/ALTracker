@@ -1,7 +1,13 @@
+import { useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 
-function DetailsStaffSection({ staff }) {
-  if (!staff || staff.length === 0) return null;
+function DetailsStaffSection({ media }) {
+  const staff = useMemo(
+    () => media?.staff?.edges?.filter((edge) => edge?.node) || [],
+    [media?.staff?.edges],
+  );
+
+  if (!staff.length) return null;
 
   return (
     <Box className="details-section">

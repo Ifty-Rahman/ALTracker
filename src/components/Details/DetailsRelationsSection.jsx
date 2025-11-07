@@ -1,8 +1,27 @@
+import { useCallback, useMemo } from "react";
 import { Box, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { formatRelation } from "../../utils/detailsHelpers.js";
 
-function DetailsRelationsSection({ relations, onNavigate }) {
-  if (!relations || relations.length === 0) return null;
+function DetailsRelationsSection({ media }) {
+  const relations = useMemo(
+    () => media?.relations?.edges?.filter((edge) => edge?.node) || [],
+    [media?.relations?.edges],
+  );
+  const navigate = useNavigate();
+
+  const handleNavigate = useCallback(
+    (targetId, targetType) => {
+      if (!targetId || !targetType) return;
+      navigate({
+        pathname: "/Details",
+        search: `?id=${targetId}&type=${targetType}`,
+      });
+    },
+    [navigate],
+  );
+
+  if (!relations.length) return null;
 
   return (
     <Box className="details-section">
@@ -16,7 +35,7 @@ function DetailsRelationsSection({ relations, onNavigate }) {
             className="media-card"
             role="link"
             tabIndex={0}
-            onClick={() => onNavigate(relation.node.id, relation.node.type)}
+            onClick={() => handleNavigate(relation.node.id, relation.node.type)}
             onKeyDown={(event) => {
               if (
                 event.key === "Enter" ||
@@ -24,7 +43,7 @@ function DetailsRelationsSection({ relations, onNavigate }) {
                 event.key === "Spacebar"
               ) {
                 event.preventDefault();
-                onNavigate(relation.node.id, relation.node.type);
+                handleNavigate(relation.node.id, relation.node.type);
               }
             }}
           >
