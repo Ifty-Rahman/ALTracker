@@ -14,6 +14,7 @@ function Trending({ type }) {
       sort: "TRENDING_DESC",
       type: type,
     },
+    fetchPolicy: "cache-first",
   });
   const [trendingAnime, setTrendingAnime] = useState([]);
 

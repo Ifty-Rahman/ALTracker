@@ -22,6 +22,7 @@ function PopularThisSeason({ type }) {
       season: season,
       seasonYear: year,
     },
+    fetchPolicy: "cache-first",
   });
   const [popular_seasonal_anime, setPopularSeasonalAnime] = useState([]);
 

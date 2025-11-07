@@ -11,6 +11,7 @@ function PopularManhwa({ type }) {
       page: 1,
       perPage: 15,
     },
+    fetchPolicy: "cache-first",
   });
   const [popularManhwa, setPopularManhwa] = useState([]);
 

@@ -34,6 +34,7 @@ function UpcomingNextSeason({ type }) {
       season: nextSeason,
       seasonYear: nextYear,
     },
+    fetchPolicy: "cache-first",
   });
   const [upcoming_seasonal_anime, setUpcomingAnime] = useState([]);
 

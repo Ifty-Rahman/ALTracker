@@ -13,12 +13,13 @@ function PopularAllTime({ type }) {
       sort: "POPULARITY_DESC",
       type: type,
     },
+    fetchPolicy: "cache-first",
   });
-  const [popularAnime, setPopularAnime] = useState([]);
+  const [popularMedia, setPopularMedia] = useState([]);
 
   useEffect(() => {
     if (data) {
-      setPopularAnime(data.Page.media);
+      setPopularMedia(data.Page.media);
     }
   }, [data]);
 
@@ -51,7 +52,7 @@ function PopularAllTime({ type }) {
         </button>
       </div>
       <div className="content-grid">
-        {popularAnime.map((content) => (
+        {popularMedia.map((content) => (
           <div key={content.id} onClick={() => handleCardClick(content)}>
             <ConentCard content={content} />
           </div>
