@@ -37,16 +37,7 @@ export const UPDATE_MANGA_ENTRY = gql`
   }
 `;
 
-export const UPDATE_ANIME_STATUS = gql`
-  mutation UpdateMediaListStatus($mediaId: Int, $status: MediaListStatus) {
-    SaveMediaListEntry(mediaId: $mediaId, status: $status) {
-      id
-      status
-      updatedAt
-    }
-  }
-`;
-
+//update media status
 export const SAVE_MEDIA_TO_LIST = gql`
   mutation SaveMediaToList($mediaId: Int!, $status: MediaListStatus!) {
     SaveMediaListEntry(mediaId: $mediaId, status: $status) {
@@ -58,6 +49,15 @@ export const SAVE_MEDIA_TO_LIST = gql`
   }
 `;
 
+export const DELETE_MEDIA_LIST_ENTRY = gql`
+  mutation DeleteMediaListEntry($id: Int!) {
+    DeleteMediaListEntry(id: $id) {
+      deleted
+    }
+  }
+`;
+
+//add to favourtie
 export const TOGGLE_FAVOURITE = gql`
   mutation ToggleFavourite($animeId: Int, $mangaId: Int) {
     ToggleFavourite(animeId: $animeId, mangaId: $mangaId) {
