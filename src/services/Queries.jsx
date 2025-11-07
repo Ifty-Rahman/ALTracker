@@ -164,7 +164,7 @@ export const GET_POPULAR_MANHWA = gql`
   }
 `;
 
-export const GET_USER_ANIME_LIST = gql`
+export const GET_USER_MEDIA_LIST = gql`
   query GetUserAnimeList($userName: String) {
     Viewer {
       id
