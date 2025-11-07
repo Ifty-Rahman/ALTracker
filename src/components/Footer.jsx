@@ -4,7 +4,7 @@ import { IoMdMail } from "react-icons/io";
 import { useMediaQuery } from "@mui/material";
 
 function Footer() {
-  const isMobile = useMediaQuery("(max-width:480px)");
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   return (
     <footer className="footer">
