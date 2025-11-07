@@ -23,6 +23,7 @@ import {
   MdPerson,
   MdLogin,
 } from "react-icons/md";
+import Footer from "./components/Footer.jsx";
 
 const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${import.meta.env.VITE_ANILIST_CLIENT_ID}&response_type=token`;
 
@@ -143,6 +144,7 @@ function App(authToken) {
             <Route path="/Details" element={<Details />} />
           </Routes>
           <DockWrapper />
+          <Footer />
         </ApolloProvider>
       </main>
       <ToastContainer
