@@ -85,6 +85,12 @@
     }
 }
 
+@media (max-width: 480px) {
+    .content-card img {
+        height: 280px;
+    }
+}
+
 @media (max-width: 410px) {
     .content-card img {
         height: 230px;
