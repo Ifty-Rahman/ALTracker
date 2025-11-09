@@ -15,9 +15,9 @@ import DashboardEmptyState from "../components/Dashboard/DashboardEmptyState.jsx
 
 function Dashboard() {
   const navigate = useNavigate();
+  const redirectToDiscover = () => navigate("/");
   const { authToken, login } = useAuth();
   const [mediaType, setMediaType] = useState("ANIME");
-
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
@@ -70,8 +70,6 @@ function Dashboard() {
       });
     },
   });
-
-  const redirectToDiscover = () => navigate("/");
 
   if (loading)
     return (
