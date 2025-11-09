@@ -86,11 +86,7 @@ function Notifications() {
           variant="dot"
           invisible={isRead}
         >
-          <IoNotificationsSharp
-            className="notification-icon"
-            color="var(--text)"
-            size={24}
-          />
+          <IoNotificationsSharp className="notification-icon" size={24} />
         </Badge>
       </button>
 

@@ -12,6 +12,16 @@
     justify-content: center;
 }
 
+.notification-icon {
+    color: var(--text);
+    transition: color 0.2s ease;
+}
+
+.notifications__button:hover .notification-icon,
+.notifications__button:focus-visible .notification-icon {
+    color: var(--primary);
+}
+
 .notifications__dropdown {
     position: absolute;
     top: calc(100% + 12px);
