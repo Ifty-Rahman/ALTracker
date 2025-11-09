@@ -249,6 +249,68 @@ export const GET_USER_STATISTICS = gql`
           }
         }
       }
+      favourites {
+        anime {
+          nodes {
+            id
+            type
+            title {
+              romaji
+              english
+              userPreferred
+            }
+            coverImage {
+              large
+              medium
+            }
+          }
+        }
+        manga {
+          nodes {
+            id
+            type
+            title {
+              romaji
+              english
+              userPreferred
+            }
+            coverImage {
+              large
+              medium
+            }
+          }
+        }
+        characters {
+          nodes {
+            id
+            name {
+              full
+            }
+            image {
+              large
+              medium
+            }
+          }
+        }
+        staff {
+          nodes {
+            id
+            name {
+              full
+            }
+            image {
+              large
+              medium
+            }
+          }
+        }
+        studios {
+          nodes {
+            id
+            name
+          }
+        }
+      }
     }
   }
 `;
@@ -280,7 +342,11 @@ export const GET_CURRENT_MEDIA = gql`
               large
             }
             episodes
+            nextAiringEpisode {
+              episode
+            }
             chapters
+            next
             volumes
           }
         }
