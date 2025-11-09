@@ -362,13 +362,16 @@
         height: 220px;
     }
     .dashboard-container {
-        margin: 0 20px 10px 20px;
+        margin: 0 10px 10px;
     }
     .dashboard-grid {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     }
     .dashboard-progress-controls {
-        gap: 15px;
+        gap: 5px;
+    }
+    .dashboard-progress-text-button {
+        padding: 8px 0;
     }
 }
 
