@@ -107,3 +107,9 @@
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
 }
+
+@media (max-width: 480px) {
+    .favorite-card-image {
+        max-height: 200px;
+    }
+}
