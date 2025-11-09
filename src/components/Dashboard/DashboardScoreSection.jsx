@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { GoCheck, GoX } from "react-icons/go";
+import { MdOutlineEdit } from "react-icons/md";
 
 function getScoreDisplay(entry, scoreFormat) {
   const score = entry?.score ?? 0;
@@ -48,6 +48,7 @@ function DashboardScoreSection({
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [tempScore, setTempScore] = useState(entry.score?.toString() || "");
+  const scoreSectionRef = useRef(null);
 
   useEffect(() => {
     setIsEditing(false);
@@ -95,21 +96,57 @@ function DashboardScoreSection({
     }
   };
 
+  const handleCancelEdit = useCallback(() => {
+    setTempScore(entry.score?.toString() || "");
+    setIsEditing(false);
+  }, [entry.score]);
+
   const handleStartEdit = () => {
     setTempScore(entry.score?.toString() || "");
     setIsEditing(true);
   };
 
-  const handleCancelEdit = () => {
-    setTempScore(entry.score?.toString() || "");
-    setIsEditing(false);
-  };
+  useEffect(() => {
+    if (!isEditing) {
+      return undefined;
+    }
 
-  if (isEditing) {
-    return (
-      <div className="dashboard-score-section">
-        <span className="dashboard-score-text">Score:</span>
-        <div className="dashboard-score-edit-container">
+    const cardElement = scoreSectionRef.current?.closest(".dashboard-card");
+
+    const handlePointerEvent = (event) => {
+      if (cardElement && !cardElement.contains(event.target)) {
+        handleCancelEdit();
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerEvent);
+    document.addEventListener("pointerover", handlePointerEvent);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerEvent);
+      document.removeEventListener("pointerover", handlePointerEvent);
+    };
+  }, [handleCancelEdit, isEditing]);
+
+  return (
+    <div className="dashboard-score-section" ref={scoreSectionRef}>
+      <span className="dashboard-score-text">Score:</span>
+      <button
+        type="button"
+        className="dashboard-score-display"
+        onClick={handleStartEdit}
+        aria-haspopup="dialog"
+        aria-expanded={isEditing}
+      >
+        {getScoreDisplay(entry, scoreFormat)} <MdOutlineEdit size={19} />
+      </button>
+
+      {isEditing && (
+        <div
+          className="dashboard-score-popup"
+          role="dialog"
+          aria-label="Edit score"
+        >
           <input
             type="text"
             className="dashboard-score-input"
@@ -124,29 +161,22 @@ function DashboardScoreSection({
             }}
             autoFocus
           />
-          <button
-            className="dashboard-score-save-btn"
-            onClick={handleScoreUpdate}
-          >
-            <GoCheck size={18} />
-          </button>
-          <button
-            className="dashboard-score-close-btn"
-            onClick={handleCancelEdit}
-          >
-            <GoX size={18} />
-          </button>
+          <div className="dashboard-score-popup-actions">
+            <button
+              className="dashboard-score-save-btn"
+              onClick={handleScoreUpdate}
+            >
+              <span>Save</span>
+            </button>
+            <button
+              className="dashboard-score-close-btn"
+              onClick={handleCancelEdit}
+            >
+              <span>Exit</span>
+            </button>
+          </div>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="dashboard-score-section">
-      <span className="dashboard-score-text">Score:</span>
-      <span className="dashboard-score-display" onClick={handleStartEdit}>
-        {getScoreDisplay(entry, scoreFormat)}
-      </span>
+      )}
     </div>
   );
 }
