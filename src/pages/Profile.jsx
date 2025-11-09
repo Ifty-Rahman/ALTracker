@@ -1,5 +1,6 @@
 import "../css/Profile.css";
 import { useAuth } from "../contexts/AuthContext.js";
+import Favorites from "../components/Profile/Favorites.jsx";
 import LogOut from "../components/Profile/LogoutButton.jsx";
 import ProfileMedia from "../components/Profile/ProfileMedia.jsx";
 import UserStats from "../components/Profile/UserStats.jsx";
@@ -30,9 +31,8 @@ function ProfilePage() {
     fetchPolicy: "cache-first",
   });
 
-  const stats = useMemo(() => {
-    return data?.Viewer?.statistics;
-  }, [data]);
+  const stats = useMemo(() => data?.Viewer?.statistics, [data]);
+  const favourites = useMemo(() => data?.Viewer?.favourites, [data]);
 
   if (userLoading || loading)
     return (
@@ -54,6 +54,7 @@ function ProfilePage() {
         <div className="profile-container">
           <ProfileMedia user={user} />
           <UserStats stats={stats} />
+          <Favorites favourites={favourites} />
           <LogOut />
         </div>
       ) : (
