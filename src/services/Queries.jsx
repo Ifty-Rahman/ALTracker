@@ -346,7 +346,6 @@ export const GET_CURRENT_MEDIA = gql`
               episode
             }
             chapters
-            next
             volumes
           }
         }
