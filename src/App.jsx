@@ -110,7 +110,8 @@ function DockWrapper() {
   );
 }
 
-function App(authToken) {
+function App() {
+  const { authToken } = useAuth();
   return (
     <>
       <main className="app">
