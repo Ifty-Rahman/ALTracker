@@ -16,6 +16,6 @@ Live site: https://altrack.vercel.app/ — visit and log in with your AniList ac
 ## Tech Stack
 
 - **Frontend:** React (Vite) with React Router
-- **UI Components:** Material UI, React Icons
+- **UI Components:** Material UI, React Icons, React Bits
 - **State & Data:** Apollo Client leveraging AniList GraphQL API
 - **Tooling:** ESLint, Prettier, npm for dependency management
