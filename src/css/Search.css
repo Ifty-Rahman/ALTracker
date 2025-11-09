@@ -31,6 +31,10 @@
     .search-grid {
         grid-template-columns: repeat(2, minmax(180px, 1fr));
     }
+
+    .search-results .content-card img {
+        max-height: 220px;
+    }
 }
 
 @media (max-width: 410px) {

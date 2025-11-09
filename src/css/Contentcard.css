@@ -87,12 +87,12 @@
 
 @media (max-width: 480px) {
     .content-card img {
-        height: 250px !important;
+        height: 260px;
     }
 }
 
 @media (max-width: 410px) {
     .content-card img {
-        height: 230px !important;
+        height: 230px;
     }
 }
