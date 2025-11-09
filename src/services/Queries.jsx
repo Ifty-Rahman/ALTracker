@@ -170,7 +170,11 @@ export const GET_USER_MEDIA_LIST = gql`
       id
       name
     }
-    anime: MediaListCollection(userName: $userName, type: ANIME) {
+    anime: MediaListCollection(
+      userName: $userName
+      type: ANIME
+      sort: UPDATED_TIME_DESC
+    ) {
       lists {
         name
         entries {
@@ -191,7 +195,11 @@ export const GET_USER_MEDIA_LIST = gql`
         }
       }
     }
-    manga: MediaListCollection(userName: $userName, type: MANGA) {
+    manga: MediaListCollection(
+      userName: $userName
+      type: MANGA
+      sort: UPDATED_TIME_DESC
+    ) {
       lists {
         name
         entries {
