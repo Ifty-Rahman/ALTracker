@@ -57,3 +57,10 @@
 .Toastify__progress-bar {
     background: var(--primary);
 }
+
+@media (max-width: 480px) {
+    .Toastify__toast {
+        width: 240px;
+        margin: 0 12px 12px auto;
+    }
+}
