@@ -9,11 +9,14 @@ import UserListGrid from "../components/Userlist/UserListGrid.jsx";
 import UserListSelect from "../components/Userlist/UserListSelect.jsx";
 import UserListToggleGroup from "../components/Userlist/UserListToggleGroup.jsx";
 
+const DEFAULT_LIST_NAME = "Planning";
+const NORMALIZED_DEFAULT_NAME = DEFAULT_LIST_NAME.toLowerCase();
+
 function UserList() {
   const navigate = useNavigate();
   const { authToken } = useAuth();
   const [mediaType, setMediaType] = useState("ANIME");
-  const [selectedListName, setSelectedListName] = useState("Completed");
+  const [selectedListName, setSelectedListName] = useState(DEFAULT_LIST_NAME);
 
   const {
     loading: userLoading,
@@ -45,17 +48,17 @@ function UserList() {
 
   useEffect(() => {
     if (!activeLists.length) {
-      if (selectedListName !== "Completed") {
-        setSelectedListName("Completed");
+      if (selectedListName !== DEFAULT_LIST_NAME) {
+        setSelectedListName(DEFAULT_LIST_NAME);
       }
       return;
     }
 
-    const nextCompleted = activeLists.find(
-      (list) => list.name?.toLowerCase() === "completed",
+    const nextDefault = activeLists.find(
+      (list) => list.name?.toLowerCase() === NORMALIZED_DEFAULT_NAME,
     );
     const fallbackName =
-      nextCompleted?.name ?? activeLists[0]?.name ?? "Completed";
+      nextDefault?.name ?? activeLists[0]?.name ?? DEFAULT_LIST_NAME;
     const hasSelected = activeLists.some(
       (list) => list.name === selectedListName,
     );
@@ -63,20 +66,20 @@ function UserList() {
     if (!hasSelected) {
       setSelectedListName(fallbackName);
     } else if (
-      selectedListName?.toLowerCase() === "completed" &&
-      !nextCompleted
+      selectedListName?.toLowerCase() === NORMALIZED_DEFAULT_NAME &&
+      !nextDefault
     ) {
       setSelectedListName(fallbackName);
     }
   }, [activeLists, selectedListName]);
 
-  const completedList = activeLists.find(
-    (list) => list.name?.toLowerCase() === "completed",
+  const defaultList = activeLists.find(
+    (list) => list.name?.toLowerCase() === NORMALIZED_DEFAULT_NAME,
   );
 
   const selectedList =
     activeLists.find((list) => list.name === selectedListName) ??
-    completedList ??
+    defaultList ??
     activeLists[0];
   const selectedEntries = selectedList?.entries ?? [];
   const hasLists = activeLists.length > 0;
@@ -111,7 +114,7 @@ function UserList() {
               onChange={(_, value) => {
                 if (value) {
                   setMediaType(value);
-                  setSelectedListName("Completed");
+                  setSelectedListName(DEFAULT_LIST_NAME);
                 }
               }}
             />
