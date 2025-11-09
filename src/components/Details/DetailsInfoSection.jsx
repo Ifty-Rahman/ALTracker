@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { Box, Chip, Stack, Typography } from "@mui/material";
+import { Box, Chip, Stack, Typography, useMediaQuery } from "@mui/material";
 
 function DetailsInfoSection({ media, type }) {
+  const isMobile = useMediaQuery("(max-width: 480px)");
   const cleanDescription = useMemo(() => {
     if (!media?.description) return "No description available.";
     return media.description.replace(/<[^>]+>/g, "");
@@ -90,7 +91,11 @@ function DetailsInfoSection({ media, type }) {
 
   return (
     <Box className="details-info">
-      <Typography variant="h3" className="details-title">
+      <Typography
+        variant="h3"
+        fontSize={isMobile ? 25 : 50}
+        className="details-title"
+      >
         {media.title?.userPreferred ||
           media.title?.romaji ||
           media.title?.english}

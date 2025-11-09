@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Box, Button, IconButton, Menu, MenuItem, Stack } from "@mui/material";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaListUl } from "react-icons/fa";
@@ -23,18 +23,26 @@ import { LIST_STATUSES, formatStatus } from "../../utils/detailsHelpers.js";
 function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
   const resolvedMediaId = media?.id ?? mediaId;
   const { authToken } = useAuth();
+
+  // Menu state
   const [anchorEl, setAnchorEl] = useState(null);
   const listMenuOpen = Boolean(anchorEl);
+
+  // Media list state
   const [currentStatus, setCurrentStatus] = useState(null);
   const [currentListEntryId, setCurrentListEntryId] = useState(null);
-  const [isFavourite, setIsFavourite] = useState(Boolean(media?.isFavourite));
+  const [isFavourite, setIsFavourite] = useState(false);
+  const [isManuallyRemoved, setIsManuallyRemoved] = useState(false);
 
+  // Fetch current user data
   const { data: viewerData } = useQuery(GET_CURRENT_USER, {
     skip: !authToken,
   });
+
   const viewerId = viewerData?.Viewer?.id;
   const username = viewerData?.Viewer?.name;
 
+  // Fetch user's media status
   const skipStatusQuery = !viewerId || !resolvedMediaId;
   const { data: userMediaStatusData, refetch: refetchUserMediaStatus } =
     useQuery(GET_USER_MEDIA_STATUS, {
@@ -42,6 +50,7 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
       skip: skipStatusQuery,
     });
 
+  // Mutations
   const [saveToList, { loading: listUpdating }] =
     useMutation(SAVE_MEDIA_TO_LIST);
   const [deleteMediaListEntry, { loading: deleteListEntryLoading }] =
@@ -49,163 +58,239 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
   const [toggleFavouriteMutation, { loading: favouriteUpdating }] =
     useMutation(TOGGLE_FAVOURITE);
 
+  // Refetch queries
+  const refetchListQueries = useMemo(() => {
+    if (!username || !type) return [];
+    return [
+      {
+        query: GET_CURRENT_MEDIA,
+        variables: { userName: username, type },
+      },
+      {
+        query: GET_USER_MEDIA_LIST,
+        variables: { userName: username },
+      },
+    ];
+  }, [username, type]);
+
+  // Derive status and entry ID from queries
+  const derivedStatus = useMemo(() => {
+    const statusFromQuery = userMediaStatusData?.MediaList?.status;
+    return statusFromQuery !== undefined
+      ? statusFromQuery
+      : (media?.mediaListEntry?.status ?? null);
+  }, [userMediaStatusData?.MediaList?.status, media?.mediaListEntry?.status]);
+
+  const derivedEntryId = useMemo(() => {
+    const entryFromQuery = userMediaStatusData?.MediaList?.id;
+    return entryFromQuery !== undefined
+      ? entryFromQuery
+      : (media?.mediaListEntry?.id ?? null);
+  }, [userMediaStatusData?.MediaList?.id, media?.mediaListEntry?.id]);
+
+  // Update local state when derived values change
+  useEffect(() => {
+    if (derivedStatus !== undefined && derivedStatus !== currentStatus) {
+      // Don't update if we just manually removed the item
+      if (!isManuallyRemoved) {
+        setCurrentStatus(derivedStatus);
+      }
+      // Reset the flag once query data is refreshed with null status
+      if (derivedStatus === null && isManuallyRemoved) {
+        setIsManuallyRemoved(false);
+      }
+    }
+  }, [derivedStatus, currentStatus, isManuallyRemoved]);
+
+  useEffect(() => {
+    if (derivedEntryId !== undefined && derivedEntryId !== currentListEntryId) {
+      if (!isManuallyRemoved) {
+        setCurrentListEntryId(derivedEntryId);
+      }
+    }
+  }, [derivedEntryId, currentListEntryId, isManuallyRemoved]);
+
   useEffect(() => {
     setIsFavourite(Boolean(media?.isFavourite));
   }, [media?.isFavourite]);
 
-  const statusFromListQuery = userMediaStatusData
-    ? (userMediaStatusData.MediaList?.status ?? null)
-    : undefined;
-  const entryIdFromListQuery = userMediaStatusData
-    ? (userMediaStatusData.MediaList?.id ?? null)
-    : undefined;
-  const derivedStatus =
-    statusFromListQuery !== undefined
-      ? statusFromListQuery
-      : (media?.mediaListEntry?.status ?? null);
-  const derivedEntryId =
-    entryIdFromListQuery !== undefined
-      ? entryIdFromListQuery
-      : (media?.mediaListEntry?.id ?? null);
-
-  useEffect(() => {
-    if (derivedStatus === undefined) return;
-    if (derivedStatus !== currentStatus) {
-      setCurrentStatus(derivedStatus);
-    }
-  }, [derivedStatus, currentStatus]);
-
-  useEffect(() => {
-    if (derivedEntryId === undefined) return;
-    if (derivedEntryId !== currentListEntryId) {
-      setCurrentListEntryId(derivedEntryId);
-    }
-  }, [derivedEntryId, currentListEntryId]);
-
-  const handleOpenMenu = (event) => {
+  // Menu handlers
+  const handleOpenMenu = useCallback((event) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleCloseMenu = () => {
+  const handleCloseMenu = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
-  const getRefetchListQueries = () =>
-    username && type
-      ? [
-          {
-            query: GET_CURRENT_MEDIA,
-            variables: { userName: username, type },
-          },
-          {
-            query: GET_USER_MEDIA_LIST,
-            variables: { userName: username },
-          },
-        ]
-      : [];
+  // Refetch helper
+  const performRefetches = useCallback(async () => {
+    const refetchPromises = [];
 
-  const handleStatusSelect = async (status) => {
-    if (!resolvedMediaId) return;
-    const refetchListQueries = getRefetchListQueries();
-
-    try {
-      const previousStatus = currentStatus;
-      const { data: saveResult } = await saveToList({
-        variables: { mediaId: resolvedMediaId, status },
-        refetchQueries: refetchListQueries,
-      });
-      const updatedEntryId =
-        saveResult?.SaveMediaListEntry?.id ?? currentListEntryId ?? null;
-      setCurrentListEntryId(updatedEntryId);
-      setCurrentStatus(status);
-      const formattedStatus = formatStatus(status, type);
-      toast.success(
-        status === previousStatus
-          ? `Updated list as ${formattedStatus}.`
-          : `Moved to ${formattedStatus}.`,
+    if (onMediaRefetch) {
+      refetchPromises.push(
+        onMediaRefetch().catch((err) =>
+          console.error("Failed to refetch media:", err),
+        ),
       );
-      await onMediaRefetch?.();
-      if (!skipStatusQuery) {
-        await refetchUserMediaStatus?.();
-      }
-    } catch (mutationError) {
-      toast.error("Unable to update the list right now.");
-      console.error(mutationError);
-    } finally {
-      handleCloseMenu();
     }
-  };
 
-  const handleRemoveFromList = async () => {
+    if (!skipStatusQuery && refetchUserMediaStatus) {
+      refetchPromises.push(
+        refetchUserMediaStatus().catch((err) =>
+          console.error("Failed to refetch media status:", err),
+        ),
+      );
+    }
+
+    await Promise.allSettled(refetchPromises);
+  }, [onMediaRefetch, skipStatusQuery, refetchUserMediaStatus]);
+
+  // Remove from list handler
+  const handleRemoveFromList = useCallback(async () => {
     if (!currentListEntryId) {
       handleCloseMenu();
       return;
     }
-    const refetchListQueries = getRefetchListQueries();
 
     try {
       await deleteMediaListEntry({
         variables: { id: currentListEntryId },
         refetchQueries: refetchListQueries,
       });
+
+      // Reset state immediately for instant UI feedback
       setCurrentStatus(null);
       setCurrentListEntryId(null);
+      setIsManuallyRemoved(true); // Prevent derived state from overwriting
       toast.success("Removed from list.");
-      await onMediaRefetch?.();
-      if (!skipStatusQuery) {
-        await refetchUserMediaStatus?.();
-      }
-    } catch (mutationError) {
+
+      await performRefetches();
+    } catch (err) {
       toast.error("Unable to remove from the list right now.");
-      console.error(mutationError);
+      console.error(err);
     } finally {
       handleCloseMenu();
     }
-  };
+  }, [
+    currentListEntryId,
+    deleteMediaListEntry,
+    refetchListQueries,
+    performRefetches,
+    handleCloseMenu,
+  ]);
 
-  const handleToggleFavourite = async () => {
+  // Status select handler
+  const handleStatusSelect = useCallback(
+    async (status) => {
+      if (!resolvedMediaId) return;
+
+      // If selecting current status, remove from list
+      if (status === currentStatus) {
+        await handleRemoveFromList();
+        return;
+      }
+
+      const previousStatus = currentStatus;
+
+      try {
+        // Reset manual removal flag when adding back to list
+        setIsManuallyRemoved(false);
+
+        const { data: saveResult } = await saveToList({
+          variables: { mediaId: resolvedMediaId, status },
+          refetchQueries: refetchListQueries,
+        });
+
+        const updatedEntryId =
+          saveResult?.SaveMediaListEntry?.id ?? currentListEntryId ?? null;
+        setCurrentListEntryId(updatedEntryId);
+        setCurrentStatus(status);
+
+        const formattedStatus = formatStatus(status, type);
+        const message =
+          status === previousStatus
+            ? `Updated list as ${formattedStatus}.`
+            : `Moved to ${formattedStatus}.`;
+        toast.success(message);
+
+        await performRefetches();
+      } catch (err) {
+        toast.error("Unable to update the list right now.");
+        console.error(err);
+      } finally {
+        handleCloseMenu();
+      }
+    },
+    [
+      resolvedMediaId,
+      currentStatus,
+      currentListEntryId,
+      saveToList,
+      refetchListQueries,
+      type,
+      performRefetches,
+      handleCloseMenu,
+      handleRemoveFromList,
+    ],
+  );
+
+  // Toggle favourite handler
+  const handleToggleFavourite = useCallback(async () => {
     if (!resolvedMediaId || !type) return;
+
     try {
       const favouriteVars =
         type === "ANIME"
           ? { animeId: resolvedMediaId }
           : { mangaId: resolvedMediaId };
-      await toggleFavouriteMutation({
-        variables: favouriteVars,
-      });
+
+      await toggleFavouriteMutation({ variables: favouriteVars });
+
       const nextFavourite = !isFavourite;
       setIsFavourite(nextFavourite);
-      toast.success(
-        nextFavourite ? "Added to favourites." : "Removed from favourites.",
-      );
-      await onMediaRefetch?.();
-    } catch (mutationError) {
-      toast.error("Unable to update favourites right now.");
-      console.error(mutationError);
-    }
-  };
 
+      const message = nextFavourite
+        ? "Added to favourites."
+        : "Removed from favourites.";
+      toast.success(message);
+
+      if (onMediaRefetch) {
+        await onMediaRefetch().catch((err) =>
+          console.error("Failed to refetch media after favourite toggle:", err),
+        );
+      }
+    } catch (err) {
+      toast.error("Unable to update favourites right now.");
+      console.error(err);
+    }
+  }, [
+    resolvedMediaId,
+    type,
+    isFavourite,
+    toggleFavouriteMutation,
+    onMediaRefetch,
+  ]);
+
+  // Computed values
   const listButtonLabel = currentStatus
     ? formatStatus(currentStatus, type)
     : "Add to List";
   const listMutationInFlight = listUpdating || deleteListEntryLoading;
 
-  if (!media) {
-    return null;
-  }
+  const coverImageSrc = media?.coverImage?.large || media?.coverImage?.medium;
+  const coverImageAlt =
+    media?.title?.userPreferred ||
+    media?.title?.romaji ||
+    media?.title?.english ||
+    "Cover art";
+
+  // Early return if no media
+  if (!media) return null;
 
   return (
     <Box className="cover-section">
-      <img
-        src={media.coverImage?.large || media.coverImage?.medium}
-        alt={
-          media.title?.userPreferred ||
-          media.title?.romaji ||
-          media.title?.english ||
-          "Cover art"
-        }
-        className="cover-img"
-      />
+      <img src={coverImageSrc} alt={coverImageAlt} className="cover-img" />
       <Stack
         spacing={{ xs: 1, sm: 1.5 }}
         direction="row"
@@ -226,6 +311,7 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
         >
           {listMutationInFlight ? "Saving..." : listButtonLabel}
         </Button>
+
         <Menu
           id="list-menu"
           anchorEl={anchorEl}
@@ -253,24 +339,8 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
               </Stack>
             </MenuItem>
           ))}
-          <MenuItem
-            key="none"
-            selected={!currentStatus}
-            onClick={handleRemoveFromList}
-            disabled={listMutationInFlight}
-          >
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              width="100%"
-              gap={1.5}
-            >
-              <span>None</span>
-              {!currentStatus && <GoCheck size={16} />}
-            </Stack>
-          </MenuItem>
         </Menu>
+
         <IconButton
           onClick={handleToggleFavourite}
           className={`favourite-button ${isFavourite ? "active" : ""}`}

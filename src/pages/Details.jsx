@@ -2,7 +2,6 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@apollo/client/react";
 import { Box, Stack } from "@mui/material";
 import { GET_MEDIA_DETAILS } from "../services/Queries.jsx";
-import DetailsBanner from "../components/Details/DetailsBanner.jsx";
 import DetailsCoverSection from "../components/Details/DetailsCoverSection.jsx";
 import DetailsInfoSection from "../components/Details/DetailsInfoSection.jsx";
 import DetailsRelationsSection from "../components/Details/DetailsRelationsSection.jsx";
@@ -68,7 +67,6 @@ function Details() {
 
   return (
     <Box className="details-page">
-      <DetailsBanner bannerImage={media.bannerImage} />
       <Box className="details-container">
         <Box className="details-card">
           <Stack
