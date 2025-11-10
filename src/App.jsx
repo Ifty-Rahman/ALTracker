@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./css/App.css";
 import { useAuth } from "./contexts/AuthContext.js";
+import Landing from "./pages/Landing.jsx";
 import Discover from "./pages/Discover.jsx";
 import UserList from "./pages/Userlist.jsx";
 import Browse from "./pages/Browse.jsx";
@@ -22,8 +23,8 @@ import {
   MdList,
   MdPerson,
   MdLogin,
+  MdHome,
 } from "react-icons/md";
-import Footer from "./components/Footer.jsx";
 
 const loginUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${import.meta.env.VITE_ANILIST_CLIENT_ID}&response_type=token`;
 
@@ -60,24 +61,41 @@ function DockWrapper() {
   const navigate = useNavigate();
 
   const dockItems = [
-    {
-      label: "Dashboard",
-      icon: <MdDashboard size={28} />,
-      onClick: () => navigate("/Dashboard"),
-      className: "dock-item-dashboard",
-    },
-    {
-      label: "Discover",
-      icon: <MdExplore size={28} />,
-      onClick: () => navigate("/Discover"),
-      className: "dock-item-discover",
-    },
-    {
-      label: "Lists",
-      icon: <MdList size={28} />,
-      onClick: () => navigate("/Userlist"),
-      className: "dock-item-lists",
-    },
+    ...(authToken
+      ? [
+          {
+            label: "Dashboard",
+            icon: <MdDashboard size={28} />,
+            onClick: () => navigate("/Dashboard"),
+            className: "dock-item-dashboard",
+          },
+          {
+            label: "Discover",
+            icon: <MdExplore size={28} />,
+            onClick: () => navigate("/Discover"),
+            className: "dock-item-discover",
+          },
+          {
+            label: "Lists",
+            icon: <MdList size={28} />,
+            onClick: () => navigate("/Userlist"),
+            className: "dock-item-lists",
+          },
+        ]
+      : [
+          {
+            label: "Home",
+            icon: <MdHome size={28} />,
+            onClick: () => navigate("/Landing"),
+            className: "dock-item-landing",
+          },
+          {
+            label: "Discover",
+            icon: <MdExplore size={28} />,
+            onClick: () => navigate("/Discover"),
+            className: "dock-item-discover",
+          },
+        ]),
     authToken
       ? {
           label: "Profile",
@@ -118,10 +136,8 @@ function App() {
         <ApolloProvider client={client}>
           <NavBar />
           <Routes>
-            <Route
-              path="/"
-              element={authToken ? <Dashboard /> : <Discover />}
-            />
+            <Route path="/" element={authToken ? <Dashboard /> : <Landing />} />
+            <Route path="/Landing" element={<Landing />} />
             <Route path="/Discover" element={<Discover />} />
             <Route path="/Browse" element={<Browse />} />
             <Route path="/Search" element={<Search />} />
@@ -131,7 +147,6 @@ function App() {
             <Route path="/Details" element={<Details />} />
           </Routes>
           <DockWrapper />
-          <Footer />
         </ApolloProvider>
       </main>
       <ToastContainer
