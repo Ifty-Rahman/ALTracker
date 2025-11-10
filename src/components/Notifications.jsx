@@ -4,8 +4,10 @@ import Badge from "@mui/material/Badge";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { GET_NOTIFICATIONS } from "../services/Queries";
 import "../css/Notifications.css";
+import { useAuth } from "../contexts/AuthContext.js";
 
 function Notifications() {
+  const { authToken } = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isRead, setIsRead] = useState(true);
@@ -32,7 +34,23 @@ function Notifications() {
   } = useQuery(GET_NOTIFICATIONS, {
     variables: { page: 1, perPage: 15 },
     fetchPolicy: "cache-first",
+    skip: !authToken,
   });
+
+  const showEmptyState =
+    authToken &&
+    !notificationLoading &&
+    !notificationError &&
+    notifications.length === 0;
+
+  useEffect(() => {
+    if (!authToken) {
+      setNotifications([]);
+      setIsRead(true);
+      setLastReadNotificationId(null);
+      setIsOpen(false);
+    }
+  }, [authToken]);
 
   useEffect(() => {
     if (!notificationData) {
@@ -109,13 +127,20 @@ function Notifications() {
               </div>
             )}
 
-            {!notificationLoading &&
-              !notificationError &&
-              notifications.length === 0 && (
-                <div className="notifications__state">No notifications yet</div>
-              )}
+            {!authToken && (
+              <div className="notifications__state">
+                Log in to view your notifications
+              </div>
+            )}
 
-            {!notificationLoading &&
+            {showEmptyState && (
+              <div className="notifications__state">
+                You're all caught up — no notifications yet
+              </div>
+            )}
+
+            {authToken &&
+              !notificationLoading &&
               !notificationError &&
               notifications.map((notification) => {
                 if (notification.__typename === "AiringNotification") {
