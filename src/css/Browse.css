@@ -1,5 +1,4 @@
 .browse-container {
-    min-height: 100vh;
     padding: 0 20px;
 }
 
@@ -23,7 +22,7 @@
 
 .browse-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 20px;
 }
 
@@ -38,14 +37,17 @@
         transform: scale(0.85);
         padding: 15px 0 0;
     }
+    .browse-grid {
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 15px;
+    }
 }
 
 @media (max-width: 480px) {
     .browse-grid {
-        grid-template-columns: repeat(2, minmax(180px, 1fr));
+        grid-template-columns: repeat(2, minmax(160px, 1fr));
         gap: 15px;
     }
-
     .browse-title {
         font-size: 1rem;
     }

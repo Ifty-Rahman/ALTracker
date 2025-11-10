@@ -1,5 +1,4 @@
 .discover {
-    min-height: 100vh;
     margin-bottom: 10px;
 }
 
@@ -9,6 +8,7 @@
     overflow-x: auto;
     padding: 10px 20px;
     scroll-behavior: smooth;
+    scrollbar-width: none;
 }
 
 .content-grid::-webkit-scrollbar {
