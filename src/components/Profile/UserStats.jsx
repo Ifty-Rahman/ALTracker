@@ -10,6 +10,10 @@ function UserStats({ stats }) {
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
+  const hasAnimeTopGenres = topAnimeGenres.length > 0;
+  const hasMangaTopGenres = topMangaGenres.length > 0;
+  const hasAnyTopGenres = hasAnimeTopGenres || hasMangaTopGenres;
+
   return (
     <div className="user-stats-container">
       <h2 className="overview-title">Overview</h2>
@@ -52,31 +56,41 @@ function UserStats({ stats }) {
         </div>
       </div>
 
-      <h2 className="genre-title">Top Genres</h2>
+      {hasAnyTopGenres && (
+        <>
+          <h2 className="genre-title">Top Genres</h2>
 
-      <div className="genres-box">
-        <div className="top-genres">
-          <h3>Anime</h3>
-          {topAnimeGenres.map((g) => (
-            <div key={g.genre} className="genre-row">
-              <div className="genre-name">{g.genre}</div>
-              <div className="genre-count">{g.count}</div>
-            </div>
-          ))}
-        </div>
+          <div className="genres-box">
+            {hasAnimeTopGenres && (
+              <div className="top-genres">
+                <h3>Anime</h3>
+                {topAnimeGenres.map((g) => (
+                  <div key={g.genre} className="genre-row">
+                    <div className="genre-name">{g.genre}</div>
+                    <div className="genre-count">{g.count}</div>
+                  </div>
+                ))}
+              </div>
+            )}
 
-        <div className="divider genres-divider"></div>
+            {hasAnimeTopGenres && hasMangaTopGenres && (
+              <div className="divider genres-divider"></div>
+            )}
 
-        <div className="top-genres">
-          <h3>Manga</h3>
-          {topMangaGenres.map((g) => (
-            <div key={g.genre} className="genre-row">
-              <div className="genre-name">{g.genre}</div>
-              <div className="genre-count">{g.count}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+            {hasMangaTopGenres && (
+              <div className="top-genres">
+                <h3>Manga</h3>
+                {topMangaGenres.map((g) => (
+                  <div key={g.genre} className="genre-row">
+                    <div className="genre-name">{g.genre}</div>
+                    <div className="genre-count">{g.count}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
