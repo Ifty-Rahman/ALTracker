@@ -11,7 +11,7 @@ Live site: https://altrack.vercel.app/ — visit and log in with your AniList ac
 - **Search** – Look up anime or manga, dive into detail pages, and add titles directly to your list.
 - **Media Detail Pages** – View synopsis, metadata, relations, characters, staff, and streaming links with integrated list management and favourites.
 - **Personal Lists** – Inspect AniList collections (anime and manga) with progress, scores, and volumes to keep your backlog organized.
-- **Profile Insights** – Track statistics such as total time watched, chapters read, genres, and average scores pulled directly from AniList.
+- **Profile Insights** – Track statistics such as total time watched, chapters read, genres, average scores and favourite media pulled directly from AniList.
 
 ## Tech Stack
 
