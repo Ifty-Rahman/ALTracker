@@ -23,7 +23,7 @@ function Browse() {
   const section = searchParams.get("section") || "trending";
   const type = searchParams.get("type") || "ANIME";
   const [page, setPage] = useState(1);
-  const perPage = isTablet ? 30 : 32;
+  const perPage = isTablet ? 28 : 50;
 
   useEffect(() => {
     setPage(1);
