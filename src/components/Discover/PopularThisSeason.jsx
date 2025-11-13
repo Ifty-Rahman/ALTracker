@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { GET_POPULAR_SEASONAL_ANIME } from "../../services/Queries.jsx";
 import ContentCard from "../Contentcard.jsx";
 
@@ -44,7 +45,12 @@ function PopularThisSeason({ type }) {
     navigate(`/Details?id=${content.id}&type=${content.type}`);
   };
 
-  if (error) return <p className="error-msg">Error: {error.message}</p>;
+  if (error)
+    return toast.error(
+      error.status.includes(429)
+        ? "API limit reached. Please try again 1 minute later."
+        : `${error.message}, try again later`,
+    );
   if (loading) return;
 
   return (
