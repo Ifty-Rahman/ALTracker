@@ -12,6 +12,7 @@ import { TrophySpin } from "react-loading-indicators";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import DashboardCard from "../components/Dashboard/DashboardCard.jsx";
 import DashboardEmptyState from "../components/Dashboard/DashboardEmptyState.jsx";
+import { toast } from "react-toastify";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -78,7 +79,11 @@ function Dashboard() {
       </div>
     );
   if (error)
-    return <div className="dashboard-error">Error: {error.message}</div>;
+    return toast.error(
+      error.status.includes(429)
+        ? "API limit reached. Please try again 1 minute later."
+        : `${error.message}, try again later`,
+    );
 
   const entries = data?.MediaListCollection?.lists?.[0]?.entries || [];
   const scoreFormat = data?.User?.mediaListOptions?.scoreFormat;
