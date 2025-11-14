@@ -75,7 +75,7 @@ function Dashboard() {
   if (loading)
     return (
       <div className="loading-indicator">
-        <TrophySpin color="#6e35ff" size="large" />
+        <TrophySpin color="var(--primary)" size="large" />
       </div>
     );
   if (error)

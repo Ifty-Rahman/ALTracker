@@ -43,7 +43,7 @@ function Details() {
   if (isInitialLoading)
     return (
       <div className="loading-indicator">
-        <TrophySpin color="#6e35ff" size="large" />
+        <TrophySpin color="var(--primary)" size="large" />
       </div>
     );
 

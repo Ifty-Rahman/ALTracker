@@ -37,7 +37,7 @@ function ProfilePage() {
   if (userLoading || loading)
     return (
       <div className="loading-indicator">
-        <TrophySpin color="#6e35ff" size="large" />
+        <TrophySpin color="var(--primary)" size="large" />
       </div>
     );
   if (userError) return <p>Error: {userError.message}</p>;

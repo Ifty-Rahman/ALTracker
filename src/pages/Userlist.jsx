@@ -89,13 +89,13 @@ function UserList() {
   if (userLoading || listsLoading)
     return (
       <div className="loading-indicator">
-        <TrophySpin color="#6e35ff" size="large" />
+        <TrophySpin color="var(--primary)" size="large" />
       </div>
     );
 
   const activeError = userError || listsError;
 
-  if (activeError)
+  if (userError || listsError)
     return <p>Error: {activeError?.message || "Unable to load lists."}</p>;
 
   const handleCardClick = (media) => {

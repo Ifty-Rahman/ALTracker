@@ -77,13 +77,13 @@
 
 .notifications__item {
     padding: 12px 20px;
-    border-bottom: 1px solid rgba(110, 53, 255, 0.1);
+    border-bottom: 1px solid rgba(4, 107, 217, 0.1);
     cursor: pointer;
     transition: background 0.2s ease;
 }
 
 .notifications__item:hover {
-    background: rgba(110, 53, 255, 0.1);
+    background: rgba(4, 107, 217, 0.1);
 }
 
 .notifications__item:last-child {

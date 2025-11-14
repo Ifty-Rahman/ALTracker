@@ -48,7 +48,7 @@
     letter-spacing: 0.02em;
     background: var(--primary);
     text-transform: none;
-    box-shadow: 0 12px 25px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 12px 25px rgba(4, 107, 217, 0.35);
     color: var(--text) !important;
 }
 
@@ -275,12 +275,12 @@
 .media-card:hover,
 .person-card:hover {
     transform: translateY(-6px);
-    border-color: rgba(99, 102, 241, 0.3);
+    border-color: var(--border);
     background: rgba(30, 41, 59, 0.95);
 }
 
 .media-card:focus-visible {
-    outline: 2px solid rgba(99, 102, 241, 0.8);
+    outline: 2px solid var(--border);
     outline-offset: 3px;
 }
 
@@ -336,11 +336,11 @@
 }
 
 .list-menu .MuiMenuItem-root.Mui-selected {
-    background: rgba(99, 102, 241, 0.22);
+    background: rgba(4, 107, 217, 0.22);
 }
 
 .list-menu .MuiMenuItem-root:hover {
-    background: rgba(99, 102, 241, 0.28);
+    background: rgba(4, 107, 217, 0.28);
 }
 
 @media (max-width: 768px) {
