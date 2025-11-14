@@ -154,7 +154,18 @@ function Landing() {
           Join ALTrack today and take control of your anime and manga journey.
         </p>
         <button className="cta-button" onClick={handleGetStarted}>
-          {authToken ? "Go to Dashboard" : "Login with AniList"}
+          {authToken ? (
+            "Go to Dashboard"
+          ) : (
+            <span>
+              <img
+                src="/Anilist.svg"
+                alt="AniList"
+                style={{ width: "30px", height: "30px" }}
+              />
+              Login with AniList
+            </span>
+          )}
         </button>
       </section>
 

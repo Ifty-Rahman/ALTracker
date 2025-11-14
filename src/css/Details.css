@@ -1,7 +1,7 @@
 .details-page {
     position: relative;
     padding: 30px 24px;
-    color: #e2e8f0;
+    color: var(--text);
     overflow: hidden;
 }
 
@@ -46,15 +46,15 @@
     border-radius: 20px;
     font-weight: 600;
     letter-spacing: 0.02em;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: var(--primary);
     text-transform: none;
     box-shadow: 0 12px 25px rgba(99, 102, 241, 0.35);
-    color: #f8fafc !important;
+    color: var(--text) !important;
 }
 
 .list-button:hover {
-    background: linear-gradient(135deg, #7c3aed, #6366f1);
-    color: #f8fafc !important;
+    background: var(--hover);
+    color: var(--text) !important;
 }
 
 .favourite-button {
@@ -64,7 +64,7 @@
     border-radius: 999px;
     border: 2px solid #f43f5e;
     background: #f43f5e;
-    color: #ffe4e6;
+    color: var(--text);
     outline: 2px solid rgba(244, 63, 94, 0.55);
     outline-offset: 2px;
     transition:
@@ -86,7 +86,7 @@
     transform: scale(1.05);
     background: #dc2626;
     border-color: #dc2626;
-    color: #fff5f5;
+    color: var(--text);
     outline-color: rgba(220, 38, 38, 0.6);
 }
 
@@ -97,7 +97,7 @@
 .favourite-button.active {
     background: #be123c;
     border-color: #be123c;
-    color: #ffdee2;
+    color: var(--text);
     outline-color: rgba(190, 18, 60, 0.7);
 }
 
@@ -131,11 +131,11 @@
 .details-title {
     font-weight: 700;
     letter-spacing: 0.015em;
-    color: #f8fafc;
+    color: var(--text);
 }
 
 .alt-titles {
-    color: #cbd5f5;
+    color: var(--text-secondary);
     font-weight: 500;
     letter-spacing: 0.015em;
 }
@@ -160,7 +160,7 @@
 .current-status-indicator {
     text-align: center;
     margin-top: 6px;
-    color: #cbd5f5;
+    color: var(--text-secondary);
     font-weight: 600;
     letter-spacing: 0.01em;
 }
@@ -170,7 +170,7 @@
 }
 
 .genre-chip {
-    color: #cbd5f5 !important;
+    color: var(--text-secondary) !important;
     border-color: rgba(203, 213, 225, 0.6) !important;
     background: rgba(148, 163, 184, 0.18);
     margin-bottom: 10px !important;
@@ -190,7 +190,7 @@
 }
 
 .favourite-button:hover .heart-icon {
-    color: #fff;
+    color: var(--text);
 }
 
 .favourite-button.active .heart-icon {
@@ -204,7 +204,7 @@
 
 .description {
     line-height: 1.7;
-    color: #cbd5f5;
+    color: var(--text-secondary);
     max-width: 90ch;
 }
 
@@ -229,7 +229,7 @@
 .meta-value {
     font-weight: 600;
     margin-top: 6px;
-    color: #f1f5f9;
+    color: var(--text);
 }
 
 .details-section {
@@ -249,7 +249,7 @@
 
 .section-header h5 {
     font-weight: 700;
-    color: #e0f2fe;
+    color: var(--text);
 }
 
 .card-row {
@@ -297,7 +297,7 @@
 .media-card-title,
 .person-card-name {
     font-weight: 600;
-    color: #f1f5f9;
+    color: var(--text);
 }
 
 .media-card-subtitle,
@@ -331,7 +331,7 @@
 
 .list-menu .MuiPaper-root {
     background: rgba(15, 23, 42, 0.95);
-    color: #e2e8f0;
+    color: var(--text);
     border-radius: 16px;
 }
 

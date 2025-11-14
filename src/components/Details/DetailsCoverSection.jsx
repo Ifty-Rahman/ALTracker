@@ -23,6 +23,7 @@ import { LIST_STATUSES, formatStatus } from "../../utils/detailsHelpers.js";
 function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
   const resolvedMediaId = media?.id ?? mediaId;
   const { authToken } = useAuth();
+  const isLoggedIn = Boolean(authToken);
 
   // Menu state
   const [anchorEl, setAnchorEl] = useState(null);
@@ -291,71 +292,73 @@ function DetailsCoverSection({ media, type, mediaId, onMediaRefetch }) {
   return (
     <Box className="cover-section">
       <img src={coverImageSrc} alt={coverImageAlt} className="cover-img" />
-      <Stack
-        spacing={{ xs: 1, sm: 1.5 }}
-        direction="row"
-        className="cover-actions"
-      >
-        <Button
-          id="list-menu-button"
-          aria-haspopup="true"
-          aria-expanded={listMenuOpen ? "true" : undefined}
-          aria-controls={listMenuOpen ? "list-menu" : undefined}
-          variant="contained"
-          color="primary"
-          startIcon={<FaListUl size={16} />}
-          endIcon={<MdKeyboardArrowDown size={18} />}
-          onClick={handleOpenMenu}
-          disabled={listMutationInFlight}
-          className="list-button"
+      {isLoggedIn && (
+        <Stack
+          spacing={{ xs: 1, sm: 1.5 }}
+          direction="row"
+          className="cover-actions"
         >
-          {listMutationInFlight ? "Saving..." : listButtonLabel}
-        </Button>
+          <Button
+            id="list-menu-button"
+            aria-haspopup="true"
+            aria-expanded={listMenuOpen ? "true" : undefined}
+            aria-controls={listMenuOpen ? "list-menu" : undefined}
+            variant="contained"
+            color="primary"
+            startIcon={<FaListUl size={16} />}
+            endIcon={<MdKeyboardArrowDown size={18} />}
+            onClick={handleOpenMenu}
+            disabled={listMutationInFlight}
+            className="list-button"
+          >
+            {listMutationInFlight ? "Saving..." : listButtonLabel}
+          </Button>
 
-        <Menu
-          id="list-menu"
-          anchorEl={anchorEl}
-          open={listMenuOpen}
-          onClose={handleCloseMenu}
-          MenuListProps={{ "aria-labelledby": "list-menu-button" }}
-          className="list-menu"
-        >
-          {LIST_STATUSES.map((status) => (
-            <MenuItem
-              key={status}
-              selected={status === currentStatus}
-              onClick={() => handleStatusSelect(status)}
-              disabled={listMutationInFlight}
-            >
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                width="100%"
-                gap={1.5}
+          <Menu
+            id="list-menu"
+            anchorEl={anchorEl}
+            open={listMenuOpen}
+            onClose={handleCloseMenu}
+            MenuListProps={{ "aria-labelledby": "list-menu-button" }}
+            className="list-menu"
+          >
+            {LIST_STATUSES.map((status) => (
+              <MenuItem
+                key={status}
+                selected={status === currentStatus}
+                onClick={() => handleStatusSelect(status)}
+                disabled={listMutationInFlight}
               >
-                <span>{formatStatus(status, type)}</span>
-                {status === currentStatus && <GoCheck size={16} />}
-              </Stack>
-            </MenuItem>
-          ))}
-        </Menu>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  width="100%"
+                  gap={1.5}
+                >
+                  <span>{formatStatus(status, type)}</span>
+                  {status === currentStatus && <GoCheck size={16} />}
+                </Stack>
+              </MenuItem>
+            ))}
+          </Menu>
 
-        <IconButton
-          onClick={handleToggleFavourite}
-          className={`favourite-button ${isFavourite ? "active" : ""}`}
-          aria-label={
-            isFavourite ? "Remove from favourites" : "Add to favourites"
-          }
-          disabled={favouriteUpdating}
-        >
-          {isFavourite ? (
-            <AiFillHeart className="heart-icon filled" size={22} />
-          ) : (
-            <AiOutlineHeart className="heart-icon" size={22} />
-          )}
-        </IconButton>
-      </Stack>
+          <IconButton
+            onClick={handleToggleFavourite}
+            className={`favourite-button ${isFavourite ? "active" : ""}`}
+            aria-label={
+              isFavourite ? "Remove from favourites" : "Add to favourites"
+            }
+            disabled={favouriteUpdating}
+          >
+            {isFavourite ? (
+              <AiFillHeart className="heart-icon filled" size={22} />
+            ) : (
+              <AiOutlineHeart className="heart-icon" size={22} />
+            )}
+          </IconButton>
+        </Stack>
+      )}
     </Box>
   );
 }

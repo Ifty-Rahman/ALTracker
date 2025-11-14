@@ -1,6 +1,8 @@
 :root {
-    --primary: #6e35ff;
-    --hover: #5626d1;
+    --primary: #046bd9;
+    --secondary: #044285;
+    --border: rgba(4, 107, 217, 0.5);
+    --hover: #0558b0;
     --text: #f5f5f5;
     --text-secondary: #9ca3af;
     --transparent: rgba(0, 0, 0, 0.8);
